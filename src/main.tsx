@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
+import theme from "./styles/theme.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signUp/SignUp";
@@ -21,6 +22,8 @@ import ChargingEdit from "./pages/chargingEdit/ChargingEdit";
 import MyPage from "./pages/myPage/MyPage";
 import MyInfo from "./pages/myInfo/MyInfo";
 import NotFound from "./pages/notFound/NotFound.tsx";
+import { ThemeProvider } from "styled-components";
+import GlobalStyles from "./styles/global.ts";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +88,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
