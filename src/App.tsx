@@ -1,12 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import GlobalStyles from "./styles/global.ts";
 
-import BottomNavigationBar from "./components/common/bottomNavigationBar/BottomNavigationBar";
+import theme from "./styles/theme.ts";
+import router from "./routes/routing.tsx";
 
 function App() {
   return (
     <>
-      <Outlet />
-      <BottomNavigationBar />
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 }
