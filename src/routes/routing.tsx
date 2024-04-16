@@ -35,9 +35,43 @@ const router = createBrowserRouter([
       },
       { path: "/mypage", element: <MyPage /> },
       { path: "/myinfo", element: <MyInfo /> },
+      { path: "/charging-edit/:id", element: <ChargingEdit /> },
+      {
+        path: "/review/write",
+        element: <ReviewWrite />,
+      },
+      {
+        path: "/review/manage",
+        element: <ReviewManage />,
+      },
+      {
+        path: "/review/:id",
+        element: <ReviewDetail />,
+      },
+      {
+        path: "/review/:id/edit",
+        element: <ReviewEdit />,
+      },
+      {
+        path: "/mypage/favorites",
+        element: <MyFavorites />,
+      },
+      {
+        path: "/chat-list/:id",
+        element: <ChatRoom />,
+      },
+      {
+        path: "/register-charger",
+        element: <RegisterCharger />,
+      },
+      {
+        path: "/managing-charger",
+        element: <ManagingCharger />,
+      },
+      { path: "/charging-list", element: <ChargingList /> },
+      { path: "/charging-detail/:id", element: <ChargingDetail /> },
     ],
   },
-
   {
     path: "/login",
     element: <Login />,
@@ -46,41 +80,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignUp />,
   },
-  {
-    path: "/review/write",
-    element: <ReviewWrite />,
-  },
-  {
-    path: "/review/manage",
-    element: <ReviewManage />,
-  },
-  {
-    path: "/review/:id",
-    element: <ReviewDetail />,
-  },
-  {
-    path: "/review/:id/edit",
-    element: <ReviewEdit />,
-  },
-  {
-    path: "/mypage/favorites",
-    element: <MyFavorites />,
-  },
-  {
-    path: "/chat-list/:id",
-    element: <ChatRoom />,
-  },
-  {
-    path: "/register-charger",
-    element: <RegisterCharger />,
-  },
-  {
-    path: "/managing-charger",
-    element: <ManagingCharger />,
-  },
-  { path: "/charging-list", element: <ChargingList /> },
-  { path: "/charging-detail/:id", element: <ChargingDetail /> },
-  { path: "/charging-edit/:id", element: <ChargingEdit /> },
 ]);
 
 export default router;
