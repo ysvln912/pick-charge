@@ -4,7 +4,14 @@ import { ButtonHTMLAttributes } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: "big" | "Medium" | "small";
-  category: "nomal" | "outline" | "kakao" | "google" | "retry" | "disable";
+  category:
+    | "nomal"
+    | "outline"
+    | "kakao"
+    | "google"
+    | "retry"
+    | "disable"
+    | "rounded";
 }
 export interface ObjMap {
   [key: string]: ReturnType<typeof css>;

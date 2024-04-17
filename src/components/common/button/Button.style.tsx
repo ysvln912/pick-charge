@@ -27,6 +27,12 @@ const BUTTON_CATEGORY: ObjMap = {
     background-color: ${({ theme }) => theme.PALETTE.white};
     color: ${({ theme }) => theme.PALETTE.mainColor};
   `,
+  rounded: css`
+    border-color: ${({ theme }) => theme.PALETTE.gray[300]};
+    background-color: ${({ theme }) => theme.PALETTE.white};
+    color: ${({ theme }) => theme.PALETTE.black};
+    border-radius: 100px;
+  `,
 };
 
 const BUTTON_SIZE: ObjMap = {
