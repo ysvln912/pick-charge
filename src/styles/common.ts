@@ -1,6 +1,7 @@
 import { css } from "styled-components";
 
 export const ModalBackground = css`
+  z-index: 9999;
   position: fixed;
   top: 0;
   left: 0;
