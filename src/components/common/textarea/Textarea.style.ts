@@ -1,9 +1,21 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { TextareaProps } from "./Textarea";
 
+const sizeCSS = {
+  small: css`
+    height: 5.43rem;
+  `,
+  medium: css`
+    height: 11.81rem;
+  `,
+  full: css`
+    height: 100%;
+  `,
+};
+
 export const Textarea = styled.textarea<TextareaProps>`
+  ${({ size }) => size && sizeCSS[size]}
   width: 100%;
-  min-height: 11.87rem;
   resize: none;
   border-radius: 5px;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
