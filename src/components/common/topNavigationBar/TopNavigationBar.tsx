@@ -3,22 +3,22 @@ import * as S from "./TopNavigationBar.style";
 
 export interface TopNavigationBarProps {
   layout: "start" | "center" | "startCenter" | "between";
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  leftBtn?: React.ReactNode;
+  rightBtn?: React.ReactNode;
   text?: string;
 }
 
 export default function TopNavigationBar({
   layout,
-  leftIcon,
-  rightIcon,
+  leftBtn,
+  rightBtn,
   text,
 }: TopNavigationBarProps) {
   return (
     <S.Container layout={layout}>
-      {leftIcon && leftIcon}
+      {leftBtn && leftBtn}
       <h2>{text}</h2>
-      {rightIcon && rightIcon}
+      {rightBtn && rightBtn}
     </S.Container>
   );
 }
