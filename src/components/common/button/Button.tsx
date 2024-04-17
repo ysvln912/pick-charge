@@ -3,8 +3,8 @@ import * as S from "./Button.style";
 import { ButtonHTMLAttributes } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size: "big" | "small";
-  category: "nomal" | "kakao" | "google" | "retry" | "disable";
+  size: "big" | "Medium" | "small";
+  category: "nomal" | "outline" | "kakao" | "google" | "retry" | "disable";
 }
 export interface ObjMap {
   [key: string]: ReturnType<typeof css>;

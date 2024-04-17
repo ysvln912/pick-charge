@@ -22,12 +22,21 @@ const BUTTON_CATEGORY: ObjMap = {
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
     color: ${({ theme }) => theme.PALETTE.gray[200]};
   `,
+  outline: css`
+    border-color: ${({ theme }) => theme.PALETTE.mainColor};
+    background-color: ${({ theme }) => theme.PALETTE.white};
+    color: ${({ theme }) => theme.PALETTE.mainColor};
+  `,
 };
 
 const BUTTON_SIZE: ObjMap = {
   big: css`
     width: 341px;
     height: 44px;
+  `,
+  Medium: css`
+    width: 134px;
+    height: 35px;
   `,
   small: css`
     width: 80px;
@@ -36,6 +45,7 @@ const BUTTON_SIZE: ObjMap = {
 };
 
 export const Btn = styled.button<{ size: string; category: string }>`
+  border: 1px solid transparent;
   border-radius: 5px;
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   display: flex;
