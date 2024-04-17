@@ -9,10 +9,21 @@ export const BottomContainer = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE.es};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
     border-top: ${({ theme }) => theme.PALETTE.gray[100]} 1px solid;
-
     * {
         padding: 0.1rem;
         text-align: center;
+    }
+    .nav-link {
+        color: ${({ theme }) => theme.PALETTE.gray[400]};
+        path {
+            fill: ${({ theme }) => theme.PALETTE.gray[400]};
+        }
+    }
+    .nav-linka {
+        color: ${({ theme }) => theme.PALETTE.mainColor};
+        path {
+            fill: ${({ theme }) => theme.PALETTE.mainColor};
+        }
     }
     ${flexSpaceBetweenCenter}
     ${bodyContainer}
