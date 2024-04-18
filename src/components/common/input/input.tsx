@@ -1,9 +1,9 @@
 import Label from "@/components/common/label/Label";
-import InputCenter from "./Center/InputCenter";
-import InputField from "./Field/inputFiled";
-import InputRight from "./Right/inputRight";
-import InputLeft from "./Left/inputLeft";
-import InputBase from "./Base/InputBase";
+import InputCenter from "./Center/Center";
+import InputField from "./Field/Filed";
+import InputRight from "./Right/Right";
+import InputLeft from "./Left/Left";
+import InputBase from "./Base/Base";
 
 const Input = Object.assign(InputField, {
   Label: Label,
