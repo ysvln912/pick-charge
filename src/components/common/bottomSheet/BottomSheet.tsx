@@ -1,6 +1,6 @@
 import * as S from "./BottomSheet.style";
 
-import Button from "../button/Button";
+import Button from "@/components/common/button/Button";
 
 import { ReactNode } from "react";
 

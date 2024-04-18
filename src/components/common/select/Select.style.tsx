@@ -5,6 +5,7 @@ export const SelectContainer = styled.div`
   cursor: pointer;
   width: 100%;
   padding: 0.875rem 1rem;
+  border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
 `;
 
