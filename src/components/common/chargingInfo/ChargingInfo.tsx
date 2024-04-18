@@ -1,6 +1,8 @@
 import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
 import BatterErrorIcon from "../icons/BatteryErrorIcon";
 import BoltIcon from "../icons/BoltIcon";
+import StarIcon from "../icons/StarIcon";
+import LikeIconBtn from "../iconButtons/LikeIconBtn";
 import * as S from "./ChargingInfo.style";
 export interface Charger {
     id: number;
@@ -23,23 +25,30 @@ export interface Charger {
 export default function ChargingInfo({ info }: { info: Charger }) {
     return (
         <S.ChargingContainer>
-            <S.ChargingContent>
-                <p className="chargingTitle">{info.charger_name}</p>
-                <ChargingRoleCard role={info.charger_role} />
-            </S.ChargingContent>
-            <S.ChargingAddress>{info.charger_location}</S.ChargingAddress>
-            <S.ChargingStatus
-                className={
-                    info.status === "이용가능" ? "available" : "restriction"
-                }>
-                {info.status === "이용가능" ? (
-                    <BoltIcon />
-                ) : (
-                    <BatterErrorIcon />
-                )}
-                <p>{info.status}</p>
-                <p className="type">{info.charger_type}</p>
-            </S.ChargingStatus>
+            <div>
+                <S.ChargingContent>
+                    <p className="chargingTitle">{info.charger_name}</p>
+                    <ChargingRoleCard role={info.charger_role} />
+                    <div className="starDiv">
+                        <StarIcon />
+                        <p>{info.avg_rate}</p>
+                    </div>
+                </S.ChargingContent>
+                <S.ChargingAddress>{info.charger_location}</S.ChargingAddress>
+                <S.ChargingStatus
+                    className={
+                        info.status === "이용가능" ? "available" : "restriction"
+                    }>
+                    {info.status === "이용가능" ? (
+                        <BoltIcon />
+                    ) : (
+                        <BatterErrorIcon />
+                    )}
+                    <p>{info.status}</p>
+                    <p className="type">{info.charger_type}</p>
+                </S.ChargingStatus>
+            </div>
+            <div className="iconDiv"><LikeIconBtn /></div>
         </S.ChargingContainer>
     );
 }

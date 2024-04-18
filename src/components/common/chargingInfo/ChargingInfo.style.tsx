@@ -1,18 +1,38 @@
 import styled from "styled-components";
 
 export const ChargingContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
     border: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;
     padding: 0.7rem;
     margin: 0.8rem;
     border-radius: 1rem;
+    & .iconDiv {
+        margin: 0.5rem;
+    }
 `;
 export const ChargingContent = styled.div`
-    display : flex;
+    display: flex;
     & .chargingTitle {
         margin: 0.5rem;
         font-size: ${({ theme }) => theme.FONT_SIZE.md};
         font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     }
+    & .starDiv {
+        margin: 0.5rem;
+        display: flex;
+         align-items: center;
+        color : ${({ theme }) => theme.PALETTE.black};
+        font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+        svg {
+            width: 1.4rem;
+        }
+        path {
+           fill : ${({ theme }) => theme.PALETTE.mainColor};
+        }
+
+    }
+
 `;
 
 export const ChargingAddress = styled.div`
@@ -47,6 +67,4 @@ export const ChargingStatus = styled.div`
                 }
         `;
     }}
-
-
 `;
