@@ -21,8 +21,11 @@ export default function Select({
 }: SelectProps) {
   const { open, close, isOpen } = useToggle(false);
   /**
-   * @todo option 값을 선택했을 때 selectText의 값이 선택한 option값이 되어야 함.
-   * @todo Context 혹은 상태관리 사용하여 select가 가지는 value 값 관리 해보기.
+   * @todo 1. option 값을 선택했을 때 selectText의 값이 선택한 option값이 되어야 함.
+   *  2. Context 혹은 상태관리 사용하여 select가 가지는 value 값 관리 해보기.
+   *  3. 키보드 액션으로 선택 가능하게 만들어보기.
+   *  4. 리스트가 열려있는 상태일 때 선택 된 옵션에 포커스 되어있어야 하고 / 키보드로 옵션 탐색할 수 있게 해보기.
+   *  04/22 까지 작업 예정.
    */
   return (
     <>
