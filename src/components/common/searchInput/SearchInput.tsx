@@ -1,8 +1,11 @@
 import Input from "@/components/common/input/input";
 import SearchIcon from "@/components/common/icons/SearchIcon";
+import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 
 interface SearchInputProps {
   placeholder?: string;
+  error?: boolean;
+  errorMessage?: string;
   onChange?: () => void;
   name?: string;
   value?: string;
@@ -11,7 +14,9 @@ interface SearchInputProps {
 export default function SearchInput({
   placeholder,
   onChange,
+  error,
   name,
+  errorMessage,
   value,
 }: SearchInputProps) {
   return (
@@ -27,6 +32,7 @@ export default function SearchInput({
           value={value}
         />
       </Input.Base>
+      <ErrorMessage visible={error}>{errorMessage}</ErrorMessage>
     </Input>
   );
 }
