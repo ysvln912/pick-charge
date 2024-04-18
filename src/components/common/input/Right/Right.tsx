@@ -1,4 +1,4 @@
-import * as S from "./inputRight.style";
+import * as S from "./Right.style";
 import { ReactNode } from "react";
 
 type ColorType = "default" | "primary";

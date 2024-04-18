@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { InputRightProps } from "./inputRight";
+import { InputRightProps } from "./Right";
 
 const colorCSS = {
   default: css`

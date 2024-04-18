@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { InputCenterProps } from "./InputCenter";
+import { InputCenterProps } from "./Center";
 
 const colorCSS = {
   default: css`

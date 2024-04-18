@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import * as S from "./InputCenter.style";
+import * as S from "./Center.style";
 import { InputHTMLAttributes, forwardRef, Ref } from "react";
 
 type ColorType = "default" | "primary";

@@ -1,4 +1,4 @@
-import * as S from "./inputLeft.style";
+import * as S from "./Left.style";
 import { ReactNode } from "react";
 
 export interface InputLeftProps {

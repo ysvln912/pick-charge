@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import * as S from "./inputBase.style";
+import * as S from "./Base.style";
 import { HTMLAttributes, forwardRef, Ref, ReactNode, useState } from "react";
 
 type SizeType = "small" | "medium" | "full";

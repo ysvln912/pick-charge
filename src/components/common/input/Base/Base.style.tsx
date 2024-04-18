@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { flexAlignCenter } from "@/styles/common";
-import { InputBaseProps } from "./InputBase";
+import { InputBaseProps } from "./Base";
 
 const colorCSS = {
   default: css`
