@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ModalBackground } from "@/styles/common";
-import { fadeInUp } from "@/styles/animations.";
+import { fadeInUp } from "@/styles/animations";
 
 export const Background = styled.div`
   ${ModalBackground}
