@@ -11,18 +11,19 @@ export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   size?: SizeType;
   label?: ReactNode;
+  error?: boolean;
   errorMessage?: string;
 }
 
 function Textarea(
-  { label, size = "medium", errorMessage, name, ...rest }: TextareaProps,
+  { label, size = "medium", error, errorMessage, name, ...rest }: TextareaProps,
   ref: Ref<HTMLTextAreaElement>
 ) {
   return (
     <div>
       {label && <Label htmlFor={name}>{label}</Label>}
-      <S.Textarea ref={ref} size={size} {...rest} />
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      <S.Textarea error={error} ref={ref} size={size} {...rest} />
+      <ErrorMessage visible={error}>{errorMessage}</ErrorMessage>
     </div>
   );
 }

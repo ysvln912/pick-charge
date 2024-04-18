@@ -30,4 +30,10 @@ export const Textarea = styled.textarea<TextareaProps>`
   &::placeholder {
     color: ${({ theme }) => theme.PALETTE.gray[200]};
   }
+
+  ${({ error, theme }) =>
+    error &&
+    css`
+      border-color: ${theme.PALETTE.mainColor};
+    `}
 `;
