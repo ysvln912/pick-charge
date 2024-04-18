@@ -1,6 +1,5 @@
-import Input from "../input/input";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-
+import Input from "@/components/common/input/input";
+import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 interface LabelInputProps {
   label: string;
   placeholder?: string;

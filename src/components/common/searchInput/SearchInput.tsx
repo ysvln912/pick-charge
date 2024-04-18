@@ -1,5 +1,5 @@
-import Input from "../input/input";
-import SearchIcon from "../icons/SearchIcon";
+import Input from "@/components/common/input/input";
+import SearchIcon from "@/components/common/icons/SearchIcon";
 
 interface SearchInputProps {
   placeholder?: string;

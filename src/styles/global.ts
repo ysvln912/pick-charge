@@ -1,8 +1,7 @@
-import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { createGlobalStyle } from "styled-components";
 import { bodyContainer } from "./common";
-
-import PretendardRegular from "../assets/fonts/Pretendard-Regular.otf";
+import PretendardRegular from "@/assets/fonts/Pretendard-Regular.otf";
 
 const GlobalStyles = createGlobalStyle`
     @font-face {
