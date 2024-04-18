@@ -1,3 +1,4 @@
+import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
 import BatterErrorIcon from "../icons/BatteryErrorIcon";
 import BoltIcon from "../icons/BoltIcon";
 import * as S from "./ChargingInfo.style";
@@ -25,7 +26,7 @@ export default function ChargingInfo({ info }: { info: Charger }) {
         <div>
             <S.ChargingTitle>
                 <p>{info.charger_name}</p>
-                <div>{info.charger_role}</div>
+                <ChargingRoleCard role={info.charger_role}/>
                 <div>별점</div>
             </S.ChargingTitle>
             <S.ChargingAddress>{info.charger_location}</S.ChargingAddress>
