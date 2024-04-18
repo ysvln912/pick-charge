@@ -2,6 +2,7 @@ const PALETTE = {
   mainColor: "#02C0C0",
   white: "#FFFFFF",
   black: "#000000",
+  yellow: "#FDB022",
   error: "#FC5252",
   gray: {
     100: "#EEEEEE",
