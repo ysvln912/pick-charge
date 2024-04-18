@@ -39,7 +39,7 @@ export default function Select({
             {options.map((el) => {
               const [key, value] = Object.entries(el)[0];
               return (
-                <S.OptionItem key={key} value={value} onClick={close}>
+                <S.OptionItem key={key} value={value}>
                   {key}
                 </S.OptionItem>
               );
