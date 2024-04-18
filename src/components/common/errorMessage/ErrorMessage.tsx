@@ -4,13 +4,14 @@ import { ReactNode } from "react";
 
 export interface ErrorMessageProps {
   children: ReactNode;
+  visible?: boolean;
 }
 
 export default function ErrorMessage(props: ErrorMessageProps) {
-  const { children } = props;
+  const { children, visible } = props;
   return (
     <>
-      <S.ErrorMessage>{children}</S.ErrorMessage>
+      <S.ErrorMessage visible={visible}>{children}</S.ErrorMessage>
     </>
   );
 }
