@@ -1,24 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import * as S from "./PhotoList.style";
 import PhotoCard from "../photoCard/PhotoCard";
 
 export default function PhotoList({ imgs }: { imgs: string[] }) {
   return (
-    <List>
+    <S.List>
       {imgs.map((img, index) => {
         return <PhotoCard key={index} url={img}></PhotoCard>;
       })}
-    </List>
+    </S.List>
   );
 }
-
-const List = styled.div`
-  width: fit-content;
-  max-width: 342px;
-  height: 98px;
-  background-color: transparent;
-  border-radius: 5px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-`;
