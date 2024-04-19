@@ -9,7 +9,7 @@ export interface InputRightProps {
   disabled?: boolean;
 }
 
-function InputRight({
+export default function InputRight({
   color = "default",
   disabled,
   children,
@@ -20,5 +20,3 @@ function InputRight({
     </S.Container>
   );
 }
-
-export default InputRight;
