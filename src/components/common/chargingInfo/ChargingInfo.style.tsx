@@ -3,14 +3,26 @@ import styled from "styled-components";
 export const ChargingContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    border: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;
     padding: 0.7rem;
     margin: 0.8rem;
-    border-radius: 1rem;
+
     & .iconDiv {
         margin: 0.5rem;
     }
+    ${({ theme }) => {
+        return `
+            &.full {
+                border: ${theme.PALETTE.gray[200]} 0.1rem solid;
+                border-radius: 1rem;
+            }
+            &.bottom {
+                border-bottom: ${theme.PALETTE.gray[200]} 0.1rem solid;
+                }
+        `;
+
+    }}
 `;
+
 export const ChargingContent = styled.div`
     display: flex;
     & .chargingTitle {
@@ -21,18 +33,16 @@ export const ChargingContent = styled.div`
     & .starDiv {
         margin: 0.5rem;
         display: flex;
-         align-items: center;
-        color : ${({ theme }) => theme.PALETTE.black};
+        align-items: center;
+        color: ${({ theme }) => theme.PALETTE.black};
         font-size: ${({ theme }) => theme.FONT_SIZE.sm};
         svg {
             width: 1.4rem;
         }
         path {
-           fill : ${({ theme }) => theme.PALETTE.mainColor};
+            fill: ${({ theme }) => theme.PALETTE.mainColor};
         }
-
     }
-
 `;
 
 export const ChargingAddress = styled.div`
