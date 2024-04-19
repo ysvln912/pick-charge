@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PlusIcon from "../icons/PlusIcon";
 
-export default function PhotoRegister() {
-  const [photos, setPhotos] = useState<File[]>([]);
+export interface PhotoRegisterProps {
+  photos: File[];
+  updatePhotos: React.Dispatch<React.SetStateAction<File[]>>;
+}
 
+export default function PhotoRegister({
+  photos,
+  updatePhotos,
+}: PhotoRegisterProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
     if (!files) {
       return;
     }
-    files[0] && setPhotos((prev) => [...prev, files[0]]);
+    files[0] && updatePhotos((prev) => [...prev, files[0]]);
   };
 
   const onRemove = (index: number) => {
     const copyPhotos = [...photos];
     copyPhotos.splice(index, 1);
-    setPhotos([...copyPhotos]);
+    updatePhotos([...copyPhotos]);
   };
 
   return (
