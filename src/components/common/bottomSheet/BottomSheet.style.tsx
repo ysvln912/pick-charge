@@ -7,6 +7,7 @@ export const Background = styled.div`
 `;
 
 export const Container = styled.div`
+  width: 390px;
   border-radius: 10px 10px 0 0;
   background-color: ${({ theme }) => theme.PALETTE.white};
   padding: 1.5rem;

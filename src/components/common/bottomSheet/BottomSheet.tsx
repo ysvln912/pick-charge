@@ -14,7 +14,7 @@ export default function BottomSheet({ children, close }: BottomSheetProps) {
     <S.Background>
       <S.Container>
         {children}
-        <Button size="big" category="rounded" onClick={close}>
+        <Button size="lg" category="rounded" onClick={close}>
           닫기
         </Button>
       </S.Container>
