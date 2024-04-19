@@ -24,12 +24,14 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: 'Pretendard';
         letter-spacing : -0.3px;
+        ${bodyContainer};
+        margin: 0 auto;
+        position: relative;
         background-color: ${({ theme }) => theme.PALETTE.gray[100]};
     }
 
     #root{
         min-height: 100vh;
-        ${bodyContainer};
         background-color: ${({ theme }) => theme.PALETTE.white};
     }
 
