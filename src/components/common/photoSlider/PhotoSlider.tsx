@@ -6,9 +6,10 @@ import LeftIcon from "../icons/LeftIcon";
 
 interface PhotoSliderProps {
   imgs: string[];
+  category: "review" | "charging";
 }
 
-export default function PhotoSlider({ imgs }: PhotoSliderProps) {
+export default function PhotoSlider({ imgs, category }: PhotoSliderProps) {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -20,10 +21,12 @@ export default function PhotoSlider({ imgs }: PhotoSliderProps) {
   };
 
   return (
-    <S.Container>
-      <S.PrevBtn onClick={() => paginate(-1)}>
-        <LeftIcon />
-      </S.PrevBtn>
+    <S.Container category={category}>
+      {imgs.length > 1 && (
+        <S.PrevBtn onClick={() => paginate(-1)}>
+          <LeftIcon />
+        </S.PrevBtn>
+      )}
       <S.ImgBox>
         <AnimatePresence initial={false} custom={direction}>
           <S.Img
@@ -40,9 +43,12 @@ export default function PhotoSlider({ imgs }: PhotoSliderProps) {
             }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
+            dragElastic={imgs.length > 1 ? 1 : 0}
             onDragEnd={(e, { offset, velocity }) => {
               const swipe = swipePower(offset.x, velocity.x);
+              if (imgs.length < 2) {
+                return;
+              }
               if (swipe < -swipeConfidenceThreshold) {
                 paginate(1);
               } else if (swipe > swipeConfidenceThreshold) {
@@ -52,9 +58,11 @@ export default function PhotoSlider({ imgs }: PhotoSliderProps) {
           />
         </AnimatePresence>
       </S.ImgBox>
-      <S.NextBtn onClick={() => paginate(1)}>
-        <RightIcon />
-      </S.NextBtn>
+      {imgs.length > 1 && (
+        <S.NextBtn onClick={() => paginate(1)}>
+          <RightIcon />
+        </S.NextBtn>
+      )}
     </S.Container>
   );
 }

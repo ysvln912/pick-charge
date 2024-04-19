@@ -1,12 +1,23 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
+import { ObjMap } from "../button/Button";
 
-export const Container = styled.div`
+const SLIDER_CATEGORY: ObjMap = {
+  review: css`
+    width: 342px;
+    height: 156px;
+  `,
+  charging: css`
+    width: 304px;
+    height: 262px;
+  `,
+};
+
+export const Container = styled.div<{ category: string }>`
   display: flex;
   align-items: center;
   position: relative;
-  width: 342px;
-  height: 156px;
+  ${({ category }) => category && SLIDER_CATEGORY[category]};
   overflow: hidden;
 `;
 
