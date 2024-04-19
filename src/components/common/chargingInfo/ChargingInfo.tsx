@@ -4,6 +4,7 @@ import BoltIcon from "../icons/BoltIcon";
 import StarIcon from "../icons/StarIcon";
 import LikeIconBtn from "../iconButtons/LikeIconBtn";
 import * as S from "./ChargingInfo.style";
+
 export interface Charger {
     id: number;
     charger_location: string;
@@ -22,33 +23,40 @@ export interface Charger {
     charger_role: "개인" | "공공";
 }
 
-export default function ChargingInfo({ info }: { info: Charger }) {
+export interface ChargingInfoProps {
+    info : Charger;
+    border : "full" | "bottom";
+    like : boolean;
+    tag : boolean;
+}
+
+export default function ChargingInfo(props : ChargingInfoProps) {
     return (
-        <S.ChargingContainer>
+        <S.ChargingContainer className={props.border==="full"? "full" : "bottom"}>
             <div>
                 <S.ChargingContent>
-                    <p className="chargingTitle">{info.charger_name}</p>
-                    <ChargingRoleCard role={info.charger_role} />
+                    <p className="chargingTitle">{props.info.charger_name}</p>
+                    {props.tag && <ChargingRoleCard role={props.info.charger_role} />}
                     <div className="starDiv">
                         <StarIcon />
-                        <p>{info.avg_rate}</p>
+                        <p>{props.info.avg_rate}</p>
                     </div>
                 </S.ChargingContent>
-                <S.ChargingAddress>{info.charger_location}</S.ChargingAddress>
+                <S.ChargingAddress>{props.info.charger_location}</S.ChargingAddress>
                 <S.ChargingStatus
                     className={
-                        info.status === "이용가능" ? "available" : "restriction"
+                        props.info.status === "이용가능" ? "available" : "restriction"
                     }>
-                    {info.status === "이용가능" ? (
+                    {props.info.status === "이용가능" ? (
                         <BoltIcon />
                     ) : (
                         <BatterErrorIcon />
                     )}
-                    <p>{info.status}</p>
-                    <p className="type">{info.charger_type}</p>
+                    <p>{props.info.status}</p>
+                    <p className="type">{props.info.charger_type}</p>
                 </S.ChargingStatus>
             </div>
-            <div className="iconDiv"><LikeIconBtn /></div>
+            {props.like && <div className="iconDiv"><LikeIconBtn /></div>}
         </S.ChargingContainer>
     );
 }
