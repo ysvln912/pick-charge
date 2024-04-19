@@ -44,6 +44,7 @@ export const InputContainer = styled.div<InputBaseProps>`
   ${({ size }) => size && sizeCSS[size]}
   ${({ shape }) => shape && shapeCSS[shape]}
   ${({ color }) => color && colorCSS[color]}
+  background-color:  ${({ theme }) => theme.PALETTE.white};
   ${flexAlignCenter}
   gap: 1rem;
   outline: none;
