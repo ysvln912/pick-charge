@@ -56,8 +56,11 @@ export const ChargingStatus = styled.div`
     margin: 0.5rem;
     display: flex;
     align-items: center;
+    font-size: ${({ theme }) => theme.FONT_SIZE.xs};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     .type {
         color: ${({ theme }) => theme.PALETTE.black};
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
     }
     & p {
         margin-left: 0.4rem;

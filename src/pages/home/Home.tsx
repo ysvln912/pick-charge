@@ -53,11 +53,15 @@ export default function Home() {
             <div>
               <p>즐겨찾는 충전소</p>
               {sampleData.map((data)=>{
-                return <ChargingInfo info={data} like={true} border="full" />
+                return <ChargingInfo info={data} like={true}  tag={true} border="full" />
               })}
-              <p>즐겨찾는 충전소</p>
+              <p>충전소 목록</p>
               {sampleData.map((data)=>{
-                return <ChargingInfo info={data} like={false} border="bottom"/>
+                return <ChargingInfo info={data} like={false}  tag={true} border="bottom" />
+              })}
+              <p>충전기 관리</p>
+              {sampleData.map((data)=>{
+                return <ChargingInfo info={data} like={false}  tag={false} border="bottom" />
               })}
               
             </div>

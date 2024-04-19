@@ -27,6 +27,7 @@ export interface ChargingInfoProps {
     info : Charger;
     border : "full" | "bottom";
     like : boolean;
+    tag : boolean;
 }
 
 export default function ChargingInfo(props : ChargingInfoProps) {
@@ -35,7 +36,7 @@ export default function ChargingInfo(props : ChargingInfoProps) {
             <div>
                 <S.ChargingContent>
                     <p className="chargingTitle">{props.info.charger_name}</p>
-                    <ChargingRoleCard role={props.info.charger_role} />
+                    {props.tag && <ChargingRoleCard role={props.info.charger_role} />}
                     <div className="starDiv">
                         <StarIcon />
                         <p>{props.info.avg_rate}</p>
