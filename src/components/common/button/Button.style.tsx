@@ -36,15 +36,15 @@ const BUTTON_CATEGORY: ObjMap = {
 };
 
 const BUTTON_SIZE: ObjMap = {
-  big: css`
+  lg: css`
     width: 341px;
     height: 44px;
   `,
-  Medium: css`
+  md: css`
     width: 134px;
     height: 35px;
   `,
-  small: css`
+  sm: css`
     width: 80px;
     height: 42px;
   `,

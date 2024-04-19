@@ -3,7 +3,7 @@ import * as S from "./Button.style";
 import { ButtonHTMLAttributes } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size: "big" | "Medium" | "small";
+  size: "lg" | "md" | "sm";
   category:
     | "nomal"
     | "outline"

@@ -2,23 +2,21 @@ import React from "react";
 import * as S from "./TopNavigationBar.style";
 
 export interface TopNavigationBarProps {
-  layout: "start" | "center" | "startCenter" | "between";
   leftBtn?: React.ReactNode;
-  rightBtn?: React.ReactNode;
   text?: string;
+  rightBtn?: React.ReactNode;
 }
 
 export default function TopNavigationBar({
-  layout,
   leftBtn,
-  rightBtn,
   text,
+  rightBtn,
 }: TopNavigationBarProps) {
   return (
-    <S.Container layout={layout}>
-      {leftBtn && leftBtn}
+    <S.Container>
+      {leftBtn ? leftBtn : <S.StyleBox />}
       <h2>{text}</h2>
-      {rightBtn && rightBtn}
+      {rightBtn ? rightBtn : <S.StyleBox />}
     </S.Container>
   );
 }
