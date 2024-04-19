@@ -4,6 +4,7 @@ const PALETTE = {
   black: "#000000",
   yellow: "#FDB022",
   error: "#FC5252",
+  lightRed: "#FFE6E6",
   gray: {
     100: "#EEEEEE",
     200: "#d9d9d9",
