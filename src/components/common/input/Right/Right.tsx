@@ -5,7 +5,7 @@ type ColorType = "default" | "primary";
 
 export interface InputRightProps {
   children: ReactNode;
-  color: ColorType;
+  color?: ColorType;
   disabled?: boolean;
 }
 
