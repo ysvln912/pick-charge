@@ -1,4 +1,4 @@
-import * as S from "./RatingWithStart.style";
+import * as S from "./RatingWithStar.style";
 import StarIcon from "../icons/StarIcon";
 
 interface RatingWithStarProps {
