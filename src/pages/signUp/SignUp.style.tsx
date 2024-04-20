@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { flexColumn } from "@/styles/common";
 
 export const Container = styled.div`
-  padding: 24px;
+  padding: 1.5rem;
   ${flexColumn}
   justify-content: center;
   height: 100vh;
