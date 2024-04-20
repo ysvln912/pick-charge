@@ -2,12 +2,36 @@ import reset from "styled-reset";
 import { createGlobalStyle } from "styled-components";
 import { bodyContainer } from "./common";
 import PretendardRegular from "@/assets/fonts/Pretendard-Regular.otf";
+import PretendardMedium from "@/assets/fonts/Pretendard-Medium.otf";
+import PretendardBold from "@/assets/fonts/Pretendard-Bold.otf";
+import PretendardLight from "@/assets/fonts/Pretendard-Light.otf";
 
 const GlobalStyles = createGlobalStyle`
+  @font-face {
+        font-family: 'Pretendard';
+        src: url(${PretendardLight}) format('opentype');
+        font-weight: 100;
+        font-display: swap; 
+    }
+
     @font-face {
         font-family: 'Pretendard';
         src: url(${PretendardRegular}) format('opentype');
         font-weight: 400;
+        font-display: swap; 
+    }
+
+    @font-face {
+        font-family: 'Pretendard';
+        src: url(${PretendardMedium}) format('opentype');
+        font-weight: 500;
+        font-display: swap; 
+    }
+
+    @font-face {
+        font-family: 'Pretendard';
+        src: url(${PretendardBold}) format('opentype');
+        font-weight: 700;
         font-display: swap; 
     }
 
