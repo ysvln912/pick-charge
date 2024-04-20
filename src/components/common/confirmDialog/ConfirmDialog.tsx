@@ -3,40 +3,47 @@ import React from "react";
 import * as S from "./ConfirmDialog.style";
 import Button from "../button/Button";
 
-interface ConfirmProps {
+type ConfirmDialogProps = {
     title: string;
-    contents?: string;
+    type: "confirm" | "dialog";
     confirmButton: string;
     cancelButton: string;
-}
+    confirmOnClick: () => void;
+    cancelOnClick: () => void;
+    children?: React.ReactNode;
+};
 
-function InputDiv(props: { contents: string }) {
-    return (
-        <S.ConfirmContents>
-            <p>{props.contents}</p>
-            {/* input 수정 예정 */}
-            <input type="text" />
-        </S.ConfirmContents>
-    );
+{
+    /* <ConfirmDialog
+                title="로그아웃 할까요?"
+                type="confirm"
+                confirmButton="확인"
+                confirmOnClick={() => {
+                    console.log("확인");
+                }}
+                cancelButton="취소"
+                cancelOnClick={()=>{console.log("취소")}}
+            /> */
 }
-
-// 예시1 : <ConfirmDialog title="로그아웃 할까요?" confirmButton="완료" cancelButton="취소"/>
-// 예시2 : <ConfirmDialog title="닉네임수정" contents="닉네임" confirmButton="완료" cancelButton="취소"/>
-export default function ConfirmDialog(props: ConfirmProps) {
+export default function ConfirmDialog(props: ConfirmDialogProps) {
     return (
         <S.ConfirmContainer>
             <S.Confirm>
-                <S.ConfirmTitle>{props.title}</S.ConfirmTitle>
-                {props.contents ? (
-                    <InputDiv contents={props.contents} />
-                ) : (
-                    <></>
+                <div className={"title "+(props.type==="dialog"?"dialog":"confirm")}>{props.title}</div>
+                {props.type === "dialog" && (
+                    <S.ConfirmContents>{props.children}</S.ConfirmContents>
                 )}
                 <S.ButtonDiv>
-                    <Button size="big" category="nomal">
+                    <Button
+                        size="md"
+                        category="nomal"
+                        onClick={props.confirmOnClick}>
                         {props.confirmButton}
                     </Button>
-                    <Button size="big" category="retry">
+                    <Button
+                        size="md"
+                        category="outline"
+                        onClick={props.cancelOnClick}>
                         {props.cancelButton}
                     </Button>
                 </S.ButtonDiv>
