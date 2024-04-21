@@ -5,25 +5,27 @@ import PlusIcon from "../icons/PlusIcon";
 const MAX_NUM = 4;
 export interface PhotoRegisterProps {
   photos: File[];
-  updatePhotos: React.Dispatch<React.SetStateAction<File[]>>;
+  updatePhoto: (photo: File) => void;
+  deletePhoto: (photos: File[]) => void;
 }
 
 export default function PhotoRegister({
   photos,
-  updatePhotos,
+  updatePhoto,
+  deletePhoto,
 }: PhotoRegisterProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
     if (!files) {
       return;
     }
-    files[0] && updatePhotos((prev) => [...prev, files[0]]);
+    files[0] && updatePhoto(files[0]);
   };
 
   const onRemove = (index: number) => {
     const copyPhotos = [...photos];
     copyPhotos.splice(index, 1);
-    updatePhotos([...copyPhotos]);
+    deletePhoto([...copyPhotos]);
   };
 
   return (
