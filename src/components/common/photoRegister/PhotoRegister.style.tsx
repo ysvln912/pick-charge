@@ -52,20 +52,10 @@ export const ImgBox = styled.div`
   width: 65px;
   height: 65px;
   margin-right: 17px;
-  border-radius: 5px;
   position: relative;
-  overflow: hidden;
+  border-radius: 5px;
   &:last-child {
     margin-right: 0;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.PALETTE.black};
-    button {
-      display: block;
-    }
-    img {
-      opacity: 0.4;
-    }
   }
 `;
 
@@ -75,20 +65,26 @@ export const PreviewImg = styled.img`
   left: 0;
   width: 100%;
   height: 100%;
+  border-radius: 5px;
 `;
 
 export const RemoveBtn = styled.button`
-  display: none;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: -5px;
+  right: -5px;
   background-color: transparent;
   border: none;
   outline: none;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   z-index: 1;
   border-radius: 50%;
-  transform: rotate(45deg);
+  background-color: ${({ theme }) => theme.PALETTE.gray[400]};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  &:hover {
+    background-color: tomato;
+  }
 `;
