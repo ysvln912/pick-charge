@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes } from "react";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size: "lg" | "md" | "sm";
   category:
-    | "nomal"
+    | "normal"
     | "outline"
     | "kakao"
     | "google"
