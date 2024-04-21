@@ -9,17 +9,15 @@ export const BottomContainer = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.es};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
   border-top: ${({ theme }) => theme.PALETTE.gray[100]} 1px solid;
+  color: ${({ theme }) => theme.PALETTE.gray[400]};
+  path {
+    fill: ${({ theme }) => theme.PALETTE.gray[400]};
+  }
   * {
     padding: 0.1rem;
     text-align: center;
   }
-  .nav-link {
-    color: ${({ theme }) => theme.PALETTE.gray[400]};
-    path {
-      fill: ${({ theme }) => theme.PALETTE.gray[400]};
-    }
-  }
-  .nav-linka {
+  .active {
     color: ${({ theme }) => theme.PALETTE.mainColor};
     path {
       fill: ${({ theme }) => theme.PALETTE.mainColor};
