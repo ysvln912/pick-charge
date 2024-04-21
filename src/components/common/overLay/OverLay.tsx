@@ -4,11 +4,11 @@ import * as S from "./OverLay.style";
 
 export interface OverLayProps {
   open: boolean;
-  updateOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleOpen: (isOpen: boolean) => void;
   children: React.ReactNode;
 }
 
-export default function OverLay({ open, updateOpen, children }: OverLayProps) {
+export default function OverLay({ open, handleOpen, children }: OverLayProps) {
   return (
     <AnimatePresence>
       {open && (
@@ -20,7 +20,7 @@ export default function OverLay({ open, updateOpen, children }: OverLayProps) {
             if (e.target !== e.currentTarget) {
               return;
             }
-            updateOpen(false);
+            handleOpen(false);
           }}
         >
           {children}
