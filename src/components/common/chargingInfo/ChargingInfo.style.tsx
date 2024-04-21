@@ -1,26 +1,39 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const ChargingContainer = styled.div`
+const borderType = {
+    full: css`
+        border: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;
+        border-radius: 1rem;
+    `,
+    bottom: css`
+        border-bottom: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;
+    `,
+};
+
+const chargingStatus = {
+    available : css`
+    color: ${({ theme }) =>theme.PALETTE.yellow};
+                path {
+                    fill: ${({ theme }) =>theme.PALETTE.yellow};
+                }`,
+    restriction : css`
+    color: 
+    ${({ theme }) => theme.PALETTE.gray[300]};
+    path {
+        fill: ${({ theme }) =>theme.PALETTE.gray[300]};
+    }
+    `
+}
+
+export const ChargingContainer = styled.div<{ border: "full" | "bottom" }>`
     display: flex;
     justify-content: space-between;
     padding: 0.7rem;
     margin: 0.8rem;
-
+    ${({ border }) => borderType[border]}
     & .iconDiv {
         margin: 0.5rem;
     }
-    ${({ theme }) => {
-        return `
-            &.full {
-                border: ${theme.PALETTE.gray[200]} 0.1rem solid;
-                border-radius: 1rem;
-            }
-            &.bottom {
-                border-bottom: ${theme.PALETTE.gray[200]} 0.1rem solid;
-                }
-        `;
-
-    }}
 `;
 
 export const ChargingContent = styled.div`
@@ -52,7 +65,7 @@ export const ChargingAddress = styled.div`
     color: ${({ theme }) => theme.PALETTE.gray[300]};
 `;
 
-export const ChargingStatus = styled.div`
+export const ChargingStatus = styled.div<{ status: "available" | "restriction" }>`
     margin: 0.5rem;
     display: flex;
     align-items: center;
@@ -65,19 +78,5 @@ export const ChargingStatus = styled.div`
     & p {
         margin-left: 0.4rem;
     }
-    ${({ theme }) => {
-        return `
-            &.restriction {
-                color: ${theme.PALETTE.gray[300]};
-                path {
-                    fill: ${theme.PALETTE.gray[300]};
-                }
-            }
-            &.available {
-                color: ${theme.PALETTE.yellow};
-                path {
-                    fill: ${theme.PALETTE.yellow};
-                }
-        `;
-    }}
+    ${({ status }) => chargingStatus[status]}
 `;
