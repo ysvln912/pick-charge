@@ -5,7 +5,7 @@ import Button from "../button/Button";
 
 type ConfirmDialogProps = {
     title: string;
-    type: "confirm" | "dialog";
+    type?: "confirm" | "dialog";
     confirmButton: string;
     cancelButton: string;
     confirmOnClick: () => void;
@@ -25,26 +25,34 @@ type ConfirmDialogProps = {
                 cancelOnClick={()=>{console.log("취소")}}
             /> */
 }
-export default function ConfirmDialog(props: ConfirmDialogProps) {
+export default function ConfirmDialog({
+    title,
+    type = "confirm",
+    confirmButton,
+    cancelButton,
+    confirmOnClick,
+    cancelOnClick,
+    children,
+}: ConfirmDialogProps) {
     return (
         <S.ConfirmContainer>
             <S.Confirm>
-                <div className={"title "+(props.type==="dialog"?"dialog":"confirm")}>{props.title}</div>
-                {props.type === "dialog" && (
-                    <S.ConfirmContents>{props.children}</S.ConfirmContents>
+                <S.ConfirmTitle type={type}>{title}</S.ConfirmTitle>
+                {type === "dialog" && (
+                    <S.ConfirmContents>{children}</S.ConfirmContents>
                 )}
                 <S.ButtonDiv>
                     <Button
                         size="md"
-                        category="nomal"
-                        onClick={props.confirmOnClick}>
-                        {props.confirmButton}
+                        category="normal"
+                        onClick={confirmOnClick}>
+                        {confirmButton}
                     </Button>
                     <Button
                         size="md"
                         category="outline"
-                        onClick={props.cancelOnClick}>
-                        {props.cancelButton}
+                        onClick={cancelOnClick}>
+                        {cancelButton}
                     </Button>
                 </S.ButtonDiv>
             </S.Confirm>
