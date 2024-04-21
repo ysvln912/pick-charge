@@ -2,6 +2,7 @@ import React from "react";
 import * as S from "./PhotoRegister.style";
 import PlusIcon from "../icons/PlusIcon";
 
+const MAX_NUM = 4;
 export interface PhotoRegisterProps {
   photos: File[];
   updatePhotos: React.Dispatch<React.SetStateAction<File[]>>;
@@ -45,7 +46,7 @@ export default function PhotoRegister({
             </S.ImgBox>
           );
         })}
-        {photos.length < 4 && (
+        {photos.length < MAX_NUM && (
           <S.FileLabel htmlFor="file">
             <PlusIcon />
             <S.FileInput

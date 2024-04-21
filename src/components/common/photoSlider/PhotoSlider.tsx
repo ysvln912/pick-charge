@@ -45,13 +45,14 @@ export default function PhotoSlider({ imgs, category }: PhotoSliderProps) {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={imgs.length > 1 ? 1 : 0}
             onDragEnd={(e, { offset, velocity }) => {
-              const swipe = swipePower(offset.x, velocity.x);
               if (imgs.length < 2) {
                 return;
               }
+              const swipe = swipePower(offset.x, velocity.x);
               if (swipe < -swipeConfidenceThreshold) {
                 paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
+              }
+              if (swipe > swipeConfidenceThreshold) {
                 paginate(-1);
               }
             }}
