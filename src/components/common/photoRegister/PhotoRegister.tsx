@@ -27,8 +27,10 @@ export default function PhotoRegister({
 
   return (
     <S.Container>
-      <S.TitleLabel htmlFor="file">사진</S.TitleLabel>
-      <S.Description>사진은 최대 4장까지 등록할 수 있어요.</S.Description>
+      <div>
+        <S.TitleLabel htmlFor="file">사진</S.TitleLabel>
+        <S.Description>사진은 최대 4장까지 등록할 수 있어요.</S.Description>
+      </div>
       <S.FilesBox>
         {photos.map((photo, index) => {
           return (

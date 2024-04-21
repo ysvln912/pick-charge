@@ -2,10 +2,9 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
   width: 342px;
-  height: 147px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 16px;
 `;
 
 export const TitleLabel = styled.label`
@@ -15,8 +14,9 @@ export const TitleLabel = styled.label`
 `;
 
 export const Description = styled.p`
+  margin-top: 8px;
   color: ${({ theme }) => theme.PALETTE.black};
-  font-size: ${({ theme }) => theme.FONT_SIZE.es};
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
 `;
 
