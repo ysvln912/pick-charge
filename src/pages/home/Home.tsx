@@ -3,7 +3,8 @@ import * as S from "./Home.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import MenuCard from "@/components/pages/home/MenuCard";
-import MapIcon from "@/components/common/icons/MapIcon";
+import SearchInput from "@/components/common/searchInput/SearchInput";
+import logo from "assets/imgs/logo_small.png"
 
 export default function Home() {
     const sampleData: Charger[] = [
@@ -44,8 +45,15 @@ export default function Home() {
         },
     ];
     return (
-        <div>
-            <S.Test>Home, 메인페이지</S.Test>
+        <S.HomeContainer>
+            <img src={logo} alt="logo"/>
+            <S.SearchDiv>
+                <p>내 주변 </p>
+                <p>
+                    <span>전기차 충전소</span>를 찾아보세요
+                </p>
+                <SearchInput placeholder="가까운 충전소 찾아보기" />
+            </S.SearchDiv>
             <S.MenuDiv>
                 <div className="div1">
                     <MenuCard
@@ -53,8 +61,7 @@ export default function Home() {
                         title="내 주변 찾기"
                         describe="가까운 전기차 충전소를 바로 찾아보세요!"
                         shape="halfSquare"
-                    ><MapIcon /></MenuCard>
-
+                    />
                     <div>
                         <MenuCard
                             path="/review/write"
@@ -94,6 +101,6 @@ export default function Home() {
                     );
                 })}
             </div>
-        </div>
+        </S.HomeContainer>
     );
 }
