@@ -1,11 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as S from "./Textarea.style";
-
 import { TextareaHTMLAttributes, Ref, forwardRef, ReactNode } from "react";
 import Label from "../label/Label";
 import ErrorMessage from "../errorMessage/ErrorMessage";
-
-type SizeType = "small" | "medium" | "full";
+import { SizeType } from "@/types";
 
 export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -16,7 +14,7 @@ export interface TextareaProps
 }
 
 function Textarea(
-  { label, size = "medium", error, errorMessage, name, ...rest }: TextareaProps,
+  { label, size = "md", error, errorMessage, name, ...rest }: TextareaProps,
   ref: Ref<HTMLTextAreaElement>
 ) {
   return (

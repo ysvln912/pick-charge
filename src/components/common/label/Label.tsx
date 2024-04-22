@@ -1,19 +1,14 @@
 import * as S from "./Label.style";
 
 import { LabelHTMLAttributes, ReactNode } from "react";
-
-type SizeType = "small" | "medium";
+import { SizeType } from "@/types";
 
 export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   children: ReactNode;
   size?: SizeType;
 }
 
-export default function Label({
-  children,
-  size = "medium",
-  ...rest
-}: LabelProps) {
+export default function Label({ children, size = "md", ...rest }: LabelProps) {
   return (
     <S.Label size={size} {...rest}>
       {children}

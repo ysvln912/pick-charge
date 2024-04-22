@@ -1,7 +1,6 @@
 import * as S from "./Right.style";
 import { ReactNode } from "react";
-
-type ColorType = "default" | "primary";
+import { ColorType } from "@/types";
 
 export interface InputRightProps {
   children: ReactNode;

@@ -1,10 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as S from "./Base.style";
 import { HTMLAttributes, forwardRef, Ref, ReactNode, useState } from "react";
-
-type SizeType = "small" | "medium" | "full";
-type ShapeType = "default" | "round";
-type ColorType = "default" | "primary";
+import { SizeType, ShapeType, ColorType } from "@/types";
 
 export interface InputBaseProps extends HTMLAttributes<HTMLDivElement> {
   error?: boolean;

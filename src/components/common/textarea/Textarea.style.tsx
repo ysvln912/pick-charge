@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
 import { TextareaProps } from "./Textarea";
+import { ObjMap } from "@/types";
 
-const sizeCSS = {
-  small: css`
+const sizeCSS: ObjMap = {
+  sm: css`
     height: 5.43rem;
   `,
-  medium: css`
+  md: css`
     height: 11.81rem;
   `,
   full: css`

@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
 import { LabelProps } from "./Label";
+import { ObjMap } from "@/types";
 
-const sizeCSS = {
-  small: css`
+const sizeCSS: ObjMap = {
+  sm: css`
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   `,
-  medium: css`
+  md: css`
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   `,
 };
