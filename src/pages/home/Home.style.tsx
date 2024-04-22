@@ -7,7 +7,7 @@ export const Test = styled.div`
 
 export const MenuDiv = styled.div`
   ${flexColumn}
-  padding : 1.5rem;
+  padding : 0.5rem;
   & .div1 {
     display : flex;
   }
