@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
 import { flexAlignCenter } from "@/styles/common";
 import { InputBaseProps } from "./Base";
+import { ObjMap } from "@/types";
 
-const colorCSS = {
+const colorCSS: ObjMap = {
   default: css`
     border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
   `,
@@ -11,17 +12,17 @@ const colorCSS = {
   `,
 };
 
-const sizeCSS = {
-  small: css`
+const sizeCSS: ObjMap = {
+  sm: css`
     width: 122px;
     padding: 0.56rem 0.375rem;
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   `,
-  medium: css`
+  md: css`
     width: 253px;
     padding: 0.81rem 0.75rem;
   `,
-  large: css`
+  lg: css`
     width: 326px;
     padding: 0.81rem 0.75rem;
   `,
@@ -31,7 +32,7 @@ const sizeCSS = {
   `,
 };
 
-const shapeCSS = {
+const shapeCSS: ObjMap = {
   default: css`
     border-radius: 4px;
   `,

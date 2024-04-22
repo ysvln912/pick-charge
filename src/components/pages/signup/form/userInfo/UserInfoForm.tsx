@@ -18,7 +18,7 @@ export default function UserInfoForm() {
         placeholder="사용하는 충전기의 타입을 작성해 주세요."
       />
       <S.ButtonWrapper>
-        <Button size="lg" category="nomal">
+        <Button size="lg" category="normal">
           회원가입 완료
         </Button>
       </S.ButtonWrapper>

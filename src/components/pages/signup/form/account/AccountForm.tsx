@@ -23,7 +23,7 @@ export default function AccountForm() {
         placeholder="비밀번호를 다시 한 번 입력해 주세요."
       />
       <S.ButtonWrapper>
-        <Button size="lg" category="nomal">
+        <Button size="lg" category="normal">
           다음
         </Button>
       </S.ButtonWrapper>
