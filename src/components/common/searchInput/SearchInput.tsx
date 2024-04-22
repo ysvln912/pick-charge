@@ -23,7 +23,7 @@ export default function SearchInput({
 }: SearchInputProps) {
   return (
     <Input>
-      <Input.Label>{label}</Input.Label>
+      {label && <Input.Label>{label}</Input.Label>}
       <Input.Base color="primary">
         <Input.Left>
           <SearchIcon />
