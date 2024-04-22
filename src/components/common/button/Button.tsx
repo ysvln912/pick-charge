@@ -1,9 +1,10 @@
 import { css } from "styled-components";
 import * as S from "./Button.style";
 import { ButtonHTMLAttributes } from "react";
+import { SizeType } from "@/types";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size: "lg" | "md" | "sm";
+  size: SizeType;
   category:
     | "normal"
     | "outline"
