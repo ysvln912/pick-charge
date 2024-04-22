@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { ObjMap } from "./Button";
 
 const BUTTON_CATEGORY: ObjMap = {
-  nomal: css`
+  normal: css`
     background-color: ${({ theme }) => theme.PALETTE.mainColor};
     color: ${({ theme }) => theme.PALETTE.white};
   `,

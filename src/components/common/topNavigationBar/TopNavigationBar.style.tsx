@@ -6,6 +6,8 @@ export const Container = styled.div`
   padding: 20px;
   position: fixed;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 999;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
