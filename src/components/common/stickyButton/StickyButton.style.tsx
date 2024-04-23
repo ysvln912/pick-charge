@@ -7,7 +7,7 @@ interface Props {
 export const Container = styled.div<Props>`
   position: fixed;
   // 하단 네비게이션 높이값
-  bottom: 48.8px;
+  bottom: 68px;
   width: 390px;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   padding: 1rem;
