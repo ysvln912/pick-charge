@@ -7,9 +7,15 @@ export interface ChargerCardProps {
   speed: string;
   kw: string;
   fare: string;
+  shape: string;
 }
 
-export default function ChargerCard({ speed, kw, fare }: ChargerCardProps) {
+export default function ChargerCard({
+  speed,
+  kw,
+  fare,
+  shape,
+}: ChargerCardProps) {
   return (
     <Card>
       <List>
@@ -23,7 +29,7 @@ export default function ChargerCard({ speed, kw, fare }: ChargerCardProps) {
         </Item>
         <Item>
           <Name>충전기 타입</Name>
-          <Value>수퍼차저</Value>
+          <Value>{shape}</Value>
         </Item>
       </List>
       <Button size="full" category="retry">

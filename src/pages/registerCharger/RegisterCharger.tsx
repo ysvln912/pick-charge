@@ -22,6 +22,7 @@ export interface cardsProps {
   speed: string;
   kw: string;
   fare: string;
+  shape: string;
   id: string;
 }
 
@@ -47,10 +48,12 @@ export default function RegisterCharger() {
   const [speed, setSpeed] = useState<ChargerInfo>(null);
   const [kw, setKw] = useState<ChargerInfo>(null);
   const [fare, setFare] = useState<ChargerInfo>(null);
+  const [shape, setShape] = useState<ChargerInfo>(null);
+  const [content, setContent] = useState<ChargerInfo>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [cards, setCards] = useState<cardsProps[]>([]);
   const debouncedKeyword = useDebounce(address, 1000);
-
+  console.log(speed);
   const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
     switch (name) {
@@ -70,7 +73,6 @@ export default function RegisterCharger() {
         break;
     }
   };
-  console.log(searchResults);
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
   };
@@ -79,15 +81,24 @@ export default function RegisterCharger() {
     setPhotos(photos);
   };
 
+  const changeShape = (e: any) => {
+    const value = e.target.value;
+    setShape(value);
+  };
+
   const chargeCardAdd = () => {
     console.log(`충전속도:${speed} / kw:${kw} / 요금:${fare}`);
-    if (!speed || !kw || !fare) {
+    if (!speed || !kw || !fare || !shape) {
       return;
     }
-    setCards((prev) => [{ speed, kw, fare, id: String(Date.now()) }, ...prev]);
+    setCards((prev) => [
+      { speed, kw, fare, shape, id: String(Date.now()) },
+      ...prev,
+    ]);
     setSpeed(null);
     setKw(null);
     setFare(null);
+    setShape(null);
   };
 
   useEffect(() => {
@@ -167,10 +178,11 @@ export default function RegisterCharger() {
             handleChange={handleInfoChange}
           />
         </div>
-        <ChargingType>
-          <Label size="lg">충전기 타입</Label>
-          <SelectCharger></SelectCharger>
-        </ChargingType>
+        <SelectCharger
+          label
+          onChange={changeShape}
+          type={speed === "급속" ? "fast" : speed === "완속" ? "slow" : "all"}
+        />
         {cards.length > 0 &&
           cards.map((card) => {
             return (
@@ -179,6 +191,7 @@ export default function RegisterCharger() {
                 speed={card.speed}
                 kw={card.kw}
                 fare={card.fare}
+                shape={card.shape}
               />
             );
           })}
@@ -236,8 +249,4 @@ const ChargingSpeed = styled.div`
 
 const SpeedInputTag = styled.div`
   ${flexAlignCenter};
-`;
-
-const ChargingType = styled.div`
-  ${flexColumn};
 `;
