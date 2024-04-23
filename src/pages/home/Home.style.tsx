@@ -22,17 +22,20 @@ export const SearchDiv = styled.div`
 export const MenuDiv = styled.div`
     ${flexColumn}
     padding : 0.5rem;
-
 `;
 
 export const MenuRow = styled.div`
-  display: flex;
-  .menuColumn {
-    flex-basis: 45%;
-  }
-  .menuList {
-    flex-basis: 55%;
-  }
-  
-`
+    display: flex;
+    .menuColumn {
+        flex-basis: 43%;
+    }
+    .menuList {
+        flex-basis: 57%;
+    }
+`;
 
+export const ChargerTitle = styled.p`
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    padding : 0 0.8rem;
+`;

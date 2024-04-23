@@ -6,16 +6,27 @@ const MENU_SHAPE = {
         flex-direction: row-reverse;
         align-items: center;
         width: 360px;
+        svg {
+            width : 25px;
+            height : 25px;
+        }
     `,
     halfSquare: css`
         height: 92%;
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
-        background-color : #FAFAFA;
+        svg {
+            width : 35px;
+            height : 35px;
+        }
     `,
     halfRectangle: css`
         justify-content: space-between;
+        svg {
+            width : 15px;
+            height : 15px;
+        }
     `,
 };
 
@@ -23,7 +34,7 @@ export const MenuContainer = styled.div<{
     shape: "fullRectangle" | "halfSquare" | "halfRectangle";
 }>`
     display: flex;
-    background-color: ${({ theme }) => theme.PALETTE.gray[100]};
+    background-color: ${({ theme }) => theme.PALETTE.gray[50]};
     border-radius: 1rem;
     padding: 1rem;
     margin: 0.5rem;
@@ -45,3 +56,5 @@ export const Menudesc = styled.p`
     font-size: ${({ theme }) => theme.FONT_SIZE.xs};
     margin: 0.5rem;
 `;
+
+
