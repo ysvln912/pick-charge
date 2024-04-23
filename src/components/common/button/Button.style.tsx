@@ -48,11 +48,17 @@ const BUTTON_SIZE: ObjMap = {
     width: 80px;
     height: 42px;
   `,
+  full: css`
+    width: 390px;
+    height: 50px;
+    border-radius: 0;
+  `,
 };
 
 export const Btn = styled.button<{ size: string; category: string }>`
   border: 1px solid transparent;
   border-radius: 5px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   display: flex;
   align-items: center;
