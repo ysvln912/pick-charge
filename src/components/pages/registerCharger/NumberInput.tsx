@@ -1,15 +1,31 @@
+import { ChargerInfo } from "@/pages/registerCharger/RegisterCharger";
 import { flexAlignCenter } from "@/styles/common";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 interface NumberInputProps {
   id: string;
   text: string;
+  value: ChargerInfo;
+  name: string;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function NumberInput({ id, text }: NumberInputProps) {
+export default function NumberInput({
+  id,
+  text,
+  value,
+  name,
+  handleChange,
+}: NumberInputProps) {
   return (
     <Container>
-      <Input type="number" id={id} min={1} max={200} />
+      <Input
+        type="text"
+        id={id}
+        name={name}
+        value={value ?? ""}
+        onChange={handleChange}
+      />
       <Label htmlFor={id}>{text}</Label>
     </Container>
   );
