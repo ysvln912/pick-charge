@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 
 import * as S from "./ChargingMap.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
+import ChargerList from "@/components/pages/charger/chargerList/ChargerList";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
+import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 
 export default function ChargingMap() {
+    const [viewType, setViewType] = useState<"map" | "list">("map");
+
+    const getButtonProps = (): {
+        category: "rounded" | "normal";
+        text: string;
+    } => {
+        if (viewType === "map") {
+            return {
+                category: "rounded",
+                text: "목록보기",
+            };
+        } else {
+            return {
+                category: "normal",
+                text: "지도보기",
+            };
+        }
+    };
+
+    const { category, text } = getButtonProps();
+
     const sampleData: Charger[] = [
         {
             id: 1,
@@ -82,17 +105,28 @@ export default function ChargingMap() {
     return (
         <div>
             <S.WidgetContainer>
-                    <S.SearchContainer>
-                        <SearchInput placeholder="충전소를 검색해보세요" />
-                    </S.SearchContainer>
-                    <S.ButtonContainer>
-                        <Button size="md" category="rounded">
-                            <ListIcon />
-                            목록보기
-                        </Button>
-                    </S.ButtonContainer>
+                <S.SearchContainer>
+                    <SearchInput placeholder="충전소를 검색해보세요" />
+                </S.SearchContainer>
+                <S.ButtonContainer>
+                    <Button
+                        size="md"
+                        category={category}
+                        onClick={() => {
+                            setViewType((prevViewType) =>
+                                prevViewType === "map" ? "list" : "map"
+                            );
+                        }}>
+                        {viewType === "map" ? <ListIcon /> : <SolidMapIcon />}
+                        {text}
+                    </Button>
+                </S.ButtonContainer>
             </S.WidgetContainer>
+            {viewType === "map" ? (
                 <ChargerMap info={sampleData} />
+            ) : (
+                <ChargerList />
+            )}
         </div>
     );
 }
