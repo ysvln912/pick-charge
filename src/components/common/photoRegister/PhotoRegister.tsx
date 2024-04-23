@@ -1,6 +1,7 @@
 import React from "react";
 import * as S from "./PhotoRegister.style";
 import PlusIcon from "../icons/PlusIcon";
+import DeleteIcon from "../icons/DeleteIcon";
 
 const MAX_NUM = 4;
 export interface PhotoRegisterProps {
@@ -39,7 +40,7 @@ export default function PhotoRegister({
           return (
             <S.ImgBox key={index}>
               <S.RemoveBtn onClick={() => onRemove(index)}>
-                <PlusIcon />
+                <DeleteIcon />
               </S.RemoveBtn>
               <S.PreviewImg
                 src={URL.createObjectURL(photo)}
