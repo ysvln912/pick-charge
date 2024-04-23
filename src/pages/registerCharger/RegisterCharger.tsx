@@ -10,6 +10,7 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
 import NumberInput from "@/components/pages/registerCharger/NumberInput";
 import RadioButton from "@/components/pages/registerCharger/RadioButton";
+import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 import { useDebounce } from "@/hooks/useDebounce";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -69,7 +70,7 @@ export default function RegisterCharger() {
         break;
     }
   };
-
+  console.log(searchResults);
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
   };
@@ -101,31 +102,24 @@ export default function RegisterCharger() {
       />
       <Main>
         <div>
-          <SearchInput
-            label="충전소"
-            placeholder="충전소 주소를 입력해 주세요."
-            error={error}
-            errorMessage="필수 입력 항목입니다."
-            name="address"
-            value={address}
-            onChange={handleInfoChange}
-          />
-          {searchResults &&
-            searchResults.length > 0 &&
-            searchResults.map((result) => {
-              return (
-                <div key={result.id}>
-                  <div>
-                    <span>{result.place_name}</span>
-                    <span>
-                      {result?.category_name?.split(">")?.pop()?.trim()}
-                    </span>
-                  </div>
-
-                  <div>{result.road_address_name}</div>
-                </div>
-              );
-            })}
+          <SearchInputAndResult>
+            <SearchInput
+              label="충전소"
+              placeholder="충전소 주소를 입력해 주세요."
+              error={error}
+              errorMessage="필수 입력 항목입니다."
+              name="address"
+              value={address}
+              onChange={handleInfoChange}
+            />
+            {searchResults && searchResults.length > 0 && (
+              <SearchResultContainer>
+                {searchResults.map((result) => (
+                  <SearchResultItem key={result.id} {...result} />
+                ))}
+              </SearchResultContainer>
+            )}
+          </SearchInputAndResult>
           <Label size="lg">충전기 정보</Label>
           <ChargingSpeed>
             <Label size="md">충전 속도</Label>
@@ -217,6 +211,22 @@ const Main = styled.main`
   padding-top: 80px;
   ${flexColumn};
   gap: 16px;
+`;
+
+const SearchInputAndResult = styled.div`
+  position: relative;
+`;
+
+const SearchResultContainer = styled.div`
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  ${flexColumn};
+  position: absolute;
+  width: 100%;
+  top: 80px;
+  left: 0;
+  z-index: 1;
 `;
 
 const ChargingSpeed = styled.div`
