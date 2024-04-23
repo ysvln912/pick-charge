@@ -6,7 +6,7 @@ import MenuCard from "@/components/pages/home/MenuCard";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import logo from "assets/imgs/logo_small.png"
 import ChatIcon from "@/components/common/icons/ChatIcon";
-import MapIcon from "@/components/common/icons/MapIcon";
+import OutlineMapIcon from "@/components/common/icons/OutlineMapIcon";
 import ReviewIcon from "@/components/common/icons/ReviewIcon";
 import BoltIcon from "@/components/common/icons/BoltIcon";
 
@@ -66,7 +66,7 @@ export default function Home() {
                             title="내 주변 찾기"
                             describe="가까운 전기차 충전소를 바로 찾아보세요!"
                             shape="halfSquare"
-                        ><MapIcon /></MenuCard>
+                        ><OutlineMapIcon /></MenuCard>
                     </div>
                     <div className="menuList">
                         <MenuCard
