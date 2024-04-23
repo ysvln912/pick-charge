@@ -1,3 +1,4 @@
+import { searchAddress } from "@/apis/kakaoSearchAddress";
 import Button from "@/components/common/button/Button";
 import IconButton from "@/components/common/iconButton/IconButton";
 import Label from "@/components/common/label/Label";
@@ -9,8 +10,9 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
 import NumberInput from "@/components/pages/registerCharger/NumberInput";
 import RadioButton from "@/components/pages/registerCharger/RadioButton";
+import { useDebounce } from "@/hooks/useDebounce";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export type ChargerInfo = string | null;
@@ -22,17 +24,38 @@ export interface cardsProps {
   id: string;
 }
 
+export interface ISearchResult {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  id: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
+}
+
 export default function RegisterCharger() {
   const [error, setError] = useState(false);
   const [address, setAddress] = useState("");
+  const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [speed, setSpeed] = useState<ChargerInfo>(null);
   const [kw, setKw] = useState<ChargerInfo>(null);
   const [fare, setFare] = useState<ChargerInfo>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [cards, setCards] = useState<cardsProps[]>([]);
+  const debouncedKeyword = useDebounce(address, 1000);
+
   const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
     switch (name) {
+      case "address":
+        setAddress(value);
+        break;
       case "speed":
         setSpeed(value);
         break;
@@ -46,6 +69,7 @@ export default function RegisterCharger() {
         break;
     }
   };
+
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
   };
@@ -54,7 +78,7 @@ export default function RegisterCharger() {
     setPhotos(photos);
   };
 
-  const chargeInfoAdd = () => {
+  const chargeCardAdd = () => {
     console.log(`충전속도:${speed} / kw:${kw} / 요금:${fare}`);
     if (!speed || !kw || !fare) {
       return;
@@ -64,6 +88,11 @@ export default function RegisterCharger() {
     setKw(null);
     setFare(null);
   };
+
+  useEffect(() => {
+    searchAddress(debouncedKeyword, setSearchResults);
+  }, [debouncedKeyword]);
+
   return (
     <Container>
       <TopNavigationBar
@@ -79,7 +108,24 @@ export default function RegisterCharger() {
             errorMessage="필수 입력 항목입니다."
             name="address"
             value={address}
+            onChange={handleInfoChange}
           />
+          {searchResults &&
+            searchResults.length > 0 &&
+            searchResults.map((result) => {
+              return (
+                <div key={result.id}>
+                  <div>
+                    <span>{result.place_name}</span>
+                    <span>
+                      {result?.category_name?.split(">")?.pop()?.trim()}
+                    </span>
+                  </div>
+
+                  <div>{result.road_address_name}</div>
+                </div>
+              );
+            })}
           <Label size="lg">충전기 정보</Label>
           <ChargingSpeed>
             <Label size="md">충전 속도</Label>
@@ -142,7 +188,7 @@ export default function RegisterCharger() {
               />
             );
           })}
-        <Button size="lg" category="normal" onClick={chargeInfoAdd}>
+        <Button size="lg" category="normal" onClick={chargeCardAdd}>
           충전기 추가하기
         </Button>
         <Textarea

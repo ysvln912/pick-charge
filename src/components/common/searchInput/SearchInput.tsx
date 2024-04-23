@@ -1,7 +1,7 @@
 import Input from "@/components/common/input/input";
 import SearchIcon from "@/components/common/icons/SearchIcon";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
 interface SearchInputProps {
   label?: string;
