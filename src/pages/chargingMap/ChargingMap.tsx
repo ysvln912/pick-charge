@@ -1,6 +1,11 @@
 import React from "react";
+
+import * as S from "./ChargingMap.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
+import SearchInput from "@/components/common/searchInput/SearchInput";
+import Button from "@/components/common/button/Button";
+import ListIcon from "@/components/common/icons/ListIcon";
 
 export default function ChargingMap() {
     const sampleData: Charger[] = [
@@ -74,11 +79,20 @@ export default function ChargingMap() {
         },
     ];
 
-    
     return (
         <div>
-            <p>ChargingMap</p>
-            <ChargerMap info ={sampleData}/>
+            <S.WidgetContainer>
+                    <div className="div1">
+                        <SearchInput placeholder="충전소를 검색해보세요" />
+                    </div>
+                    <div className="div2" >
+                        <Button size="md" category="rounded">
+                            <ListIcon />
+                            목록보기
+                        </Button>
+                    </div>
+            </S.WidgetContainer>
+            <ChargerMap info={sampleData} />
         </div>
     );
 }
