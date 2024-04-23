@@ -6,6 +6,7 @@ const PALETTE = {
   error: "#FC5252",
   lightRed: "#FFE6E6",
   gray: {
+    50: "#FAFAFA",
     100: "#EEEEEE",
     200: "#d9d9d9",
     300: "#ccc",
