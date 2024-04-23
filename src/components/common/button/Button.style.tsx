@@ -49,8 +49,9 @@ const BUTTON_SIZE: ObjMap = {
     height: 42px;
   `,
   full: css`
-    width: 390px;
-    height: 50px;
+    width: 100%;
+    max-width: 390px;
+    height: 45px;
     border-radius: 0;
   `,
 };
