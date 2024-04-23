@@ -1,10 +1,11 @@
+import { ChangeEvent } from "react";
 import Input from "@/components/common/input/input";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 interface LabelInputProps {
   label: string;
   placeholder?: string;
   error?: boolean;
-  onChange?: () => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   value?: string;
   errorMessage?: string;
