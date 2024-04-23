@@ -8,11 +8,11 @@ declare global {
     }
 }
 
-interface ChargerMapProps {
+export interface ChargerProps {
     info: Charger[];
 }
 
-export default function ChargerMap({ info }: ChargerMapProps) {
+export default function ChargerMap({ info }: ChargerProps) {
     useEffect(() => {
         let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         let options = {

@@ -106,7 +106,8 @@ export default function ChargingMap() {
         <div>
             <S.WidgetContainer>
                 <S.SearchContainer>
-                    <SearchInput placeholder="충전소를 검색해보세요" />
+                {viewType === "map" ? <SearchInput placeholder="충전소를 검색해보세요" /> : <SearchInput placeholder="충전소를 검색해 보세요."/>}
+                    
                 </S.SearchContainer>
                 <S.ButtonContainer>
                     <Button
@@ -125,7 +126,7 @@ export default function ChargingMap() {
             {viewType === "map" ? (
                 <ChargerMap info={sampleData} />
             ) : (
-                <ChargerList />
+                <ChargerList info={sampleData}/>
             )}
         </div>
     );
