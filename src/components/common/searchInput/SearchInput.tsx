@@ -3,6 +3,7 @@ import SearchIcon from "@/components/common/icons/SearchIcon";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 
 interface SearchInputProps {
+  label?: string;
   placeholder?: string;
   error?: boolean;
   errorMessage?: string;
@@ -12,6 +13,7 @@ interface SearchInputProps {
 }
 
 export default function SearchInput({
+  label,
   placeholder,
   onChange,
   error,
@@ -21,6 +23,7 @@ export default function SearchInput({
 }: SearchInputProps) {
   return (
     <Input>
+      {label && <Input.Label>{label}</Input.Label>}
       <Input.Base color="primary">
         <Input.Left>
           <SearchIcon />

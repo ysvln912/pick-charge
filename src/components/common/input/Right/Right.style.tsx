@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 import { InputRightProps } from "./Right";
+import { ObjMap } from "@/types";
 
-const colorCSS = {
+const colorCSS: ObjMap = {
   default: css`
     color: ${({ theme }) => theme.PALETTE.gray[400]};
   `,

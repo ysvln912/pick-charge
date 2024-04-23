@@ -1,8 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as S from "./Center.style";
 import { InputHTMLAttributes, forwardRef, Ref } from "react";
-
-type ColorType = "default" | "primary";
+import { ColorType } from "@/types";
 
 export interface InputCenterProps
   extends InputHTMLAttributes<HTMLInputElement> {

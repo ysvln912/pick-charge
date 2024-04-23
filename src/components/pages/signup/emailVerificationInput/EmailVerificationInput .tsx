@@ -36,7 +36,7 @@ export default function EmailVerificationInput({
     <Input>
       <Input.Label htmlFor={name}>{label}</Input.Label>
       <S.Box>
-        <Input.Base size="medium" error={error}>
+        <Input.Base size="md" error={error}>
           <Input.Center
             placeholder={placeholder}
             onChange={onChange}
@@ -49,7 +49,7 @@ export default function EmailVerificationInput({
             </Input.Right>
           )}
         </Input.Base>
-        <Button size="sm" category="nomal">
+        <Button size="sm" category="normal">
           {btnText}
         </Button>
       </S.Box>
