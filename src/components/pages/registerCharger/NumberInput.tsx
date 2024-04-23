@@ -27,6 +27,7 @@ const Input = styled.input`
   background: transparent;
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   text-align: right;
+  padding: 0 10px;
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.PALETTE.mainColor};

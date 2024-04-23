@@ -1,7 +1,5 @@
 import Button from "@/components/common/button/Button";
-import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 import IconButton from "@/components/common/iconButton/IconButton";
-import Input from "@/components/common/input/input";
 import Label from "@/components/common/label/Label";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import SearchInput from "@/components/common/searchInput/SearchInput";
@@ -19,7 +17,6 @@ export default function RegisterCharger() {
   const [address, setAddress] = useState("");
   const [speed, setSpeed] = useState<string | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
-  console.log(speed);
   const handleSpeedChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setSpeed(value);
@@ -37,52 +34,58 @@ export default function RegisterCharger() {
         leftBtn={<IconButton icon="arrowLeft" />}
         text="충전기 등록"
       />
-      <SearchInput
-        label="충전소"
-        placeholder="충전소 주소를 입력해 주세요."
-        error={error}
-        errorMessage="필수 입력 항목입니다."
-        name="address"
-        value={address}
-      />
-      <Label size="lg">충전기 정보</Label>
-      <ChargingSpeed>
-        <Label size="md">충전 속도</Label>
-        <SpeedInputTag>
-          <RadioButton
-            id="fast"
-            value="급속"
-            selectedOption={speed}
-            handleChange={handleSpeedChange}
+      <Main>
+        <div>
+          <SearchInput
+            label="충전소"
+            placeholder="충전소 주소를 입력해 주세요."
+            error={error}
+            errorMessage="필수 입력 항목입니다."
+            name="address"
+            value={address}
           />
-          {speed === "급속" && <NumberInput id="fast" text="kW" />}
-          <RadioButton
-            id="slow"
-            value="완속"
-            selectedOption={speed}
-            handleChange={handleSpeedChange}
-          />
-          {speed === "완속" && <NumberInput id="slow" text="kW" />}
-        </SpeedInputTag>
-      </ChargingSpeed>
-      <Label>요금</Label>
-      <NumberInput id="fare" text="원 /kWh" />
-      <ChargingType>
-        <Label size="lg">충전기 타입</Label>
-        <SelectCharger></SelectCharger>
-      </ChargingType>
-      <Button size="lg" category="normal">
-        충전기 추가하기
-      </Button>
-      <Textarea
-        label="내용"
-        placeholder="이용에 대한 상세한 정보(비용, 이용 시간 등) 를 작성해 주세요."
-      ></Textarea>
-      <PhotoRegister
-        photos={photos}
-        updatePhoto={updatePhoto}
-        deletePhoto={deletePhoto}
-      />
+          <Label size="lg">충전기 정보</Label>
+          <ChargingSpeed>
+            <Label size="md">충전 속도</Label>
+            <SpeedInputTag>
+              <RadioButton
+                id="fast"
+                value="급속"
+                selectedOption={speed}
+                handleChange={handleSpeedChange}
+              />
+              {speed === "급속" && <NumberInput id="fast" text="kW" />}
+              <RadioButton
+                id="slow"
+                value="완속"
+                selectedOption={speed}
+                handleChange={handleSpeedChange}
+              />
+              {speed === "완속" && <NumberInput id="slow" text="kW" />}
+            </SpeedInputTag>
+          </ChargingSpeed>
+        </div>
+        <div>
+          <Label>요금</Label>
+          <NumberInput id="fare" text="원 /kWh" />
+        </div>
+        <ChargingType>
+          <Label size="lg">충전기 타입</Label>
+          <SelectCharger></SelectCharger>
+        </ChargingType>
+        <Button size="lg" category="normal">
+          충전기 추가하기
+        </Button>
+        <Textarea
+          label="내용"
+          placeholder="이용에 대한 상세한 정보(비용, 이용 시간 등) 를 작성해 주세요."
+        ></Textarea>
+        <PhotoRegister
+          photos={photos}
+          updatePhoto={updatePhoto}
+          deletePhoto={deletePhoto}
+        />
+      </Main>
       <Button size="full" category="normal">
         작성완료
       </Button>
@@ -90,10 +93,13 @@ export default function RegisterCharger() {
   );
 }
 
-const Container = styled.section`
+const Container = styled.section``;
+
+const Main = styled.main`
   padding: 24px;
   padding-top: 80px;
   ${flexColumn};
+  gap: 16px;
 `;
 
 const ChargingSpeed = styled.div`
@@ -103,10 +109,8 @@ const ChargingSpeed = styled.div`
 
 const SpeedInputTag = styled.div`
   ${flexAlignCenter};
-  padding: 8px 0;
 `;
 
 const ChargingType = styled.div`
   ${flexColumn};
-  padding: 16px 0;
 `;
