@@ -82,17 +82,17 @@ export default function ChargingMap() {
     return (
         <div>
             <S.WidgetContainer>
-                    <div className="div1">
+                    <S.SearchContainer>
                         <SearchInput placeholder="충전소를 검색해보세요" />
-                    </div>
-                    <div className="div2" >
+                    </S.SearchContainer>
+                    <S.ButtonContainer>
                         <Button size="md" category="rounded">
                             <ListIcon />
                             목록보기
                         </Button>
-                    </div>
+                    </S.ButtonContainer>
             </S.WidgetContainer>
-            <ChargerMap info={sampleData} />
+                <ChargerMap info={sampleData} />
         </div>
     );
 }
