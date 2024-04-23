@@ -26,7 +26,7 @@ export default function ChargerCard({ speed, kw, fare }: ChargerCardProps) {
           <Value>수퍼차저</Value>
         </Item>
       </List>
-      <Button size="md" category="retry">
+      <Button size="full" category="retry">
         삭제
       </Button>
     </Card>

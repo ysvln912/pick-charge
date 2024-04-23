@@ -68,7 +68,7 @@ export default function RegisterCharger() {
     <Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
-        text="충전기 등록"
+        text="충전소 등록"
       />
       <Main>
         <div>
@@ -163,7 +163,7 @@ export default function RegisterCharger() {
 }
 
 const Container = styled.section`
-  padding-bottom: 80px;
+  padding-bottom: 68px;
 `;
 
 const Main = styled.main`
