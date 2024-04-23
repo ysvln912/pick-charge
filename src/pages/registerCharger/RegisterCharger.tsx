@@ -1,7 +1,14 @@
+import Button from "@/components/common/button/Button";
+import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 import IconButton from "@/components/common/iconButton/IconButton";
+import Input from "@/components/common/input/input";
 import Label from "@/components/common/label/Label";
+import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import SearchInput from "@/components/common/searchInput/SearchInput";
+import SelectCharger from "@/components/common/selectCharger/SelectCharger";
+import Textarea from "@/components/common/textarea/Textarea";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
+import NumberInput from "@/components/pages/registerCharger/NumberInput";
 import RadioButton from "@/components/pages/registerCharger/RadioButton";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { ChangeEvent, useState } from "react";
@@ -11,10 +18,18 @@ export default function RegisterCharger() {
   const [error, setError] = useState(false);
   const [address, setAddress] = useState("");
   const [speed, setSpeed] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<File[]>([]);
   console.log(speed);
   const handleSpeedChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setSpeed(value);
+  };
+  const updatePhoto = (photo: File) => {
+    setPhotos((prev) => [...prev, photo]);
+  };
+
+  const deletePhoto = (photos: File[]) => {
+    setPhotos(photos);
   };
   return (
     <Container>
@@ -40,14 +55,37 @@ export default function RegisterCharger() {
             selectedOption={speed}
             handleChange={handleSpeedChange}
           />
+          {speed === "급속" && <NumberInput id="fast" text="kW" />}
           <RadioButton
             id="slow"
             value="완속"
             selectedOption={speed}
             handleChange={handleSpeedChange}
           />
+          {speed === "완속" && <NumberInput id="slow" text="kW" />}
         </SpeedInputTag>
       </ChargingSpeed>
+      <Label>요금</Label>
+      <NumberInput id="fare" text="원 /kWh" />
+      <ChargingType>
+        <Label size="lg">충전기 타입</Label>
+        <SelectCharger></SelectCharger>
+      </ChargingType>
+      <Button size="lg" category="normal">
+        충전기 추가하기
+      </Button>
+      <Textarea
+        label="내용"
+        placeholder="이용에 대한 상세한 정보(비용, 이용 시간 등) 를 작성해 주세요."
+      ></Textarea>
+      <PhotoRegister
+        photos={photos}
+        updatePhoto={updatePhoto}
+        deletePhoto={deletePhoto}
+      />
+      <Button size="full" category="normal">
+        작성완료
+      </Button>
     </Container>
   );
 }
@@ -66,4 +104,9 @@ const ChargingSpeed = styled.div`
 const SpeedInputTag = styled.div`
   ${flexAlignCenter};
   padding: 8px 0;
+`;
+
+const ChargingType = styled.div`
+  ${flexColumn};
+  padding: 16px 0;
 `;

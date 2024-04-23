@@ -39,7 +39,11 @@ const RadioShape = styled.label<{ checked: boolean }>`
   height: 18px;
   display: inline-block;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.PALETTE.mainColor};
+  border: 1px solid
+    ${(props) =>
+      props.checked
+        ? props.theme.PALETTE.mainColor
+        : props.theme.PALETTE.gray[200]};
   position: relative;
   cursor: pointer;
   &::before {
