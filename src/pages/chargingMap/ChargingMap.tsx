@@ -16,6 +16,22 @@ export default function ChargingMap() {
         };
 
         let map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+        if (navigator.geolocation) {
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+
+                var locPosition = new window.kakao.maps.LatLng(lat, lon);
+                // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+
+                map.setCenter(locPosition);
+            });
+        } else {
+            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            console.log("geolocation을 사용할수 없어요..");
+        }
     }, []);
     return (
         <div>
