@@ -24,13 +24,17 @@ export const OptionList = styled.ul`
 `;
 
 export const OptionItem = styled.li`
-  padding: 0.75rem 0;
-  cursor: pointer;
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-
-  &:hover {
-    color: ${({ theme }) => theme.PALETTE.mainColor};
+  button {
+    cursor: pointer;
+    padding: 0.75rem 0;
+    width: 100%;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    text-align: left;
+    background-color: transparent;
+    &:hover {
+      color: ${({ theme }) => theme.PALETTE.mainColor};
+    }
   }
 `;
 
