@@ -47,7 +47,6 @@ export interface IAddress {
 }
 
 export default function RegisterCharger() {
-  const [error, setError] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [address, setAddress] = useState<IAddress>({ name: "", address: "" });
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
@@ -58,11 +57,13 @@ export default function RegisterCharger() {
   const [content, setContent] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [cards, setCards] = useState<cardsProps[]>([]);
-  const debouncedKeyword = useDebounce(keyword, 1000);
+  const debouncedKeyword = useDebounce(keyword);
+  const [show, setShow] = useState(false);
   const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
     switch (name) {
       case "keyword":
+        setShow(true);
         setKeyword(value);
         break;
       case "speed":
@@ -86,13 +87,15 @@ export default function RegisterCharger() {
     setPhotos(photos);
   };
 
-  const changeShape = (e: any) => {
-    const value = e.target.value;
+  const changeShape = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.currentTarget;
     setShape(value);
   };
 
   const handleSearch = (name: string, address: string) => {
     setAddress({ name, address });
+    setKeyword(name);
+    setShow(false);
   };
 
   const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -101,7 +104,6 @@ export default function RegisterCharger() {
   };
 
   const chargeCardAdd = () => {
-    console.log(`충전속도:${speed} / kw:${kw} / 요금:${fare}`);
     if (!speed || !kw || !fare || !shape) {
       return;
     }
@@ -115,10 +117,19 @@ export default function RegisterCharger() {
     setShape(null);
   };
 
+  const onCompletedBtnClick = () => {
+    console.dir(
+      `장소 이름: ${address.name} / 장소 주소: ${
+        address.address
+      }/ 충전기 정보: ${cards.map((card) =>
+        JSON.stringify(card)
+      )} / 내용: ${content} / 사진: ${photos.map((file) => file.name)}`
+    );
+  };
+
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
-  console.log(content);
   return (
     <Container>
       <TopNavigationBar
@@ -131,14 +142,13 @@ export default function RegisterCharger() {
             <SearchInput
               label="충전소"
               placeholder="충전소 주소를 입력해 주세요."
-              error={error}
               errorMessage="필수 입력 항목입니다."
               name="keyword"
               value={keyword}
               onChange={handleInfoChange}
               result={address.name}
             />
-            {searchResults && searchResults.length > 0 && (
+            {show && searchResults && searchResults.length > 0 && (
               <SearchResultContainer>
                 {searchResults.map((result) => (
                   <SearchResultItem
@@ -232,7 +242,7 @@ export default function RegisterCharger() {
           deletePhoto={deletePhoto}
         />
       </Main>
-      <Button size="full" category="normal">
+      <Button size="full" category="normal" onClick={onCompletedBtnClick}>
         작성완료
       </Button>
     </Container>

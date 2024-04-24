@@ -22,6 +22,7 @@ export default function SearchInput({
   name,
   errorMessage,
   value,
+  result,
 }: SearchInputProps) {
   return (
     <Input>
