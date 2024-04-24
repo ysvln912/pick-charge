@@ -19,12 +19,14 @@ const slowOptions: SelectOptionsType[] = [
 interface SelectChargerProps {
   label?: boolean;
   type?: string;
+  value: string | null;
   onChange: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function SelectCharger({
   type = "all",
   onChange,
+  value,
   label = false,
 }: SelectChargerProps) {
   const allOptions = [...fastOptions, ...slowOptions];
@@ -34,6 +36,7 @@ export default function SelectCharger({
     <div>
       {label && <Label>충전기 타입</Label>}
       <Select
+        value={value}
         selectText="충전기 타입을 선택해 주세요."
         optionTitle="충전기 타입 선택"
         onChange={onChange}
