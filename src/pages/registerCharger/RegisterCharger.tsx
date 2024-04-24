@@ -225,8 +225,11 @@ export default function RegisterCharger() {
         </div>
         <SelectCharger
           label
+          value={shape}
           onChange={changeShape}
-          type={speed === "급속" ? "fast" : speed === "완속" ? "slow" : "all"}
+          type={
+            speed === "급속" ? "fast" : speed === "완속" ? "slow" : "noOptions"
+          }
         />
         {cards.length > 0 &&
           cards.map((card) => {

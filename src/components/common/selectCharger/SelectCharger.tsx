@@ -16,6 +16,8 @@ const slowOptions: SelectOptionsType[] = [
   { 완속: "완속" },
 ];
 
+const noOptions: [] = [];
+
 interface SelectChargerProps {
   label?: boolean;
   type?: string;
@@ -29,9 +31,8 @@ export default function SelectCharger({
   value,
   label = false,
 }: SelectChargerProps) {
-  const allOptions = [...fastOptions, ...slowOptions];
   const options =
-    type === "fast" ? fastOptions : type === "slow" ? slowOptions : allOptions;
+    type === "fast" ? fastOptions : type === "slow" ? slowOptions : noOptions;
   return (
     <div>
       {label && <Label>충전기 타입</Label>}
