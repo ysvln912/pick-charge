@@ -4,17 +4,21 @@ import React from "react";
 import styled from "styled-components";
 
 export interface ChargerCardProps {
+  id: string;
   speed: string;
   kw: string;
   fare: string;
   shape: string;
+  onDelete: (id: string) => void;
 }
 
 export default function ChargerCard({
+  id,
   speed,
   kw,
   fare,
   shape,
+  onDelete,
 }: ChargerCardProps) {
   return (
     <Card>
@@ -32,7 +36,7 @@ export default function ChargerCard({
           <Value>{shape}</Value>
         </Item>
       </List>
-      <Button size="full" category="retry">
+      <Button size="full" category="retry" onClick={() => onDelete(id)}>
         삭제
       </Button>
     </Card>

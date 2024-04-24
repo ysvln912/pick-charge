@@ -13,7 +13,6 @@ import NumberInput from "@/components/pages/registerCharger/NumberInput";
 import RadioButton from "@/components/pages/registerCharger/RadioButton";
 import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 import { useDebounce } from "@/hooks/useDebounce";
-import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
 
@@ -108,7 +107,7 @@ export default function RegisterCharger() {
     setContent(value);
   };
 
-  const chargeCardAdd = () => {
+  const addChargeInfoCard = () => {
     if (!speed || !kw || !fare || !shape) {
       return;
     }
@@ -120,6 +119,10 @@ export default function RegisterCharger() {
     setKw(null);
     setFare(null);
     setShape(null);
+  };
+
+  const deleteChargeInfoCard = (id: string) => {
+    setCards(cards.filter((card) => card.id !== id));
   };
 
   const onCompletedBtnClick = () => {
@@ -230,14 +233,12 @@ export default function RegisterCharger() {
             return (
               <ChargerCard
                 key={card.id}
-                speed={card.speed}
-                kw={card.kw}
-                fare={card.fare}
-                shape={card.shape}
+                {...card}
+                onDelete={deleteChargeInfoCard}
               />
             );
           })}
-        <Button size="lg" category="normal" onClick={chargeCardAdd}>
+        <Button size="lg" category="normal" onClick={addChargeInfoCard}>
           충전기 추가하기
         </Button>
         <Textarea
