@@ -34,8 +34,27 @@ export const MenuRow = styled.div`
     }
 `;
 
-export const ChargerTitle = styled.p`
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-    font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    padding : 0 0.8rem;
+export const FavoritesCharger = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.9rem;
+    & p {
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+        font-size: ${({ theme }) => theme.FONT_SIZE.md};
+        
+    }
+    & a {
+        color: ${({ theme }) => theme.PALETTE.gray[300]};
+        font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        svg {
+            margin-left: 0.4rem;
+        }
+        path {
+            fill: ${({ theme }) => theme.PALETTE.gray[300]};
+        }
+
+    }
 `;

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import * as S from "./Home.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
@@ -7,8 +8,9 @@ import SearchInput from "@/components/common/searchInput/SearchInput";
 import logo from "assets/imgs/logo_small.png";
 import ChatIcon from "@/components/common/icons/ChatIcon";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
-import ReviewIcon from "@/components/common/icons/ReviewIcon";
+import EditIcon from "@/components/common/icons/EditIcon";
 import FlashIcon from "@/components/common/icons/FlashIcon";
+import ArrowRightIcon from "@/components/common/icons/ArrowRightIcon";
 
 export default function Home() {
     const sampleData: Charger[] = [
@@ -47,6 +49,23 @@ export default function Home() {
             charger_type: "완속",
             charger_role: "공공",
         },
+        {
+            id: 3,
+            charger_location: "서울특별시 마포구 월드컵북로 502-37",
+            charger_name: "퀵차지 2000",
+            charging_speed: "급속",
+            status: "이용가능",
+            latitude: 37.123456,
+            longitude: -122.345678,
+            content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
+            avg_rate: 4.5,
+            company_name: "에코차지 주식회사",
+            member_price: 10,
+            nonmember_price: 15,
+            personal_price: 12,
+            charger_type: "DC차데모AC3상",
+            charger_role: "개인",
+        },
     ];
     return (
         <S.HomeContainer>
@@ -75,7 +94,7 @@ export default function Home() {
                             title="리뷰 작성하기"
                             describe="충전소 리뷰를 남길 수 있어요"
                             shape="halfRectangle">
-                            <ReviewIcon />
+                            <EditIcon />
                         </MenuCard>
                         <MenuCard
                             path="/chat-list"
@@ -97,8 +116,16 @@ export default function Home() {
                 </S.MenuRow>
             </S.MenuDiv>
 
-            <S.ChargerTitle>즐겨찾는 충전소</S.ChargerTitle>
-            {sampleData.map((data) => {
+            <S.FavoritesCharger>
+                <p>즐겨찾는 충전소</p>
+
+                <Link to={"/mypage/favorites"}>
+                    전체보기
+                    <ArrowRightIcon />
+                </Link>
+            </S.FavoritesCharger>
+            {sampleData.slice(0, 2).map((data) => {
+                
                 return (
                     <ChargingInfo
                         info={data}
