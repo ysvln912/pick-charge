@@ -13,6 +13,7 @@ import FlashIcon from "@/components/common/icons/FlashIcon";
 import ArrowRightIcon from "@/components/common/icons/ArrowRightIcon";
 
 export default function Home() {
+
     const sampleData: Charger[] = [
         {
             id: 1,
@@ -75,7 +76,9 @@ export default function Home() {
                 <p>
                     <span>전기차 충전소</span>를 찾아볼까요?
                 </p>
-                <SearchInput placeholder="충전소 찾아보기" />
+                <Link to="/charging-map">
+                    <SearchInput placeholder="충전소 찾아보기" />
+                </Link>
             </S.SearchDiv>
             <S.MenuDiv>
                 <S.MenuRow>
