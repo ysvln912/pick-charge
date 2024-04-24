@@ -11,6 +11,7 @@ export interface SelectOptionsType {
 }
 
 export interface SelectProps {
+  value: string | null;
   selectText: string;
   optionTitle: string;
   options: SelectOptionsType[];
@@ -18,14 +19,17 @@ export interface SelectProps {
 }
 
 export default function Select({
+  value,
   selectText,
   optionTitle,
   options,
   onChange,
 }: SelectProps) {
   const { open, close, isOpen } = useToggle(false);
+
   const { selected, onSelect } = useSelect({
     defaultValue: selectText,
+    value,
   });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +43,7 @@ export default function Select({
       <S.SelectContainer onClick={open}>
         <S.SelectContentBox>
           <S.SelectContentText>
-            {selected == selectText ? selectText : selected}
+            {selected == null || "" ? selectText : selected}
           </S.SelectContentText>
           <ExpandIcon />
         </S.SelectContentBox>
