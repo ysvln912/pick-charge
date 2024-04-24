@@ -41,24 +41,29 @@ export interface ISearchResult {
   y: string;
 }
 
+export interface IAddress {
+  name: string;
+  address: string;
+}
+
 export default function RegisterCharger() {
   const [error, setError] = useState(false);
-  const [address, setAddress] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [address, setAddress] = useState<IAddress>({ name: "", address: "" });
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [speed, setSpeed] = useState<ChargerInfo>(null);
   const [kw, setKw] = useState<ChargerInfo>(null);
   const [fare, setFare] = useState<ChargerInfo>(null);
   const [shape, setShape] = useState<ChargerInfo>(null);
-  const [content, setContent] = useState<ChargerInfo>(null);
+  const [content, setContent] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [cards, setCards] = useState<cardsProps[]>([]);
-  const debouncedKeyword = useDebounce(address, 1000);
-  console.log(speed);
+  const debouncedKeyword = useDebounce(keyword, 1000);
   const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
     switch (name) {
-      case "address":
-        setAddress(value);
+      case "keyword":
+        setKeyword(value);
         break;
       case "speed":
         setSpeed(value);
@@ -86,6 +91,15 @@ export default function RegisterCharger() {
     setShape(value);
   };
 
+  const handleSearch = (name: string, address: string) => {
+    setAddress({ name, address });
+  };
+
+  const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.currentTarget;
+    setContent(value);
+  };
+
   const chargeCardAdd = () => {
     console.log(`충전속도:${speed} / kw:${kw} / 요금:${fare}`);
     if (!speed || !kw || !fare || !shape) {
@@ -104,7 +118,7 @@ export default function RegisterCharger() {
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
-
+  console.log(content);
   return (
     <Container>
       <TopNavigationBar
@@ -119,14 +133,19 @@ export default function RegisterCharger() {
               placeholder="충전소 주소를 입력해 주세요."
               error={error}
               errorMessage="필수 입력 항목입니다."
-              name="address"
-              value={address}
+              name="keyword"
+              value={keyword}
               onChange={handleInfoChange}
+              result={address.name}
             />
             {searchResults && searchResults.length > 0 && (
               <SearchResultContainer>
                 {searchResults.map((result) => (
-                  <SearchResultItem key={result.id} {...result} />
+                  <SearchResultItem
+                    key={result.id}
+                    {...result}
+                    onItemClick={handleSearch}
+                  />
                 ))}
               </SearchResultContainer>
             )}
@@ -201,7 +220,12 @@ export default function RegisterCharger() {
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보(비용, 이용 시간 등) 를 작성해 주세요."
-        ></Textarea>
+          name="content"
+          onChange={onContentChange}
+          value={content}
+        >
+          {content}
+        </Textarea>
         <PhotoRegister
           photos={photos}
           updatePhoto={updatePhoto}

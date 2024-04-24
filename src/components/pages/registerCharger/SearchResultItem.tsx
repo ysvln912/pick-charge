@@ -2,14 +2,25 @@ import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
 import React from "react";
 import styled from "styled-components";
 
+export interface ISearchResultItemProps extends ISearchResult {
+  onItemClick: (name: string, address: string) => void;
+}
+
 export default function SearchResultItem({
   place_name,
   category_name,
   road_address_name,
   address_name,
-}: ISearchResult) {
+  onItemClick,
+}: ISearchResultItemProps) {
+  const handleClick = () => {
+    const name = place_name;
+    const address = road_address_name ? road_address_name : address_name;
+    onItemClick(name, address);
+  };
+
   return (
-    <Item>
+    <Item onClick={handleClick}>
       <Top>
         <Name>{place_name}</Name>
         <Category>{category_name.split(">").pop()?.trim()}</Category>

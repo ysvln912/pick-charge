@@ -1,7 +1,7 @@
 import Input from "@/components/common/input/input";
 import SearchIcon from "@/components/common/icons/SearchIcon";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent } from "react";
 
 interface SearchInputProps {
   label?: string;
@@ -11,6 +11,7 @@ interface SearchInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   value?: string;
+  result?: string;
 }
 
 export default function SearchInput({
