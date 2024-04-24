@@ -2,6 +2,7 @@ import { searchAddress } from "@/apis/kakaoSearchAddress";
 import Button from "@/components/common/button/Button";
 import IconButton from "@/components/common/iconButton/IconButton";
 import Label from "@/components/common/label/Label";
+import LabelInput from "@/components/common/labelInput/LabelInput";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
@@ -49,6 +50,7 @@ export interface IAddress {
 export default function RegisterCharger() {
   const [keyword, setKeyword] = useState("");
   const [address, setAddress] = useState<IAddress>({ name: "", address: "" });
+  const [detailed, setDetailed] = useState("");
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [speed, setSpeed] = useState<ChargerInfo>(null);
   const [kw, setKw] = useState<ChargerInfo>(null);
@@ -62,6 +64,9 @@ export default function RegisterCharger() {
   const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
     switch (name) {
+      case "detailed":
+        setDetailed(value);
+        break;
       case "keyword":
         setShow(true);
         setKeyword(value);
@@ -118,10 +123,11 @@ export default function RegisterCharger() {
   };
 
   const onCompletedBtnClick = () => {
-    console.dir(
+    console.log(
       `장소 이름: ${address.name} / 장소 주소: ${
         address.address
-      }/ 충전기 정보: ${cards.map((card) =>
+      } / 상세 주소: ${detailed}
+      / 충전기 정보: ${cards.map((card) =>
         JSON.stringify(card)
       )} / 내용: ${content} / 사진: ${photos.map((file) => file.name)}`
     );
@@ -147,6 +153,13 @@ export default function RegisterCharger() {
               value={keyword}
               onChange={handleInfoChange}
               result={address.name}
+            />
+            <LabelInput
+              label="상세주소"
+              placeholder="아파트/건물명 동/호수 층"
+              value={detailed}
+              name="detailed"
+              onChange={handleInfoChange}
             />
             {show && searchResults && searchResults.length > 0 && (
               <SearchResultContainer>
@@ -262,6 +275,7 @@ const Main = styled.main`
 
 const SearchInputAndResult = styled.div`
   position: relative;
+  padding-bottom: 16px;
 `;
 
 const SearchResultContainer = styled.div`
