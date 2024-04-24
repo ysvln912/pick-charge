@@ -15,7 +15,7 @@ import SearchResultItem from "@/components/pages/registerCharger/SearchResultIte
 import { useDebounce } from "@/hooks/useDebounce";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import styled from "styled-components";
+import * as S from "./RegisterCharger.style";
 
 export type ChargerInfo = string | null;
 
@@ -137,14 +137,14 @@ export default function RegisterCharger() {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
   return (
-    <Container>
+    <S.Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="충전소 등록"
       />
-      <Main>
+      <S.Main>
         <div>
-          <SearchInputAndResult>
+          <S.AddressBox>
             <SearchInput
               label="충전소"
               placeholder="충전소 주소를 입력해 주세요."
@@ -162,7 +162,7 @@ export default function RegisterCharger() {
               onChange={handleInfoChange}
             />
             {show && searchResults && searchResults.length > 0 && (
-              <SearchResultContainer>
+              <S.SearchResultsBox>
                 {searchResults.map((result) => (
                   <SearchResultItem
                     key={result.id}
@@ -170,13 +170,13 @@ export default function RegisterCharger() {
                     onItemClick={handleSearch}
                   />
                 ))}
-              </SearchResultContainer>
+              </S.SearchResultsBox>
             )}
-          </SearchInputAndResult>
+          </S.AddressBox>
           <Label size="lg">충전기 정보</Label>
-          <ChargingSpeed>
+          <S.ChargingSpeed>
             <Label size="md">충전 속도</Label>
-            <SpeedInputTag>
+            <S.SpeedInputTag>
               <RadioButton
                 id="fast"
                 value="급속"
@@ -207,8 +207,8 @@ export default function RegisterCharger() {
                   handleChange={handleInfoChange}
                 />
               )}
-            </SpeedInputTag>
-          </ChargingSpeed>
+            </S.SpeedInputTag>
+          </S.ChargingSpeed>
         </div>
         <div>
           <Label>요금</Label>
@@ -254,47 +254,10 @@ export default function RegisterCharger() {
           updatePhoto={updatePhoto}
           deletePhoto={deletePhoto}
         />
-      </Main>
+      </S.Main>
       <Button size="full" category="normal" onClick={onCompletedBtnClick}>
         작성완료
       </Button>
-    </Container>
+    </S.Container>
   );
 }
-
-const Container = styled.section`
-  padding-bottom: 68px;
-`;
-
-const Main = styled.main`
-  padding: 24px;
-  padding-top: 80px;
-  ${flexColumn};
-  gap: 16px;
-`;
-
-const SearchInputAndResult = styled.div`
-  position: relative;
-  padding-bottom: 16px;
-`;
-
-const SearchResultContainer = styled.div`
-  border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  ${flexColumn};
-  position: absolute;
-  width: 100%;
-  top: 80px;
-  left: 0;
-  z-index: 1;
-`;
-
-const ChargingSpeed = styled.div`
-  ${flexColumn};
-  padding: 8px 0;
-`;
-
-const SpeedInputTag = styled.div`
-  ${flexAlignCenter};
-`;
