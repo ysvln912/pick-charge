@@ -37,11 +37,10 @@ export const MenuRow = styled.div`
 export const FavoritesCharger = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 0 0.9rem;
+    padding: 0 1rem;
     & p {
         font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-        font-size: ${({ theme }) => theme.FONT_SIZE.md};
-        
+        font-size: ${({ theme }) => theme.FONT_SIZE.lg};
     }
     & a {
         color: ${({ theme }) => theme.PALETTE.gray[300]};
@@ -55,6 +54,12 @@ export const FavoritesCharger = styled.div`
         path {
             fill: ${({ theme }) => theme.PALETTE.gray[300]};
         }
-
     }
+`;
+
+export const EmptyFavorite = styled.div`
+    color: ${({ theme }) => theme.PALETTE.gray[400]};
+    font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    padding : 4rem;
+    text-align : center;
 `;
