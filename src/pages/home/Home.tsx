@@ -8,7 +8,7 @@ import logo from "assets/imgs/logo_small.png";
 import ChatIcon from "@/components/common/icons/ChatIcon";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 import ReviewIcon from "@/components/common/icons/ReviewIcon";
-import BoltIcon from "@/components/common/icons/BoltIcon";
+import FlashIcon from "@/components/common/icons/FlashIcon";
 
 export default function Home() {
     const sampleData: Charger[] = [
@@ -46,34 +46,17 @@ export default function Home() {
             personal_price: 8,
             charger_type: "완속",
             charger_role: "공공",
-        },        {
-            id: 3,
-            charger_location:
-                "서울 송파구 올림픽로43길 88 서울아산병원 (풍납동 388-1)",
-            charger_name: "에코차지 표준",
-            charging_speed: "완속",
-            status: "이용자제한",
-            latitude: 37.987654,
-            longitude: -122.876543,
-            content: "이 충전s는 전기 차량을 위한 표준 충전을 제공합니다.",
-            avg_rate: 3.8,
-            company_name: "에코차지 주식회사",
-            member_price: 5,
-            nonmember_price: 10,
-            personal_price: 8,
-            charger_type: "완속",
-            charger_role: "공공",
         },
     ];
     return (
         <S.HomeContainer>
             <img src={logo} alt="logo" />
             <S.SearchDiv>
-                <p>내 주변 </p>
+                <p>어디서 </p>
                 <p>
-                    <span>전기차 충전소</span>를 찾아보세요
+                    <span>전기차 충전소</span>를 찾아볼까요?
                 </p>
-                <SearchInput placeholder="가까운 충전소 찾아보기" />
+                <SearchInput placeholder="충전소 찾아보기" />
             </S.SearchDiv>
             <S.MenuDiv>
                 <S.MenuRow>
@@ -109,7 +92,7 @@ export default function Home() {
                         title="나의 충전기 등록하기"
                         describe="충전소 지도에 나의 충전기를 등록할 수 있어요"
                         shape="fullRectangle">
-                        <BoltIcon />
+                        <FlashIcon />
                     </MenuCard>
                 </S.MenuRow>
             </S.MenuDiv>
