@@ -8,7 +8,6 @@ export interface SpeedRadioBtnProps {
   selectedOption: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-
 export default function SpeedRadioBtn({
   id,
   value,

@@ -6,6 +6,7 @@ import SearchInput from "@/components/common/searchInput/SearchInput";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import Textarea from "@/components/common/textarea/Textarea";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
+import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
 import DetailedAddress from "@/components/pages/registerCharger/DetailedAddress";
 import KwInput from "@/components/pages/registerCharger/KwInput";
 import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
@@ -17,7 +18,11 @@ export interface IChargerInfo {
   detailed: string;
   speed: string;
   kw: string;
-  kwh: string;
+  fare: string;
+}
+export interface ICard extends IChargerInfo {
+  id: string;
+  chargerType: string;
 }
 
 export default function RegisterCharger() {
@@ -25,16 +30,15 @@ export default function RegisterCharger() {
     detailed: "",
     speed: "",
     kw: "",
-    kwh: "",
+    fare: "",
   });
   const [chargerType, setChargerType] = useState<string | null>(null);
   const [content, setContent] = useState("");
+  const [cards, setCards] = useState<ICard[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
-
   const testInputValue = () => {
     console.log(
-      chargerInfo,
-      chargerType,
+      cards.map((card) => JSON.stringify(card)),
       content,
       photos.map((photo) => photo.name)
     );
@@ -48,6 +52,34 @@ export default function RegisterCharger() {
   const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = event.currentTarget;
     setChargerType(value);
+  };
+
+  const addCard = () => {
+    if (
+      !chargerInfo.speed ||
+      (chargerInfo.speed === "급속" && !chargerInfo.kw) ||
+      !chargerInfo.fare ||
+      !chargerType
+    ) {
+      return;
+    }
+    setCards((card) => [
+      {
+        id: String(Date.now()),
+        chargerType,
+        detailed: chargerInfo.detailed,
+        speed: chargerInfo.speed,
+        kw: chargerInfo.kw,
+        fare: chargerInfo.fare,
+      },
+      ...card,
+    ]);
+    setChargerInfo((prev) => ({ ...prev, kw: "", fare: "" }));
+    setChargerType(null);
+  };
+  console.log(chargerInfo);
+  const deleteCard = (id: string) => {
+    setCards(cards.filter((card) => card.id !== id));
   };
 
   const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -118,8 +150,8 @@ export default function RegisterCharger() {
           <KwInput
             id="kwh"
             label="원/kWh"
-            name="kwh"
-            value={chargerInfo.kwh ?? ""}
+            name="fare"
+            value={chargerInfo.fare ?? ""}
             onChange={updateInput}
           />
         </ColumnBox>
@@ -130,7 +162,12 @@ export default function RegisterCharger() {
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           disabled={chargerInfo.speed === ""}
         />
-        <Button size="lg" category="normal" onClick={testInputValue}>
+
+        {cards.length > 0 &&
+          cards.map((card) => {
+            return <ChargerCard key={card.id} {...card} onClick={deleteCard} />;
+          })}
+        <Button size="lg" category="normal" onClick={addCard}>
           충전기 추가하기
         </Button>
         <Textarea
@@ -148,7 +185,7 @@ export default function RegisterCharger() {
           deletePhoto={deletePhoto}
         />
       </Main>
-      <Button size="full" category="normal">
+      <Button size="full" category="normal" onClick={testInputValue}>
         작성완료
       </Button>
     </Container>
