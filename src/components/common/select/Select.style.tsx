@@ -1,22 +1,36 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { flexSpaceBetweenCenter } from "@/styles/common";
 
-export const SelectContainer = styled.div`
+export const SelectContainer = styled.div<{ disabled: boolean }>`
   cursor: pointer;
   width: 100%;
   padding: 0.875rem 1rem;
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    css`
+      background-color: ${theme.PALETTE.gray[50]};
+      color: ${theme.PALETTE.gray[100]};
+      cursor: auto;
+    `}
 `;
 
 export const SelectContentBox = styled.div`
   ${flexSpaceBetweenCenter}
 `;
 
-export const SelectContentText = styled.p`
+export const SelectContentText = styled.p<{ disabled: boolean }>`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ theme }) => theme.PALETTE.gray[400]};
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    css`
+      color: ${theme.PALETTE.gray[200]};
+    `}
 `;
 
 export const OptionList = styled.ul`

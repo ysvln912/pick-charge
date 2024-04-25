@@ -17,6 +17,7 @@ const slowOptions: SelectOptionsType[] = [
 ];
 
 interface SelectChargerProps {
+  disabled?: boolean;
   label?: boolean;
   type?: string;
   value: string | null;
@@ -24,6 +25,7 @@ interface SelectChargerProps {
 }
 
 export default function SelectCharger({
+  disabled = false,
   type = "all",
   onChange,
   value,
@@ -36,6 +38,7 @@ export default function SelectCharger({
     <div>
       {label && <Label>충전기 타입</Label>}
       <Select
+        disabled={disabled}
         value={value}
         selectText="충전기 타입을 선택해 주세요."
         optionTitle="충전기 타입 선택"

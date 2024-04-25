@@ -11,6 +11,7 @@ export interface SelectOptionsType {
 }
 
 export interface SelectProps {
+  disabled?: boolean;
   value: string | null;
   selectText: string;
   optionTitle: string;
@@ -19,6 +20,7 @@ export interface SelectProps {
 }
 
 export default function Select({
+  disabled = false,
   value,
   selectText,
   optionTitle,
@@ -40,15 +42,15 @@ export default function Select({
 
   return (
     <>
-      <S.SelectContainer onClick={open}>
+      <S.SelectContainer onClick={open} disabled={disabled}>
         <S.SelectContentBox>
-          <S.SelectContentText>
+          <S.SelectContentText disabled={disabled}>
             {selected == null || "" ? selectText : selected}
           </S.SelectContentText>
           <ExpandIcon />
         </S.SelectContentBox>
       </S.SelectContainer>
-      {isOpen && (
+      {isOpen && !disabled && (
         <BottomSheet close={close}>
           <S.Title>{optionTitle}</S.Title>
           <S.OptionList>
