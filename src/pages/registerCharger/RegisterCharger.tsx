@@ -13,20 +13,24 @@ import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { useState } from "react";
 import styled from "styled-components";
-
 export interface IChargerInfo {
+  keyword: string;
   detailed: string;
   speed: string;
   kw: string;
   fare: string;
 }
-export interface ICard extends IChargerInfo {
+export interface ICard {
   id: string;
+  speed: string;
+  kw: string;
+  fare: string;
   chargerType: string;
 }
 
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
+    keyword: "",
     detailed: "",
     speed: "",
     kw: "",
@@ -67,7 +71,6 @@ export default function RegisterCharger() {
       {
         id: String(Date.now()),
         chargerType,
-        detailed: chargerInfo.detailed,
         speed: chargerInfo.speed,
         kw: chargerInfo.kw,
         fare: chargerInfo.fare,
@@ -77,7 +80,7 @@ export default function RegisterCharger() {
     setChargerInfo((prev) => ({ ...prev, kw: "", fare: "" }));
     setChargerType(null);
   };
-  console.log(chargerInfo);
+
   const deleteCard = (id: string) => {
     setCards(cards.filter((card) => card.id !== id));
   };
@@ -107,6 +110,9 @@ export default function RegisterCharger() {
             placeholder="충전소 주소를 입력해 주세요."
             error={false}
             errorMessage="필수 입력 항목입니다."
+            value={chargerInfo.keyword}
+            onChange={updateInput}
+            name="keyword"
           />
           <DetailedAddress
             label="상세 주소"
