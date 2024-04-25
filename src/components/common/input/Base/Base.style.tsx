@@ -50,8 +50,8 @@ export const InputContainer = styled.div<InputBaseProps>`
   gap: 1rem;
   outline: none;
 
-  ${({ isFocus, theme }) =>
-    isFocus &&
+  ${({ $isFocus, theme }) =>
+    $isFocus &&
     css`
       border-color: ${theme.PALETTE.mainColor};
     `}
