@@ -69,7 +69,7 @@ export default function RegisterCharger() {
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const testInputValue = () => {
     console.log(
@@ -91,6 +91,9 @@ export default function RegisterCharger() {
 
   const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
+    if (name === "keyword") {
+      setShow(true);
+    }
     setChargerInfo((info) => ({ ...info, [name]: value }));
   };
 
