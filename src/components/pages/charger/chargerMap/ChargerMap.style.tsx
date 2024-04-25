@@ -1,10 +1,20 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const MapContainer = styled.div`
+const MAP_TYPE = {
+    full: css`
+        top: 0;
+        height: 100vh;
+    `,
+    half: css`
+        top: 56px;
+        height: 50vh;
+    `,
+};
+
+export const MapContainer = styled.div<{ type: "full" | "half" }>`
     position: absolute;
-    top: 0;
     left: 0;
     width: 390px;
-    height: 100vh;
     z-index: 1;
+    ${({ type }) => MAP_TYPE[type]}
 `;

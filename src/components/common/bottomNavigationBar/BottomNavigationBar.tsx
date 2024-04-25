@@ -14,7 +14,7 @@ export default function BottomNavigationBar() {
                 <HomeIcon />
                 <p>메인</p>
             </NavLink>
-            <NavLink to={"/charging-map"}>
+            <NavLink to={"/charger/map"}>
                 <OutlineMapIcon />
                 <p>충전소</p>
             </NavLink>
