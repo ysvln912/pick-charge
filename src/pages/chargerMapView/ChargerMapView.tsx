@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import * as S from "./ChargingMap.style";
+import * as S from "./ChargerMapView.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import ChargerList from "@/components/pages/charger/chargerList/ChargerList";
@@ -9,7 +9,7 @@ import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 
-export default function ChargingMap() {
+export default function ChargerMapView() {
     const [viewType, setViewType] = useState<"map" | "list">("map");
 
     const getButtonProps = (): {
