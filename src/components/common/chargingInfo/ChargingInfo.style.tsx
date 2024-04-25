@@ -38,8 +38,9 @@ export const ChargingContainer = styled.div<{ border: "full" | "bottom" }>`
 
 export const ChargingContent = styled.div`
     display: flex;
+    align-items: center;
     & .chargingTitle {
-        margin: 0.5rem;
+        margin: 0.3rem;
         font-size: ${({ theme }) => theme.FONT_SIZE.md};
         font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     }
