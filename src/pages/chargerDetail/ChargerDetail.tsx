@@ -106,11 +106,18 @@ export default function ChargerDetail() {
             </S.ChargerInfo>
             <S.ChargerPrice>
                 <S.Title>충전 요금</S.Title>
-                <div>
-                    {sampleCharger.charging_speed}
-                    <div> 회원가 {sampleCharger.member_price} /kWh</div>
-                    <div> 비회원가 {sampleCharger.nonmember_price} /kWh</div>
-                </div>
+                <p>{sampleCharger.charging_speed}</p>
+                <S.PriceInfo>
+                    <div className="price-quantity  row">100kWh</div>
+                    <div className="price-member row">
+                        <div>회원가</div>
+                        <div>비회원가</div>
+                    </div>
+                    <div className="price-rate row">
+                        <div><span>{sampleCharger.member_price}원</span> /kWh</div>
+                        <div><span>{sampleCharger.nonmember_price}원</span> /kWh</div>
+                    </div>
+                </S.PriceInfo>
             </S.ChargerPrice>
             <S.ChargerReview>
                 <div className="reviewTitle">

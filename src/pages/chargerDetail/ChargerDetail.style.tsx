@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { flexSpaceBetweenCenter } from "@/styles/common";
 
 const StyledDiv = styled.div`
     padding: 1rem;
@@ -56,14 +57,43 @@ export const ChargerInfo = styled(StyledDiv)`
             justify-content: center;
         }
         svg {
-            width : 18px;
-            height : 18px;
+            width: 18px;
+            height: 18px;
             margin-right: 0.3rem;
         }
     }
 `;
 
-export const ChargerPrice = styled(StyledDiv)``;
+export const ChargerPrice = styled(StyledDiv)`
+    & p {
+        margin: 1rem auto;
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    }
+`;
+
+export const PriceInfo = styled.div`
+    ${flexSpaceBetweenCenter}
+    margin: 1rem auto;
+    .row {
+        font-size: ${({ theme }) => theme.FONT_SIZE.md};
+        div {
+            margin: 0.7rem;
+        }
+    }
+    .price-quantity {
+        width: 40%;
+    }
+    .price-member {
+        color: ${({ theme }) => theme.PALETTE.mainColor};
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    }
+    .price-rate span {
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    }
+    .price-rate div {
+        font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    }
+`;
 
 export const ChargerReview = styled(StyledDiv)`
     .reviewTitle {
