@@ -1,3 +1,4 @@
+import { searchAddress } from "@/apis/kakaoSearchAddress";
 import Button from "@/components/common/button/Button";
 import IconButton from "@/components/common/iconButton/IconButton";
 import Label from "@/components/common/label/Label";
@@ -9,11 +10,14 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
 import DetailedAddress from "@/components/pages/registerCharger/DetailedAddress";
 import KwInput from "@/components/pages/registerCharger/KwInput";
+import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
+import { useDebounce } from "@/hooks/useDebounce";
 import { flexAlignCenter, flexColumn } from "@/styles/common";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 export interface IChargerInfo {
+  address: IAddress;
   keyword: string;
   detailed: string;
   speed: string;
@@ -28,8 +32,32 @@ export interface ICard {
   chargerType: string;
 }
 
+export interface IAddress {
+  name: string;
+  location: string;
+}
+
+export interface ISearchResult {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  id: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
+}
+
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
+    address: {
+      name: "",
+      location: "",
+    },
     keyword: "",
     detailed: "",
     speed: "",
@@ -40,12 +68,26 @@ export default function RegisterCharger() {
   const [content, setContent] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
+  const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
+  const debouncedKeyword = useDebounce(chargerInfo.keyword);
+  const [show, setShow] = useState(true);
+
   const testInputValue = () => {
     console.log(
+      JSON.stringify(chargerInfo),
       cards.map((card) => JSON.stringify(card)),
       content,
       photos.map((photo) => photo.name)
     );
+  };
+
+  const updateSearchItem = (name: string, location: string) => {
+    setChargerInfo((info) => ({
+      ...info,
+      keyword: name,
+      address: { name, location },
+    }));
+    setShow(false);
   };
 
   const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +139,10 @@ export default function RegisterCharger() {
     setPhotos(photos);
   };
 
+  useEffect(() => {
+    searchAddress(debouncedKeyword, setSearchResults);
+  }, [debouncedKeyword]);
+
   return (
     <Container>
       <TopNavigationBar
@@ -105,15 +151,28 @@ export default function RegisterCharger() {
       />
       <Main>
         <ColumnBox>
-          <SearchInput
-            label="충전소 주소"
-            placeholder="충전소 주소를 입력해 주세요."
-            error={false}
-            errorMessage="필수 입력 항목입니다."
-            value={chargerInfo.keyword}
-            onChange={updateInput}
-            name="keyword"
-          />
+          <Box>
+            <SearchInput
+              label="충전소 주소"
+              placeholder="충전소 주소를 입력해 주세요."
+              error={false}
+              errorMessage="필수 입력 항목입니다."
+              value={chargerInfo.keyword}
+              onChange={updateInput}
+              name="keyword"
+            />
+            {show && searchResults && searchResults.length > 0 && (
+              <SearchResultsBox>
+                {searchResults.map((result) => (
+                  <SearchResultItem
+                    key={result.id}
+                    {...result}
+                    onClick={updateSearchItem}
+                  />
+                ))}
+              </SearchResultsBox>
+            )}
+          </Box>
           <DetailedAddress
             label="상세 주소"
             placeholder="아파트/건물명 동/호수 층"
@@ -202,6 +261,10 @@ const Container = styled.section`
   padding-bottom: 68px;
 `;
 
+const Box = styled.div`
+  position: relative;
+`;
+
 const Main = styled.div`
   padding: 1.5rem;
   padding-top: 72px;
@@ -215,4 +278,16 @@ const ColumnBox = styled.div`
 
 const RowBox = styled.div`
   ${flexAlignCenter};
+`;
+
+export const SearchResultsBox = styled.div`
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  ${flexColumn};
+  position: absolute;
+  width: 100%;
+  top: 80px;
+  left: 0;
+  z-index: 1;
 `;
