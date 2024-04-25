@@ -1,15 +1,13 @@
 import { styled } from "styled-components";
 import { flexColumn } from "@/styles/common";
 
-export const Container = styled.form`
+export const Container = styled.div`
   ${flexColumn}
-  padding: 6.5rem 1.5rem;
 `;
 
 export const ImageWrapper = styled.div`
   margin-bottom: 3rem;
   img {
-    width: fit-content;
     margin: auto;
     display: block;
   }
