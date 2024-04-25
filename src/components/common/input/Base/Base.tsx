@@ -8,7 +8,7 @@ export interface InputBaseProps extends HTMLAttributes<HTMLDivElement> {
   size?: SizeType;
   shape?: ShapeType;
   color?: ColorType;
-  isFocus?: boolean;
+  $isFocus?: boolean;
   disabled?: boolean;
   children: ReactNode;
 }
@@ -41,7 +41,7 @@ function InputBase(props: InputBaseProps, ref: Ref<HTMLInputElement>) {
         color={color}
         error={error}
         disabled={disabled}
-        isFocus={isFocus}
+        $isFocus={isFocus}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...props}
