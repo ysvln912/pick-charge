@@ -5,8 +5,8 @@ import styled from "styled-components";
 export interface SpeedRadioBtnProps {
   id: "fast" | "slow";
   value: "급속" | "완속";
-  selectedOption?: string | null;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  selectedOption: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function SpeedRadioBtn({
@@ -35,6 +35,7 @@ export default function SpeedRadioBtn({
 
 const Container = styled.div`
   ${flexAlignCenter}
+  height: 25px;
 `;
 
 const FakeRadioButton = styled.label<{ checked: boolean }>`

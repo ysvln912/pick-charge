@@ -13,9 +13,47 @@ import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+export interface IChargerInfo {
+  detailed: string;
+  speed: string;
+  kw: string;
+  kwh: string;
+}
+
 export default function RegisterCharger() {
-  const [photos, setPhotos] = useState<File[]>([]);
+  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
+    detailed: "",
+    speed: "",
+    kw: "",
+    kwh: "",
+  });
   const [chargerType, setChargerType] = useState<string | null>(null);
+  const [content, setContent] = useState("");
+  const [photos, setPhotos] = useState<File[]>([]);
+
+  const testInputValue = () => {
+    console.log(
+      chargerInfo,
+      chargerType,
+      content,
+      photos.map((photo) => photo.name)
+    );
+  };
+
+  const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+    setChargerInfo((info) => ({ ...info, [name]: value }));
+  };
+
+  const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = event.currentTarget;
+    setChargerType(value);
+  };
+
+  const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.currentTarget;
+    setContent(value);
+  };
 
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
@@ -24,10 +62,6 @@ export default function RegisterCharger() {
     setPhotos(photos);
   };
 
-  const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const { value } = event.currentTarget;
-    setChargerType(value);
-  };
   return (
     <Container>
       <TopNavigationBar
@@ -45,6 +79,9 @@ export default function RegisterCharger() {
           <DetailedAddress
             label="상세 주소"
             placeholder="아파트/건물명 동/호수 층"
+            name="detailed"
+            value={chargerInfo.detailed ?? ""}
+            onChange={updateInput}
             error={false}
             errorMessage="필수 입력 항목입니다."
           />
@@ -53,24 +90,57 @@ export default function RegisterCharger() {
         <ColumnBox>
           <Label size="md">충전 속도</Label>
           <RowBox>
-            <SpeedRadioBtn id="fast" value="급속" />
-            <KwInput id="fastKw" label="kW" name="kw" />
-            <SpeedRadioBtn id="slow" value="완속" />
-            <KwInput id="slowKw" label="kW" name="kw" />
+            <SpeedRadioBtn
+              id="fast"
+              value="급속"
+              onChange={updateInput}
+              selectedOption={chargerInfo.speed}
+            />
+            {chargerInfo.speed === "급속" && (
+              <KwInput
+                id="fastKw"
+                label="kW"
+                name="kw"
+                value={chargerInfo.kw ?? ""}
+                onChange={updateInput}
+              />
+            )}
+            <SpeedRadioBtn
+              id="slow"
+              value="완속"
+              onChange={updateInput}
+              selectedOption={chargerInfo.speed}
+            />
           </RowBox>
         </ColumnBox>
         <ColumnBox>
           <Label size="md">요금</Label>
-          <KwInput id="kwh" label="원/kWh" name="kwh" />
+          <KwInput
+            id="kwh"
+            label="원/kWh"
+            name="kwh"
+            value={chargerInfo.kwh ?? ""}
+            onChange={updateInput}
+          />
         </ColumnBox>
-        <SelectCharger label value={chargerType} onChange={updateChargerType} />
-        <Button size="lg" category="normal">
+        <SelectCharger
+          label
+          value={chargerType}
+          onChange={updateChargerType}
+          type={chargerInfo.speed === "급속" ? "fast" : "slow"}
+        />
+        <Button size="lg" category="normal" onClick={testInputValue}>
           충전기 추가하기
         </Button>
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."
-        ></Textarea>
+          name="content"
+          value={content ?? ""}
+          onChange={updateContent}
+        >
+          {content}
+        </Textarea>
         <PhotoRegister
           photos={photos}
           updatePhoto={updatePhoto}
