@@ -13,9 +13,8 @@ import KwInput from "@/components/pages/registerCharger/KwInput";
 import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
 import { useDebounce } from "@/hooks/useDebounce";
-import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import * as S from "./RegisterCharger.style";
 export interface IChargerInfo {
   address: IAddress;
   keyword: string;
@@ -144,14 +143,14 @@ export default function RegisterCharger() {
   }, [debouncedKeyword]);
 
   return (
-    <Container>
+    <S.Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="충전소 등록"
       />
-      <Main>
-        <ColumnBox>
-          <Box>
+      <S.Main>
+        <S.ColumnBox>
+          <S.Box>
             <SearchInput
               label="충전소 주소"
               placeholder="충전소 주소를 입력해 주세요."
@@ -162,7 +161,7 @@ export default function RegisterCharger() {
               name="keyword"
             />
             {show && searchResults && searchResults.length > 0 && (
-              <SearchResultsBox>
+              <S.SearchResultsBox>
                 {searchResults.map((result) => (
                   <SearchResultItem
                     key={result.id}
@@ -170,9 +169,9 @@ export default function RegisterCharger() {
                     onClick={updateSearchItem}
                   />
                 ))}
-              </SearchResultsBox>
+              </S.SearchResultsBox>
             )}
-          </Box>
+          </S.Box>
           <DetailedAddress
             label="상세 주소"
             placeholder="아파트/건물명 동/호수 층"
@@ -182,11 +181,11 @@ export default function RegisterCharger() {
             error={false}
             errorMessage="필수 입력 항목입니다."
           />
-        </ColumnBox>
+        </S.ColumnBox>
         <Label size="lg">충전기 정보</Label>
-        <ColumnBox>
+        <S.ColumnBox>
           <Label size="md">충전 속도</Label>
-          <RowBox>
+          <S.RowBox>
             <SpeedRadioBtn
               id="fast"
               value="급속"
@@ -208,9 +207,9 @@ export default function RegisterCharger() {
               onChange={updateInput}
               selectedOption={chargerInfo.speed}
             />
-          </RowBox>
-        </ColumnBox>
-        <ColumnBox>
+          </S.RowBox>
+        </S.ColumnBox>
+        <S.ColumnBox>
           <Label size="md">요금</Label>
           <KwInput
             id="kwh"
@@ -219,7 +218,7 @@ export default function RegisterCharger() {
             value={chargerInfo.fare ?? ""}
             onChange={updateInput}
           />
-        </ColumnBox>
+        </S.ColumnBox>
         <SelectCharger
           label
           value={chargerType}
@@ -249,45 +248,10 @@ export default function RegisterCharger() {
           updatePhoto={updatePhoto}
           deletePhoto={deletePhoto}
         />
-      </Main>
+      </S.Main>
       <Button size="full" category="normal" onClick={testInputValue}>
         작성완료
       </Button>
-    </Container>
+    </S.Container>
   );
 }
-
-const Container = styled.section`
-  padding-bottom: 68px;
-`;
-
-const Box = styled.div`
-  position: relative;
-`;
-
-const Main = styled.div`
-  padding: 1.5rem;
-  padding-top: 72px;
-  ${flexColumn}
-  gap: 1rem;
-`;
-
-const ColumnBox = styled.div`
-  ${flexColumn};
-`;
-
-const RowBox = styled.div`
-  ${flexAlignCenter};
-`;
-
-export const SearchResultsBox = styled.div`
-  border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
-  background-color: ${({ theme }) => theme.PALETTE.white};
-  ${flexColumn};
-  position: absolute;
-  width: 100%;
-  top: 80px;
-  left: 0;
-  z-index: 1;
-`;
