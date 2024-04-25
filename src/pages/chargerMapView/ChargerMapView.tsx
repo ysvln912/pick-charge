@@ -90,12 +90,12 @@ export default function ChargerMapView() {
             <S.ButtonContainer>
                 <Button
                     size="md"
-                    category="normal"
+                    category="rounded"
                     onClick={() => {
                         navigate("/charger/list");
                     }}>
                     <ListIcon />
-                    목록보기
+                    <p>목록보기</p>
                 </Button>
             </S.ButtonContainer>
             <ChargerMap info={sampleData} />
