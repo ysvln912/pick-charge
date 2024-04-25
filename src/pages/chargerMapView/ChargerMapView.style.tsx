@@ -16,6 +16,8 @@ export const ButtonContainer = styled.div`
         color: ${({ theme }) => theme.PALETTE.gray[400]};
     }
     svg {
+        width : 20px;
+        height : 20px;
         margin-right: 0.5rem;
     }
 `;
