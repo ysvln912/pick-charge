@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import * as S from "./ChargerMap.style"
+import * as S from "./ChargerMap.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 declare global {
     interface Window {
@@ -8,11 +8,12 @@ declare global {
     }
 }
 
-interface ChargerMapProps {
+export interface ChargerProps {
     info: Charger[];
+    type?: "full" | "half";
 }
 
-export default function ChargerMap({ info }: ChargerMapProps) {
+export default function ChargerMap({ info, type = "full" }: ChargerProps) {
     useEffect(() => {
         let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         let options = {
@@ -65,5 +66,5 @@ export default function ChargerMap({ info }: ChargerMapProps) {
             });
         }
     }, []);
-    return <S.MapContainer id="map" />;
+    return <S.MapContainer id="map" type={type} />;
 }

@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function ChargingEdit() {
+export default function ChargerEdit() {
   return <div>ChargingEdit</div>;
 }

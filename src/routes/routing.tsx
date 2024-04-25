@@ -12,9 +12,10 @@ import Home from "@/pages/home/Home.tsx";
 import ChatList from "@/pages/chatList/ChatList.tsx";
 import RegisterCharger from "@/pages/registerCharger/RegisterCharger.tsx";
 import ManagingCharger from "@/pages/managingCharger/ManagingCharger.tsx";
-import ChargingMap from "@/pages/chargingMap/ChargingMap.tsx";
-import ChargingDetail from "@/pages/chargingDetail/ChargingDetail.tsx";
-import ChargingEdit from "@/pages/chargingEdit/ChargingEdit.tsx";
+import ChargerMapView from "@/pages/chargerMapView/ChargerMapView";
+import ChargerListView from "@/pages/chargerListView/ChargerListView";
+import ChargerDetail from "@/pages/chargerDetail/ChargerDetail";
+import ChargerEdit from "@/pages/chargerEdit/ChargerEdit";
 import MyPage from "@/pages/myPage/MyPage.tsx";
 import MyInfo from "@/pages/myInfo/MyInfo.tsx";
 import NotFound from "@/pages/notFound/NotFound.tsx";
@@ -26,8 +27,17 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/charging-map", element: <ChargingMap /> },
-      { path: "/charging-edit/:id", element: <ChargingEdit /> },
+      {
+        path: "/charger/*",
+        element: (
+          <Routes>
+            <Route path="/map" element={<ChargerMapView />} />
+            <Route path="/list" element={<ChargerListView />} />
+            <Route path="/:id" element={<ChargerDetail />} />
+            <Route path="/:id/edit" element={<ChargerEdit />} />
+          </Routes>
+        ),
+      },
       {
         path: "/register-charger",
         element: <RegisterCharger />,
@@ -36,7 +46,6 @@ const router = createBrowserRouter([
         path: "/managing-charger",
         element: <ManagingCharger />,
       },
-      { path: "/charging-detail/:id", element: <ChargingDetail /> },
       // 채팅
       {
         path: "/chat-list/*",
@@ -54,10 +63,10 @@ const router = createBrowserRouter([
           <Routes>
             <Route path="" element={<MyPage />} />
             <Route path="/favorites" element={<MyFavorites />} />
+            <Route path="/myinfo" element={<MyInfo />} />
           </Routes>
         ),
       },
-      { path: "/myinfo", element: <MyInfo /> },
       // 리뷰
       {
         path: "/review/*",
