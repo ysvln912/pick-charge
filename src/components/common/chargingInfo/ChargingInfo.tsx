@@ -6,6 +6,7 @@ import BatterErrorIcon from "../icons/BatteryErrorIcon";
 import BoltIcon from "../icons/BoltIcon";
 import IconButton from "../iconButton/IconButton";
 import RatingWithStar from "../ratingWithStar/RatingWithStar";
+import ChargerStatus from "../chargerStatus/ChargerStatus";
 
 export interface Charger {
     id: number;
@@ -50,18 +51,8 @@ export default function ChargingInfo(props: ChargingInfoProps) {
                     <S.ChargingAddress>
                         {props.info.charger_location}
                     </S.ChargingAddress>
-                    <S.ChargingStatus
-                        status={
-                            props.info.status === "이용가능"
-                                ? "available"
-                                : "restriction"
-                        }>
-                        {props.info.status === "이용가능" ? (
-                            <BoltIcon />
-                        ) : (
-                            <BatterErrorIcon />
-                        )}
-                        <p>{props.info.status}</p>
+                    <S.ChargingStatus>
+                        <ChargerStatus status={props.info.status} />
                         <p className="type">{props.info.charger_type}</p>
                     </S.ChargingStatus>
                 </div>
