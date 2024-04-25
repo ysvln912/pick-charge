@@ -101,7 +101,7 @@ export default function ChargerListView() {
                         like={false}
                         tag={true}
                         border="bottom"
-                        path={`/charging-detail/${data.id}`}
+                        path={`/charger/${data.id}`}
                     />
                 );
             })}
