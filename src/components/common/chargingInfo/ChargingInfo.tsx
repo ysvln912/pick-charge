@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
 import BatterErrorIcon from "../icons/BatteryErrorIcon";
 import BoltIcon from "../icons/BoltIcon";
@@ -28,45 +30,48 @@ export interface ChargingInfoProps {
     border: "full" | "bottom";
     like: boolean;
     tag: boolean;
+    path : string;
 }
 
 export default function ChargingInfo(props: ChargingInfoProps) {
     return (
-        <S.ChargingContainer border={props.border}>
-            <div>
-                <S.ChargingContent>
-                    <p className="chargingTitle">{props.info.charger_name}</p>
-                    {props.tag && (
-                        <ChargingRoleCard role={props.info.charger_role} />
-                    )}
-                    <div className="starDiv">
-                        <StarIcon />
-                        <p>{props.info.avg_rate}</p>
-                    </div>
-                </S.ChargingContent>
-                <S.ChargingAddress>
-                    {props.info.charger_location}
-                </S.ChargingAddress>
-                <S.ChargingStatus
-                    status={
-                        props.info.status === "이용가능"
-                            ? "available"
-                            : "restriction"
-                    }>
-                    {props.info.status === "이용가능" ? (
-                        <BoltIcon />
-                    ) : (
-                        <BatterErrorIcon />
-                    )}
-                    <p>{props.info.status}</p>
-                    <p className="type">{props.info.charger_type}</p>
-                </S.ChargingStatus>
-            </div>
-            {props.like && (
-                <div className="iconDiv">
-                    <IconButton icon="like" />
+        <Link to={props.path}>
+            <S.ChargingContainer border={props.border}>
+                <div>
+                    <S.ChargingContent>
+                        <p className="chargingTitle">{props.info.charger_name}</p>
+                        {props.tag && (
+                            <ChargingRoleCard role={props.info.charger_role} />
+                        )}
+                        <div className="starDiv">
+                            <StarIcon />
+                            <p>{props.info.avg_rate}</p>
+                        </div>
+                    </S.ChargingContent>
+                    <S.ChargingAddress>
+                        {props.info.charger_location}
+                    </S.ChargingAddress>
+                    <S.ChargingStatus
+                        status={
+                            props.info.status === "이용가능"
+                                ? "available"
+                                : "restriction"
+                        }>
+                        {props.info.status === "이용가능" ? (
+                            <BoltIcon />
+                        ) : (
+                            <BatterErrorIcon />
+                        )}
+                        <p>{props.info.status}</p>
+                        <p className="type">{props.info.charger_type}</p>
+                    </S.ChargingStatus>
                 </div>
-            )}
-        </S.ChargingContainer>
+                {props.like && (
+                    <div className="iconDiv">
+                        <IconButton icon="like" />
+                    </div>
+                )}
+            </S.ChargingContainer>
+        </Link>
     );
 }
