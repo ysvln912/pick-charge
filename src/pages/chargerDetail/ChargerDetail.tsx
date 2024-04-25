@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import * as S from "./ChargerDetail.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowDownIcon from "@/components/common/icons/ArrowDownIcon";
@@ -8,6 +9,7 @@ import LikeIcon from "@/components/common/icons/LikeIcon";
 import ChargingRoleCard from "@/components/common/chargingRoleCard/ChargingRoleCard";
 import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
+import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
 
 export default function ChargerDetail() {
     const sampleCharger = {
@@ -26,7 +28,7 @@ export default function ChargerDetail() {
         nonmember_price: 350.2,
         personal_price: 350.2,
         charger_role: "개인",
-        charger_type: "DC차데모AC3상",
+        charger_type: "DC차데모, AC3상",
     };
     const sampleReview = [
         {
@@ -89,10 +91,18 @@ export default function ChargerDetail() {
             </S.ChargerOverview>
             <S.ChargerInfo>
                 <S.Title>충전기 정보</S.Title>
-                <div>
-                    {sampleCharger.status}
-                    {sampleCharger.charger_type}
-                </div>
+                <table>
+                    <tr>
+                        <th>상태</th>
+                        <th>종류</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ChargerStatus status={sampleCharger.status} />
+                        </td>
+                        <td>{sampleCharger.charger_type}</td>
+                    </tr>
+                </table>
             </S.ChargerInfo>
             <S.ChargerPrice>
                 <S.Title>충전 요금</S.Title>
@@ -104,11 +114,11 @@ export default function ChargerDetail() {
             </S.ChargerPrice>
             <S.ChargerReview>
                 <div className="reviewTitle">
-                  <S.Title>충전소 리뷰 </S.Title>
-                  <Link to={"/"}>
-                      전체보기
-                      <ArrowRightIcon />
-                  </Link>
+                    <S.Title>충전소 리뷰 </S.Title>
+                    <Link to={"/"}>
+                        전체보기
+                        <ArrowRightIcon />
+                    </Link>
                 </div>
 
                 {sampleReview.map((review) => {

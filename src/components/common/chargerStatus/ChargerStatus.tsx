@@ -3,7 +3,7 @@ import BoltIcon from "../icons/BoltIcon";
 import BatterErrorIcon from "../icons/BatteryErrorIcon";
 
 interface ChargerStatusProps {
-    status: "이용가능" | "이용자제한";
+    status: string;
 }
 
 export default function ChargerStatus({ status }: ChargerStatusProps) {
