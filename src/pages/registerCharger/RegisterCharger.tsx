@@ -128,6 +128,7 @@ export default function RegisterCharger() {
           value={chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
+          disabled={chargerInfo.speed === ""}
         />
         <Button size="lg" category="normal" onClick={testInputValue}>
           충전기 추가하기
