@@ -33,6 +33,8 @@ interface EmailVerificationInputProps {
   color?: ColorType;
 }
 
+const TIMERMINUTES = 3;
+
 export default function EmailVerificationInput({
   disabled = false,
   label,
@@ -61,7 +63,7 @@ export default function EmailVerificationInput({
           />
           {timer && (
             <Input.Right>
-              <Timer minutes={1} setIsTimeOver={setIsTimeOver} />
+              <Timer minutes={TIMERMINUTES} setIsTimeOver={setIsTimeOver} />
             </Input.Right>
           )}
         </Input.Base>
