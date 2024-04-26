@@ -6,6 +6,7 @@ import ReviewWrite from "@/pages/reviewWrite/ReviewWrite.tsx";
 import ReviewManage from "@/pages/reviewManage/ReviewManage.tsx";
 import ReviewDetail from "@/pages/reviewDetail/ReviewDetail.tsx";
 import ReviewEdit from "@/pages/reviewEdit/ReviewEdit.tsx";
+import Login from "@/pages/login/Login";
 import MyFavorites from "@/pages/myFavorites/MyFavorites.tsx";
 import ChatRoom from "@/pages/chatRoom/ChatRoom.tsx";
 import Home from "@/pages/home/Home.tsx";
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
