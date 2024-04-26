@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const Card = styled.div`
   width: 100%;
+  min-height: 90px;
   ${flexAlignCenter};
   padding: 16px 24px;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
@@ -30,6 +31,8 @@ export const Img = styled.img`
 
 export const Info = styled.div`
   padding: 8px 16px;
+  padding-right: 0;
+  width: 100%;
   ${flexColumn};
   gap: 8px;
 `;
@@ -50,4 +53,8 @@ export const Text = styled.p`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ theme }) => theme.PALETTE.gray[400]};
+  width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
