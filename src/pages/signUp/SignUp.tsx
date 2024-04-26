@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./SignUp.style";
 
 import { useState } from "react";
@@ -17,11 +18,15 @@ export default function SignUp() {
     signupSteps[0]
   );
 
+  // TODO : 페이지 상단에서 회원가입 data state 관리 => 4-28일까지
   const [data, setData] = useState<UserType>({
     email: "",
+    code: "",
     password: "",
+    passwordCheck: "",
     name: "",
     nickname: "",
+    charger: "",
   });
 
   return (
