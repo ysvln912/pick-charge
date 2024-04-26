@@ -10,20 +10,7 @@ const borderType = {
     `,
 };
 
-const chargingStatus = {
-    available : css`
-    color: ${({ theme }) =>theme.PALETTE.yellow};
-                path {
-                    fill: ${({ theme }) =>theme.PALETTE.yellow};
-                }`,
-    restriction : css`
-    color: 
-    ${({ theme }) => theme.PALETTE.gray[300]};
-    path {
-        fill: ${({ theme }) =>theme.PALETTE.gray[300]};
-    }
-    `
-}
+
 
 export const ChargingContainer = styled.div<{ border: "full" | "bottom" }>`
     display: flex;
@@ -38,8 +25,9 @@ export const ChargingContainer = styled.div<{ border: "full" | "bottom" }>`
 
 export const ChargingContent = styled.div`
     display: flex;
+    align-items: center;
     & .chargingTitle {
-        margin: 0.5rem;
+        margin: 0.3rem;
         font-size: ${({ theme }) => theme.FONT_SIZE.md};
         font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     }
@@ -65,7 +53,7 @@ export const ChargingAddress = styled.div`
     color: ${({ theme }) => theme.PALETTE.gray[300]};
 `;
 
-export const ChargingStatus = styled.div<{ status: "available" | "restriction" }>`
+export const ChargingStatus = styled.div`
     margin: 0.5rem;
     display: flex;
     align-items: center;
@@ -78,5 +66,4 @@ export const ChargingStatus = styled.div<{ status: "available" | "restriction" }
     & p {
         margin-left: 0.4rem;
     }
-    ${({ status }) => chargingStatus[status]}
 `;

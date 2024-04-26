@@ -1,18 +1,24 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const RoleContainer = styled.div`
-    border-radius : 0.4rem;
-    padding : 0.35rem;
-    margin : 0.2rem;
+const chargeRole = {
+    public: css`
+        color: ${({ theme }) => theme.PALETTE.mainColor};
+    `,
+    individual: css`
+
+        background-color: ${({ theme }) => theme.PALETTE.mainColor};
+        color: ${({ theme }) => theme.PALETTE.white};
+    `,
+};
+export const RoleContainer = styled.div<{ role: "public" | "individual" }>`
+    width: 31px;
+    height: 19px;
+    border-radius: 0.4rem;
+    text-align: center;
+    padding: 0.2rem;
+    margin: 0.3rem;
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    &.public {
-        border: ${({ theme }) => theme.PALETTE.mainColor} 0.1rem solid;
-        color : ${({ theme }) => theme.PALETTE.mainColor};
-    }
-    &.individual {
-        background-color : ${({ theme }) => theme.PALETTE.mainColor};
-        color : ${({ theme }) => theme.PALETTE.white};
-
-    }
-`
+    font-size: ${({ theme }) => theme.FONT_SIZE.es};
+    border: ${({ theme }) => theme.PALETTE.mainColor} 0.1rem solid;
+    ${({ role }) => chargeRole[role]};
+`;

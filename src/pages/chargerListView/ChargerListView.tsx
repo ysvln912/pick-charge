@@ -96,7 +96,7 @@ export default function ChargerListView() {
             <div>
             {sampleData.map((data) => {
                 return (
-                    <ChargingInfo
+                    <ChargingInfo key={data.id}
                         info={data}
                         like={false}
                         tag={true}
