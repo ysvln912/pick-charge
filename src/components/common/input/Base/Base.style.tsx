@@ -56,8 +56,8 @@ export const InputContainer = styled.div<InputBaseProps>`
       border-color: ${theme.PALETTE.mainColor};
     `}
 
-  ${({ error, theme }) =>
-    error &&
+  ${({ $error, theme }) =>
+    $error &&
     css`
       border-color: ${theme.PALETTE.mainColor};
     `}
