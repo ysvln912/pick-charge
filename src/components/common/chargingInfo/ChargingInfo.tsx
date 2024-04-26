@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
+import * as S from "./ChargingInfo.style";
 import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
 import BatterErrorIcon from "../icons/BatteryErrorIcon";
 import BoltIcon from "../icons/BoltIcon";
-import StarIcon from "../icons/StarIcon";
 import IconButton from "../iconButton/IconButton";
-import * as S from "./ChargingInfo.style";
+import RatingWithStar from "../ratingWithStar/RatingWithStar";
+import ChargerStatus from "../chargerStatus/ChargerStatus";
 
 export interface Charger {
     id: number;
@@ -16,7 +17,7 @@ export interface Charger {
     latitude: number;
     longitude: number;
     content: string;
-    avg_rate: number;
+    avg_rate: string;
     company_name: string;
     member_price: number;
     nonmember_price: number;
@@ -30,7 +31,7 @@ export interface ChargingInfoProps {
     border: "full" | "bottom";
     like: boolean;
     tag: boolean;
-    path : string;
+    path: string;
 }
 
 export default function ChargingInfo(props: ChargingInfoProps) {
@@ -39,30 +40,19 @@ export default function ChargingInfo(props: ChargingInfoProps) {
             <S.ChargingContainer border={props.border}>
                 <div>
                     <S.ChargingContent>
-                        <p className="chargingTitle">{props.info.charger_name}</p>
+                        <p className="chargingTitle">
+                            {props.info.charger_name}
+                        </p>
                         {props.tag && (
                             <ChargingRoleCard role={props.info.charger_role} />
                         )}
-                        <div className="starDiv">
-                            <StarIcon />
-                            <p>{props.info.avg_rate}</p>
-                        </div>
+                        <RatingWithStar rating={props.info.avg_rate} />
                     </S.ChargingContent>
                     <S.ChargingAddress>
                         {props.info.charger_location}
                     </S.ChargingAddress>
-                    <S.ChargingStatus
-                        status={
-                            props.info.status === "이용가능"
-                                ? "available"
-                                : "restriction"
-                        }>
-                        {props.info.status === "이용가능" ? (
-                            <BoltIcon />
-                        ) : (
-                            <BatterErrorIcon />
-                        )}
-                        <p>{props.info.status}</p>
+                    <S.ChargingStatus>
+                        <ChargerStatus status={props.info.status} />
                         <p className="type">{props.info.charger_type}</p>
                     </S.ChargingStatus>
                 </div>

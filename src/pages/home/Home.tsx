@@ -131,7 +131,7 @@ export default function Home() {
             ) : (
                 sampleData.slice(0, 2).map((data) => {
                     return (
-                        <ChargingInfo
+                        <ChargingInfo key={data.id}
                             info={data}
                             like={true}
                             tag={true}
