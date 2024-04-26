@@ -45,7 +45,7 @@ export default function Select({
       <S.SelectContainer onClick={open} disabled={disabled}>
         <S.SelectContentBox>
           <S.SelectContentText disabled={disabled}>
-            {selected == null || "" ? selectText : selected}
+            {selected || selectText}
           </S.SelectContentText>
           <ExpandIcon />
         </S.SelectContentBox>
