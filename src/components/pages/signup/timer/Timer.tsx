@@ -4,7 +4,7 @@ import { useState, useEffect, SetStateAction, Dispatch } from "react";
 
 interface TimerProps {
   minutes: number;
-  setIsTimeOver: Dispatch<SetStateAction<boolean>>;
+  setIsTimeOver?: Dispatch<SetStateAction<boolean>>;
 }
 
 const INTERVAL = 1000;
@@ -21,20 +21,23 @@ export default function Timer({ minutes, setIsTimeOver }: TimerProps) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime((prev) => prev - INTERVAL);
+      setTime((prev) => {
+        if (prev <= INTERVAL) {
+          clearInterval(timer);
+          if (setIsTimeOver) {
+            setIsTimeOver(true);
+          }
+          console.log("타이머 시간 종료.");
+          return 0;
+        }
+        return prev - INTERVAL;
+      });
     }, INTERVAL);
-
-    if (time <= 0) {
-      clearInterval(timer);
-      setIsTimeOver(true);
-      console.log("타이머 시간 종료.");
-    }
 
     return () => {
       clearInterval(timer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time]);
+  }, []);
 
   return (
     <S.Container>
