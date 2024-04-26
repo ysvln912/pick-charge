@@ -1,35 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerMapView.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
-import ChargerList from "@/components/pages/charger/chargerList/ChargerList";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
-import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 
 export default function ChargerMapView() {
-    const [viewType, setViewType] = useState<"map" | "list">("map");
-
-    const getButtonProps = (): {
-        category: "rounded" | "normal";
-        text: string;
-    } => {
-        if (viewType === "map") {
-            return {
-                category: "rounded",
-                text: "목록보기",
-            };
-        } else {
-            return {
-                category: "normal",
-                text: "지도보기",
-            };
-        }
-    };
-
-    const { category, text } = getButtonProps();
+    const navigate = useNavigate();
 
     const sampleData: Charger[] = [
         {
@@ -104,30 +84,21 @@ export default function ChargerMapView() {
 
     return (
         <div>
-            
-                <S.SearchContainer>
-                {viewType === "map" ? <SearchInput placeholder="충전소를 검색해보세요" /> : <SearchInput placeholder="충전소를 검색해 보세요."/>}
-                    
-                </S.SearchContainer>
-                <S.ButtonContainer>
-                    <Button
-                        size="md"
-                        category={category}
-                        onClick={() => {
-                            setViewType((prevViewType) =>
-                                prevViewType === "map" ? "list" : "map"
-                            );
-                        }}>
-                        {viewType === "map" ? <ListIcon /> : <SolidMapIcon />}
-                        {text}
-                    </Button>
-                </S.ButtonContainer>
-            
-            {viewType === "map" ? (
-                <ChargerMap info={sampleData} />
-            ) : (
-                <ChargerList info={sampleData}/>
-            )}
+            <S.SearchContainer>
+                <SearchInput placeholder="충전소를 검색해보세요" />
+            </S.SearchContainer>
+            <S.ButtonContainer>
+                <Button
+                    size="md"
+                    category="rounded"
+                    onClick={() => {
+                        navigate("/charger/list");
+                    }}>
+                    <ListIcon />
+                    <p>목록보기</p>
+                </Button>
+            </S.ButtonContainer>
+            <ChargerMap info={sampleData} />
         </div>
     );
 }
