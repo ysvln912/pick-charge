@@ -2,7 +2,6 @@
 import { ChangeEvent, useState, FormEvent, RefObject } from "react";
 import MESSAGE from "@/constants/message";
 import VALIDATE from "@/utils/regex";
-
 export interface FormErrorType {
   readonly [name: string]: string;
 }
@@ -85,7 +84,8 @@ export const useFormValidation = <T extends Record<string, string>>(
     let isValid = true;
 
     Object.keys(patterns || {}).forEach((key) => {
-      const result = validateInputValue(key, String(value[key as keyof T]));
+      // const result = validateInputValue(key, String(value[key as keyof T]));
+      const result = validateInputValue(key, value[key]);
 
       if (!result) {
         isValid = false;
