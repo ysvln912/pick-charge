@@ -1,28 +1,42 @@
 import * as S from "./Rating.style";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import StarIcon from "@/components/common/icons/StarIcon";
 
 const ratingArr = [1, 2, 3, 4, 5];
 const mainColor = "#02c0c0";
 const defaultColor = "#EEEEEE";
 
-export default function Rating() {
-  const [rating, setRating] = useState<number | null>(1);
+export interface RatingProps {
+  name?: string;
+  value?: number;
+  onChange: (value: string | number, name: string) => void;
+}
 
-  const handleStarClick = (value: number) => {
+export default function Rating({
+  name = "rating",
+  onChange,
+  value,
+}: RatingProps) {
+  const [rating, setRating] = useState<number>(value ? value : 1);
+
+  const handleStarClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const value = Number(e.currentTarget.value);
     setRating(value);
+    onChange(value, name);
   };
 
   return (
     <S.Container>
-      {ratingArr.map((value) => (
-        <S.IconWrapper onClick={() => handleStarClick(value)} key={value}>
-          <StarIcon
-            width="28"
-            height="27"
-            color={value <= (rating || 0) ? mainColor : defaultColor}
-            key={value}
-          />
+      {ratingArr.map((el) => (
+        <S.IconWrapper key={el}>
+          <button onClick={handleStarClick} value={el} name={name}>
+            <StarIcon
+              width="28"
+              height="27"
+              color={el <= (rating || 0) ? mainColor : defaultColor}
+            />
+          </button>
         </S.IconWrapper>
       ))}
     </S.Container>
