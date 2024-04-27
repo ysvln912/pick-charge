@@ -4,7 +4,7 @@ interface Props {
   disabled: boolean;
 }
 
-export const Container = styled.div<Props>`
+export const Container = styled.button<Props>`
   position: fixed;
   // 하단 네비게이션 높이값
   bottom: 68px;
