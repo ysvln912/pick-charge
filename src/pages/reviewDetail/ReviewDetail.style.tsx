@@ -31,6 +31,7 @@ export const Profile = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border-radius: 999px;
 `;
 
 export const ProfileBox = styled.div`
@@ -72,18 +73,4 @@ export const ReviewText = styled.p`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   line-height: 1.3;
   margin-bottom: 1rem;
-`;
-
-export const List = styled.ul`
-  ${flexColumn}
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-`;
-
-export const Item = styled.li`
-  cursor: pointer;
-  ${flexAlignCenter}
-  gap: 1rem;
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;
