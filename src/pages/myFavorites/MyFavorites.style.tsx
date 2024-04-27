@@ -10,7 +10,6 @@ export const Container = styled.div`
 export const MapContent = styled.div`
   background-color: #ccc;
   width: 100%;
-  height: 100vh;
 `;
 
 export const Content = styled.div`
@@ -27,7 +26,7 @@ export const TitleWrapper = styled.div``;
 export const FavoriteList = styled.ul`
   height: 475px;
   overflow: auto;
-  padding-bottom: 6.25rem;
+  padding-bottom: 15.625rem;
 `;
 
 export const IconWrapper = styled.div`
