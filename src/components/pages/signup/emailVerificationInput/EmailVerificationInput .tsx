@@ -75,7 +75,7 @@ export default function EmailVerificationInput({
           {btnText}
         </Button>
       </S.Box>
-      <ErrorMessage visible={error !== ""}>{error}</ErrorMessage>
+      <ErrorMessage visible={!!error}>{error}</ErrorMessage>
     </Input>
   );
 }
