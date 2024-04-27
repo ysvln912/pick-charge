@@ -51,7 +51,7 @@ export default function Select({
         </S.SelectContentBox>
       </S.SelectContainer>
       {isOpen && !disabled && (
-        <BottomSheet close={close}>
+        <BottomSheet close={close} open={isOpen}>
           <S.Title>{optionTitle}</S.Title>
           <S.OptionList>
             {options.map((el) => {
