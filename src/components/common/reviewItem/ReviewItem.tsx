@@ -3,9 +3,9 @@ import * as S from "./ReviewItem.style";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import LineIcon from "../icons/LineIcon";
 import RatingWithStar from "../ratingWithStar/RatingWithStar";
-import test from "@/assets/imgs/logo_big.png";
 
-interface ReviewItemProps {
+export interface ReviewItemProps {
+  onClick: () => void;
   date: string;
   address: string;
   rating: string;
@@ -14,9 +14,9 @@ interface ReviewItemProps {
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
-  const { date, address, rating, review, img } = props;
+  const { date, address, rating, review, img, onClick } = props;
   return (
-    <S.Container>
+    <S.Container onClick={onClick}>
       <S.Top>
         <S.DateText>{date}</S.DateText>
         <S.DetailWrapper>
@@ -37,7 +37,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         {img && (
           <S.Right>
             <S.ImgBox>
-              <img src={test} alt="리뷰 이미지" />
+              <img src={img} alt="리뷰 이미지" />
             </S.ImgBox>
           </S.Right>
         )}

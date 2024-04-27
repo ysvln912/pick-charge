@@ -3,7 +3,7 @@ import { flexColumn } from "@/styles/common";
 
 export const Form = styled.form`
   ${flexColumn}
-  gap: 0.5rem;
+  gap: 1rem;
 `;
 
 export const TextWrapper = styled.div`

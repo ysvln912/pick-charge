@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import * as S from "./ReviewManage.style";
+import * as S from "./ChargerReviewList.style";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
+import IconButton from "@/components/common/iconButton/IconButton";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
+
+import { useValidParams } from "@/hooks/useValidParams";
 
 const data = [
   {
@@ -116,21 +118,33 @@ const data = [
   },
 ];
 
-export default function ReviewManage() {
+interface ChargerReviewListProps {}
+
+export default function ChargerReviewList() {
   const [reviews, setReviews] = useState(data);
-  const navigate = useNavigate();
 
   const handleReviewItemClick = (reviewId: number) => {
     navigate(`/review/${reviewId}`);
   };
 
+  const { id: chargerId } = useValidParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // chargerId값 넣어서 충전소 이름 가져오기
+  }, []);
+
   return (
     <>
-      <TopNavigationBar leftBtn={<ArrowLeftIcon />} text={"리뷰 관리"} />
+      <TopNavigationBar
+        text="충전소 이름 들어가는 곳"
+        leftBtn={<IconButton icon={"arrowLeft"} />}
+      />
+
       <S.Container>
         <S.Title>
           {/* 전체 데이터 갯수 따로 */}
-          내가 작성한 <span>13</span>개의 리뷰
+          <span>13</span>개의 리뷰
         </S.Title>
         <S.Content>
           {reviews.length ? (
