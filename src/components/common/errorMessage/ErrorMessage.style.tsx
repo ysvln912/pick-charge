@@ -11,9 +11,9 @@ export const ErrorMessage = styled.p<ErrorMessageProps>`
   ${({ $visible }) =>
     $visible
       ? css`
-          visibility: visible;
+          display: block;
         `
       : css`
-          visibility: hidden;
+          display: none;
         `};
 `;
