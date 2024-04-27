@@ -18,6 +18,7 @@ export const EmptyText = styled.div`
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     color: ${({ theme }) => theme.PALETTE.gray[400]};
+    margin-bottom: 4px;
   }
   span {
     display: inline-block;
