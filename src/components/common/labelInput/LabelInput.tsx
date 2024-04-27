@@ -17,12 +17,14 @@ interface LabelInputProps {
   type?: string;
   color?: ColorType;
   errorMessage?: string;
+  require?: boolean;
 }
 
 export default function LabelInput({
   placeholder,
   label,
   error = false,
+  require = false,
   name,
   type = "text",
   value,
@@ -31,7 +33,9 @@ export default function LabelInput({
 }: LabelInputProps) {
   return (
     <Input>
-      <Input.Label htmlFor={name}>{label}</Input.Label>
+      <Input.Label htmlFor={name} require={require}>
+        {label}
+      </Input.Label>
       <Input.Base error={!!error}>
         <Input.Center
           type={type}
