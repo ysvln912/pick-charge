@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import LineIcon from "@/components/common/icons/LineIcon";
 import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
-import PhotoList from "@/components/common/photoList/PhotoList";
-
 import IconButton from "@/components/common/iconButton/IconButton";
 import RightIcon from "@/components/common/icons/RightIcon";
+import ReviewImages from "@/components/pages/reviewDetail/reviewImages/ReviewImages";
 
 import { useToggle } from "@/hooks/useToggle";
 import { useValidParams } from "@/hooks/useValidParams";
@@ -89,8 +88,8 @@ export default function ReviewDetail() {
 
           {/* 리뷰 내용 */}
           <S.ReviewContent>
-            <S.ReviewText>{content} </S.ReviewText>
-            <PhotoList imgs={review_image} />
+            <S.ReviewText>{content}</S.ReviewText>
+            <ReviewImages imgs={review_image} />
           </S.ReviewContent>
         </S.Content>
       </S.Container>
