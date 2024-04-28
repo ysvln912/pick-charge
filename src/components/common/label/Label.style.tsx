@@ -25,6 +25,6 @@ export const Container = styled.div`
 `;
 
 export const Require = styled.p`
-  color: ${({ theme }) => theme.PALETTE.mainColor};
+  color: ${({ theme }) => theme.PALETTE.error};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
 `;

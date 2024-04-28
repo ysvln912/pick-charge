@@ -20,6 +20,7 @@ interface SelectChargerProps {
   disabled?: boolean;
   label?: boolean;
   type?: string;
+  require?: boolean;
   value: string | null;
   onChange: (e: MouseEvent<HTMLButtonElement>) => void;
 }
@@ -28,6 +29,7 @@ export default function SelectCharger({
   disabled = false,
   type = "all",
   onChange,
+  require = false,
   value,
   label = false,
 }: SelectChargerProps) {
@@ -36,7 +38,7 @@ export default function SelectCharger({
     type === "fast" ? fastOptions : type === "slow" ? slowOptions : allOptions;
   return (
     <div>
-      {label && <Label>충전기 타입 *</Label>}
+      {label && <Label require={require}>충전기 타입</Label>}
       <Select
         disabled={disabled}
         value={value}
