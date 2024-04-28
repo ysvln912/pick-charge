@@ -15,6 +15,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
 import FareInput from "@/components/pages/registerCharger/FareInput";
+import StickButton from "@/components/common/stickyButton/StickyButton";
 export interface IChargerInfo {
   address: IAddress;
   keyword: string;
@@ -57,7 +58,7 @@ export default function RegisterCharger() {
     },
     keyword: "",
     detailed: "",
-    speed: "",
+    speed: "급속",
     fare: "",
   });
   const [chargerType, setChargerType] = useState<string | null>(null);
@@ -166,16 +167,16 @@ export default function RegisterCharger() {
               </S.SearchResultsBox>
             )}
           </S.Box>
-          <DetailedAddress
-            label="상세 주소"
-            placeholder="아파트/건물명 동/호수 층"
-            name="detailed"
-            value={chargerInfo.detailed ?? ""}
-            onChange={updateInput}
-            error={false}
-            errorMessage="필수 입력 항목입니다."
-          />
         </S.ColumnBox>
+        <DetailedAddress
+          label="상세 주소"
+          placeholder="아파트/건물명 동/호수 층"
+          name="detailed"
+          value={chargerInfo.detailed ?? ""}
+          onChange={updateInput}
+          error={false}
+          errorMessage="필수 입력 항목입니다."
+        />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
           <Label size="md">충전 속도</Label>
@@ -227,9 +228,7 @@ export default function RegisterCharger() {
           deletePhoto={deletePhoto}
         />
       </S.Main>
-      <Button size="full" category="normal" onClick={testInputValue}>
-        작성완료
-      </Button>
+      <StickButton onClick={testInputValue} text="작성완료"></StickButton>
     </S.Container>
   );
 }
