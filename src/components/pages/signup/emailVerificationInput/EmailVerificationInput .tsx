@@ -18,6 +18,7 @@ import { ColorType } from "@/types";
 // Q 질문 !!
 // => 컴포넌트를 조합해서 사용할 경우 사용하는 속성에 대한 interface 관리 방법이 궁금합니다.
 interface EmailVerificationInputProps {
+  isVerified?: boolean;
   inputDisabled?: boolean;
   error?: string;
   label: string;
@@ -36,6 +37,7 @@ interface EmailVerificationInputProps {
 const TIMERMINUTES = 3;
 
 export default function EmailVerificationInput({
+  isVerified = false,
   disabled = false,
   label,
   error,
@@ -69,7 +71,7 @@ export default function EmailVerificationInput({
         </Input.Base>
         <Button
           size="sm"
-          category={disabled ? "disable" : "normal"}
+          category={isVerified ? "retry" : disabled ? "disable" : "normal"}
           onClick={onClick}
         >
           {btnText}

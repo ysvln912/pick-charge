@@ -86,10 +86,11 @@ export default function UserInfoForm({ onNext }: UserInfoFormProps) {
         label="닉네임"
         error={error.nickname}
         placeholder="닉네임은 이후 변경할 수 있어요."
-        btnText="중복 확인"
+        btnText={isNickNameVerified ? "사용 가능" : "중복 확인"}
         onChange={handleInputChange("nickname")}
         onClick={handleCheckNickName}
         value={formState.nickname}
+        isVerified={isNickNameVerified}
       />
       <SelectCharger value={charger} label onChange={handleChangeCharger} />
       <S.ButtonWrapper>

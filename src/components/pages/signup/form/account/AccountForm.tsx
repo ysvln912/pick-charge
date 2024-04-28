@@ -45,6 +45,7 @@ export default function AccountForm({ onNext }: AccountFormProps) {
 
   const handleSendEmail = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (isCodeVerified) return;
     if (!isEmailInvalid) {
       try {
         // await authApi.sendEmail({ email: formState.email });
@@ -60,7 +61,7 @@ export default function AccountForm({ onNext }: AccountFormProps) {
 
   const handleCheckCode = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
+    if (isCodeVerified) return;
     if (!isCodeInvalid && !isTimeOver) {
       try {
         // await authApi.checkCode({ code: formState.code });
@@ -102,7 +103,7 @@ export default function AccountForm({ onNext }: AccountFormProps) {
         name="code"
         setIsTimeOver={setIsTimeOver}
         label="이메일 인증"
-        btnText="인증 확인"
+        btnText={isCodeVerified ? "인증 완료" : "인증 확인"}
         value={formState.code}
         onChange={handleInputChange("code")}
         placeholder="인증코드를 입력해 주세요."
