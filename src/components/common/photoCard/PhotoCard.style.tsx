@@ -11,6 +11,7 @@ export const Card = styled.div`
   position: relative;
   overflow: hidden;
   background-color: ${({ theme }) => theme.PALETTE.white};
+  cursor: pointer;
 `;
 
 export const Img = styled.img`
