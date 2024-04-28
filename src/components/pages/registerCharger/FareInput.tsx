@@ -2,31 +2,22 @@ import { ChangeEvent } from "react";
 import styled from "styled-components";
 import { flexAlignCenter } from "@/styles/common";
 
-interface KwInputProps {
-  id: string;
-  label: string;
-  name: string;
+interface FareInputProps {
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function KwInput({
-  id,
-  label,
-  value,
-  name,
-  onChange,
-}: KwInputProps) {
+export default function FareInput({ value, onChange }: FareInputProps) {
   return (
     <Container>
       <Input
         type="text"
-        id={id}
-        name={name}
+        id="fare"
+        name="fare"
         value={value ?? ""}
         onChange={onChange}
       />
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor="fare">원/kWh</Label>
     </Container>
   );
 }

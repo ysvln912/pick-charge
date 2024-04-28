@@ -36,7 +36,7 @@ export default function SelectCharger({
     type === "fast" ? fastOptions : type === "slow" ? slowOptions : allOptions;
   return (
     <div>
-      {label && <Label>충전기 타입</Label>}
+      {label && <Label>충전기 타입 *</Label>}
       <Select
         disabled={disabled}
         value={value}
