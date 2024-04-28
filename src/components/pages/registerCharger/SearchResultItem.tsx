@@ -15,7 +15,7 @@ export default function SearchResultItem({
 }: ISearchResultItemProps) {
   const handleClick = () => {
     const name = place_name;
-    const address = road_address_name ? road_address_name : address_name;
+    const address = road_address_name || address_name;
     onClick(name, address);
   };
 
@@ -25,7 +25,7 @@ export default function SearchResultItem({
         <Name>{place_name}</Name>
         <Category>{category_name.split(">").pop()?.trim()}</Category>
       </Top>
-      <Address>{road_address_name ? road_address_name : address_name}</Address>
+      <Address>{road_address_name || address_name}</Address>
     </Item>
   );
 }

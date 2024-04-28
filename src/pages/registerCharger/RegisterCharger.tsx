@@ -155,7 +155,7 @@ export default function RegisterCharger() {
               onChange={updateInput}
               name="keyword"
             />
-            {show && searchResults && searchResults.length > 0 && (
+            {show && searchResults.length > 0 && (
               <S.SearchResultsBox>
                 {searchResults.map((result) => (
                   <SearchResultItem
