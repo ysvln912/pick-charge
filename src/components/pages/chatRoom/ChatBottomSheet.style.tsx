@@ -10,7 +10,7 @@ export const Item = styled.div`
   padding: 3px;
   border-radius: 5px;
   transition: all ease 0.3s;
-  margin-bottom: 1.5rem;
+  margin-bottom: 16px;
   &:hover {
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
   }

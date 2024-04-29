@@ -23,12 +23,7 @@ export default function ChatRoom() {
     const { value } = event.currentTarget;
     setText(value);
   };
-  const onSubmit = (
-    event: React.FormEvent<HTMLFormElement>,
-    text: string,
-    createdAt: string
-  ) => {
-    event.preventDefault();
+  const onSubmit = (text: string, createdAt: string) => {
     const message = { text, createdAt };
     setMessages((prev) => [...prev, message]);
     setText("");

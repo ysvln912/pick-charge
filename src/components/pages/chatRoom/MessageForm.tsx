@@ -1,15 +1,12 @@
 import { flexAlignCenter } from "@/styles/common";
+import formatTime from "@/utils/formatTime";
 import React from "react";
 import styled from "styled-components";
 
 export interface MessageFormProps {
   text: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (
-    event: React.FormEvent<HTMLFormElement>,
-    text: string,
-    createdAt: string
-  ) => void;
+  onSubmit: (text: string, createdAt: string) => void;
 }
 
 export default function MessageForm({
@@ -17,8 +14,16 @@ export default function MessageForm({
   onChange,
   onSubmit,
 }: MessageFormProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (text.trim().length === 0) {
+      return;
+    }
+    const createdAt = formatTime();
+    onSubmit(text, createdAt);
+  };
   return (
-    <Form onSubmit={(e) => onSubmit(e, text, "08:40")}>
+    <Form onSubmit={handleSubmit}>
       <Input
         type="text"
         placeholder="메시지 보내기"
