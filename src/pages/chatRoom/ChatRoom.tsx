@@ -36,8 +36,9 @@ export default function ChatRoom() {
         rightBtn={<IconButton icon="more" onClick={open} />}
       />
       <ChargerInfoBar
+        id="1"
         image="https://plus.unsplash.com/premium_photo-1661598310312-185fd0630045?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8JUVDJUI2JUE5JUVDJUEwJTg0JUVBJUI4JUIwfGVufDB8fDB8fHww"
-        name="송정동 공영주차장"
+        name="송정동 개인 충전소"
         address="서울 성동구 동일로 199"
       />
       <List>

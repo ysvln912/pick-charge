@@ -1,20 +1,24 @@
 import { flexAlignCenter, flexColumn } from "@/styles/common";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export interface ChargerInfoBarProps {
+  id: string;
   image: string | null;
   name: string;
   address: string;
 }
 
 export default function ChargerInfoBar({
+  id,
   image,
   name,
   address,
 }: ChargerInfoBarProps) {
+  const navigate = useNavigate();
   return (
-    <Bar>
+    <Bar onClick={() => navigate(`/charger/${id}`)}>
       <ImgBox>{image && <Img src={image} alt="충전기 사진" />}</ImgBox>
       <TextBox>
         <Name>{name}</Name>
@@ -25,6 +29,7 @@ export default function ChargerInfoBar({
 }
 
 const Bar = styled.div`
+  cursor: pointer;
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   width: 100%;
   max-width: 390px;

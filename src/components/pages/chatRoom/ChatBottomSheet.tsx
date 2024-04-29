@@ -30,10 +30,12 @@ export default function ChatBottomSheet({ close, open }: ChatBottomSheetProps) {
   return (
     <>
       <BottomSheet close={close} open={open}>
-        <S.Item onClick={confirmOpen}>
-          <DeleteIcon width="15" height="15" color="#000" />
-          <p>채팅방 나가기</p>
-        </S.Item>
+        <S.List>
+          <S.Item onClick={confirmOpen}>
+            <DeleteIcon width="15" height="15" color="#000" />
+            <p>채팅방 나가기</p>
+          </S.Item>
+        </S.List>
       </BottomSheet>
       {confirmIsOpen && (
         <ConfirmDialog
