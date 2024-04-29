@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import * as S from "./Home.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
@@ -13,6 +14,8 @@ import FlashIcon from "@/components/common/icons/FlashIcon";
 import ArrowRightIcon from "@/components/common/icons/ArrowRightIcon";
 
 export default function Home() {
+    const navigate = useNavigate();
+
     const sampleData: Charger[] = [
         {
             id: 1,
@@ -23,7 +26,7 @@ export default function Home() {
             latitude: 37.123456,
             longitude: -122.345678,
             content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
-            avg_rate: 4.5,
+            avg_rate: "4.5",
             company_name: "에코차지 주식회사",
             member_price: 10,
             nonmember_price: 15,
@@ -41,7 +44,7 @@ export default function Home() {
             latitude: 37.987654,
             longitude: -122.876543,
             content: "이 충전s는 전기 차량을 위한 표준 충전을 제공합니다.",
-            avg_rate: 3.8,
+            avg_rate: "3.8",
             company_name: "에코차지 주식회사",
             member_price: 5,
             nonmember_price: 10,
@@ -58,7 +61,7 @@ export default function Home() {
             latitude: 37.123456,
             longitude: -122.345678,
             content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
-            avg_rate: 4.5,
+            avg_rate: "4.5",
             company_name: "에코차지 주식회사",
             member_price: 10,
             nonmember_price: 15,
@@ -75,9 +78,12 @@ export default function Home() {
                 <p>
                     <span>전기차 충전소</span>를 찾아볼까요?
                 </p>
-                <Link to="/charger/list">
-                    <SearchInput placeholder="충전소 찾아보기" />
-                </Link>
+                <SearchInput
+                    placeholder="충전소 찾아보기"
+                    onFocus={() => {
+                        navigate("/charger/list");
+                    }}
+                />
             </S.SearchDiv>
             <S.MenuDiv>
                 <S.MenuRow>
@@ -127,11 +133,14 @@ export default function Home() {
                 </Link>
             </S.FavoritesCharger>
             {sampleData.length === 0 ? (
-                <S.EmptyFavorite>자주가는 충전소를 등록해 보세요!</S.EmptyFavorite>
+                <S.EmptyFavorite>
+                    자주가는 충전소를 등록해 보세요!
+                </S.EmptyFavorite>
             ) : (
                 sampleData.slice(0, 2).map((data) => {
                     return (
-                        <ChargingInfo key={data.id}
+                        <ChargingInfo
+                            key={data.id}
                             info={data}
                             like={true}
                             tag={true}

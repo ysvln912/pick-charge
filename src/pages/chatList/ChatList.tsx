@@ -1,5 +1,5 @@
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ChatCard from "@/components/pages/chatList/ChatCard";
+import ChatCard from "@/components/pages/chatList/chatCard/ChatCard";
 import * as S from "./ChatList.style";
 import React from "react";
 
@@ -17,6 +17,13 @@ export default function ChatList() {
 }
 
 const CHAT_LIST = [
+  {
+    id: "0",
+    image: "",
+    name: "닉네임",
+    createdAt: "2024년 04월 13일",
+    text: "채팅 내용 범위가 넘어가면 맨 끝에 내용은 ...생략",
+  },
   {
     id: "1",
     image:
