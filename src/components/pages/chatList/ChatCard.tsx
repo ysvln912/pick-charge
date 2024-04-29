@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ChatCard.style";
+import DefaultProfile from "./DefaultProfile";
 
 export interface ChatCardProps {
   id: string;
@@ -24,7 +25,8 @@ export default function ChatCard({
   return (
     <S.Card onClick={onClick}>
       <S.ProfilePhotoBox>
-        <S.Img src={image} alt="프로필 사진" />
+        {!image && <DefaultProfile size="lg" />}
+        {image && <S.Img src={image} alt="프로필 사진" />}
       </S.ProfilePhotoBox>
       <S.Info>
         <div>

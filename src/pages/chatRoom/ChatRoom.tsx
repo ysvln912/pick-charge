@@ -42,11 +42,15 @@ export default function ChatRoom() {
       />
       <List>
         <CreatedAt>2024년 4월 11일</CreatedAt>
-        <MyChat createdAt="08:24" text="안녕하세요~ 혹시 충전 가능한가요?" />
         <OtherChat
           profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
-          createdAt="08:30"
-          text="네 안녕하세요 오전 9시부터 오후 1시까지 가능합니다"
+          createdAt="오후 04:55"
+          text="유저 프로필 이미지 있을 때"
+        />
+        <OtherChat
+          profileImg=""
+          createdAt="오후 04:56"
+          text="유저 프로필 이미지 없을 때"
         />
         {messages.length > 0 &&
           messages.map((msg, index) => {

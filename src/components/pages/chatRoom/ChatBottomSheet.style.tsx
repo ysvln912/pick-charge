@@ -8,9 +8,9 @@ export const Item = styled.div`
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   padding: 3px;
+  margin-bottom: 16px;
   border-radius: 5px;
   transition: all ease 0.3s;
-  margin-bottom: 16px;
   &:hover {
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
   }

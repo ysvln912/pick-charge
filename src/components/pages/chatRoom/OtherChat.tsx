@@ -1,9 +1,10 @@
 import { flexAlignCenter } from "@/styles/common";
 import React from "react";
 import styled from "styled-components";
+import DefaultProfile from "../chatList/DefaultProfile";
 
 export interface OtherChatProps {
-  profileImg: string | null;
+  profileImg: string;
   createdAt: string;
   text: string;
 }
@@ -17,6 +18,7 @@ export default function OtherChat({
     <ChatBox>
       <RowBox>
         {profileImg && <Img src={profileImg} />}
+        {!profileImg && <DefaultProfile size="md" />}
         <Text>{text}</Text>
       </RowBox>
 
