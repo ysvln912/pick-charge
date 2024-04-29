@@ -7,9 +7,10 @@ interface ChargerStatusProps {
 }
 
 export default function ChargerStatus({ status }: ChargerStatusProps) {
+    const statusType = status === "이용가능" ? "available" : "restriction";
     return (
-        <S.StatusContainer status={status === "이용가능" ? "available" : "restriction"}>
-            {status === "이용가능" ? <BoltIcon /> : <BatterErrorIcon />}
+        <S.StatusContainer status={statusType}>
+            {statusType === "available" ? <BoltIcon /> : <BatterErrorIcon />}
             <p>{status}</p>
         </S.StatusContainer>
     );
