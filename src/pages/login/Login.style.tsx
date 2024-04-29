@@ -12,7 +12,7 @@ export const LogoWrapper = styled.div`
 
 export const Form = styled.form`
   ${flexColumn}
-  gap: .5rem;
+  gap: 1rem;
 `;
 
 export const ButtonWrapper = styled.div`

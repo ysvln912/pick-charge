@@ -22,8 +22,7 @@ export const SearchResultsBox = styled.div`
 `;
 
 export const Main = styled.div`
-  padding: 1.5rem;
-  padding-top: 72px;
+  padding: 80px 1.5rem 72px;
   ${flexColumn}
   gap: 1rem;
 `;

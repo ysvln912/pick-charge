@@ -9,24 +9,23 @@ import Textarea from "@/components/common/textarea/Textarea";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
 import DetailedAddress from "@/components/pages/registerCharger/DetailedAddress";
-import KwInput from "@/components/pages/registerCharger/KwInput";
 import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
 import { useDebounce } from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
+import FareInput from "@/components/pages/registerCharger/FareInput";
+import StickButton from "@/components/common/stickyButton/StickyButton";
 export interface IChargerInfo {
   address: IAddress;
   keyword: string;
   detailed: string;
   speed: string;
-  kw: string;
   fare: string;
 }
 export interface ICard {
   id: string;
   speed: string;
-  kw: string;
   fare: string;
   chargerType: string;
 }
@@ -59,8 +58,7 @@ export default function RegisterCharger() {
     },
     keyword: "",
     detailed: "",
-    speed: "",
-    kw: "",
+    speed: "급속",
     fare: "",
   });
   const [chargerType, setChargerType] = useState<string | null>(null);
@@ -103,12 +101,7 @@ export default function RegisterCharger() {
   };
 
   const addCard = () => {
-    if (
-      !chargerInfo.speed ||
-      (chargerInfo.speed === "급속" && !chargerInfo.kw) ||
-      !chargerInfo.fare ||
-      !chargerType
-    ) {
+    if (!chargerInfo.speed || !chargerInfo.fare || !chargerType) {
       return;
     }
     setCards((card) => [
@@ -116,12 +109,11 @@ export default function RegisterCharger() {
         id: String(Date.now()),
         chargerType,
         speed: chargerInfo.speed,
-        kw: chargerInfo.kw,
         fare: chargerInfo.fare,
       },
       ...card,
     ]);
-    setChargerInfo((prev) => ({ ...prev, kw: "", fare: "" }));
+    setChargerInfo((prev) => ({ ...prev, fare: "" }));
     setChargerType(null);
   };
 
@@ -155,7 +147,7 @@ export default function RegisterCharger() {
         <S.ColumnBox>
           <S.Box>
             <SearchInput
-              label="충전소 주소"
+              label="충전소 주소 *"
               placeholder="충전소 주소를 입력해 주세요."
               error={false}
               errorMessage="필수 입력 항목입니다."
@@ -163,7 +155,7 @@ export default function RegisterCharger() {
               onChange={updateInput}
               name="keyword"
             />
-            {show && searchResults && searchResults.length > 0 && (
+            {show && searchResults.length > 0 && (
               <S.SearchResultsBox>
                 {searchResults.map((result) => (
                   <SearchResultItem
@@ -175,19 +167,19 @@ export default function RegisterCharger() {
               </S.SearchResultsBox>
             )}
           </S.Box>
-          <DetailedAddress
-            label="상세 주소"
-            placeholder="아파트/건물명 동/호수 층"
-            name="detailed"
-            value={chargerInfo.detailed ?? ""}
-            onChange={updateInput}
-            error={false}
-            errorMessage="필수 입력 항목입니다."
-          />
         </S.ColumnBox>
+        <DetailedAddress
+          label="상세 주소"
+          placeholder="아파트/건물명 동/호수 층"
+          name="detailed"
+          value={chargerInfo.detailed ?? ""}
+          onChange={updateInput}
+          error={false}
+          errorMessage="필수 입력 항목입니다."
+        />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
-          <Label size="md">충전 속도</Label>
+          <Label size="md">충전 속도 *</Label>
           <S.RowBox>
             <SpeedRadioBtn
               id="fast"
@@ -195,15 +187,6 @@ export default function RegisterCharger() {
               onChange={updateInput}
               selectedOption={chargerInfo.speed}
             />
-            {chargerInfo.speed === "급속" && (
-              <KwInput
-                id="fastKw"
-                label="kW"
-                name="kw"
-                value={chargerInfo.kw ?? ""}
-                onChange={updateInput}
-              />
-            )}
             <SpeedRadioBtn
               id="slow"
               value="완속"
@@ -213,14 +196,8 @@ export default function RegisterCharger() {
           </S.RowBox>
         </S.ColumnBox>
         <S.ColumnBox>
-          <Label size="md">요금</Label>
-          <KwInput
-            id="kwh"
-            label="원/kWh"
-            name="fare"
-            value={chargerInfo.fare ?? ""}
-            onChange={updateInput}
-          />
+          <Label size="md">요금 *</Label>
+          <FareInput value={chargerInfo.fare ?? ""} onChange={updateInput} />
         </S.ColumnBox>
         <SelectCharger
           label
@@ -229,7 +206,6 @@ export default function RegisterCharger() {
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           disabled={chargerInfo.speed === ""}
         />
-
         {cards.length > 0 &&
           cards.map((card) => {
             return <ChargerCard key={card.id} {...card} onClick={deleteCard} />;
@@ -252,9 +228,7 @@ export default function RegisterCharger() {
           deletePhoto={deletePhoto}
         />
       </S.Main>
-      <Button size="full" category="normal" onClick={testInputValue}>
-        작성완료
-      </Button>
+      <StickButton onClick={testInputValue} text="작성완료"></StickButton>
     </S.Container>
   );
 }

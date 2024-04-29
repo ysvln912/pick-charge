@@ -6,6 +6,7 @@ import ReviewWrite from "@/pages/reviewWrite/ReviewWrite.tsx";
 import ReviewManage from "@/pages/reviewManage/ReviewManage.tsx";
 import ReviewDetail from "@/pages/reviewDetail/ReviewDetail.tsx";
 import ReviewEdit from "@/pages/reviewEdit/ReviewEdit.tsx";
+import Login from "@/pages/login/Login";
 import MyFavorites from "@/pages/myFavorites/MyFavorites.tsx";
 import ChatRoom from "@/pages/chatRoom/ChatRoom.tsx";
 import Home from "@/pages/home/Home.tsx";
@@ -16,6 +17,7 @@ import ChargerMapView from "@/pages/chargerMapView/ChargerMapView";
 import ChargerListView from "@/pages/chargerListView/ChargerListView";
 import ChargerDetail from "@/pages/chargerDetail/ChargerDetail";
 import ChargerEdit from "@/pages/chargerEdit/ChargerEdit";
+import ChargerReviewList from "@/pages/chargerReviewList/ChargerReviewList";
 import MyPage from "@/pages/myPage/MyPage.tsx";
 import MyInfo from "@/pages/myInfo/MyInfo.tsx";
 import NotFound from "@/pages/notFound/NotFound.tsx";
@@ -35,6 +37,7 @@ const router = createBrowserRouter([
             <Route path="/list" element={<ChargerListView />} />
             <Route path="/:id" element={<ChargerDetail />} />
             <Route path="/:id/edit" element={<ChargerEdit />} />
+            <Route path="/:id/reviews" element={<ChargerReviewList />} />
           </Routes>
         ),
       },
@@ -84,6 +87,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

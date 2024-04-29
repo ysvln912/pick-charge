@@ -19,6 +19,12 @@ export const Input = styled.input<InputCenterProps>`
   font-size: ${({ theme }) => theme.FONT_SIZE.sm};
   ${({ color }) => color && colorCSS[color]}
 
+  ${({ disabled, theme }) =>
+    disabled &&
+    css`
+      color: ${theme.PALETTE.gray[300]};
+    `}
+
   &:focus {
     outline: none;
   }

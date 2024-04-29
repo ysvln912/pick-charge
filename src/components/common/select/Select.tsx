@@ -45,13 +45,13 @@ export default function Select({
       <S.SelectContainer onClick={open} disabled={disabled}>
         <S.SelectContentBox>
           <S.SelectContentText disabled={disabled}>
-            {selected == null || "" ? selectText : selected}
+            {selected || selectText}
           </S.SelectContentText>
           <ExpandIcon />
         </S.SelectContentBox>
       </S.SelectContainer>
       {isOpen && !disabled && (
-        <BottomSheet close={close}>
+        <BottomSheet close={close} open={isOpen}>
           <S.Title>{optionTitle}</S.Title>
           <S.OptionList>
             {options.map((el) => {

@@ -2,14 +2,12 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 export const Wrapper = styled(motion.div)`
-  width: 100%;
-  max-width: 390px;
+  width: 390px;
   height: 100%;
+  z-index: 9999; // ToDo: z-index 값 수정하기
   position: fixed;
   top: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.5);
 `;

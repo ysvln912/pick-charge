@@ -11,7 +11,6 @@ export interface ChargerCardProps extends ICard {
 export default function ChargerCard({
   id,
   speed,
-  kw,
   fare,
   chargerType,
   onClick,
@@ -21,7 +20,7 @@ export default function ChargerCard({
       <List>
         <Item>
           <Name>충전속도</Name>
-          <Value>{speed === "급속" ? `${speed} ${kw}kW` : speed}</Value>
+          <Value>{speed}</Value>
         </Item>
         <Item>
           <Name>요금</Name>

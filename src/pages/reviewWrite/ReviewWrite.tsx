@@ -1,37 +1,34 @@
-import * as S from "./ReviewWrite.style.tsx";
+import { useState } from "react";
 
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar.tsx";
-import SearchInput from "@/components/common/searchInput/SearchInput.tsx";
-import Label from "@/components/common/label/Label.tsx";
-import Rating from "@/components/pages/reviewWrite/rating/Rating.tsx";
-import Textarea from "@/components/common/textarea/Textarea.tsx";
-// import PhotoRegister from "@/components/common/photoRegister/PhotoRegister.tsx";
-import StickButton from "@/components/common/stickyButton/StickyButton.tsx";
 import IconButton from "@/components/common/iconButton/IconButton.tsx";
+import ReviewEditContent from "@/components/pages/reviewWrite/reviewEditContent/ReviewEditContent.tsx";
+
+export interface ReviewType {
+  chargerId: number | null;
+  rating: number;
+  content: string;
+  userId: number | null;
+}
 
 export default function ReviewWrite() {
+  const [data, setData] = useState<ReviewType>({
+    chargerId: null,
+    rating: 1,
+    content: "",
+    // 유저 id는 따로 전역 상태에서 가져오기
+    userId: null,
+  });
+
+  // 저장하는 api handler 함수
+
   return (
     <>
       <TopNavigationBar
         text="리뷰 작성하기"
         leftBtn={<IconButton icon={"arrowLeft"} />}
       />
-
-      <S.Container>
-        <S.Box>
-          <Label>충전소</Label>
-          <SearchInput placeholder="주소를 입력해 주세요." />
-        </S.Box>
-        <S.Box>
-          <Label>별점</Label>
-          <Rating />
-        </S.Box>
-        <S.Box>
-          <Textarea label="내용" placeholder="리뷰 내용을 입력해 주세요." />
-        </S.Box>
-        {/* <PhotoRegister photos={[]} updatePhotos={[]} /> */}
-      </S.Container>
-      <StickButton text="작성완료" />
+      <ReviewEditContent data={data} setData={setData} />
     </>
   );
 }
