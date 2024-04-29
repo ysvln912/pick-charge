@@ -1,5 +1,5 @@
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ChatCard from "@/components/pages/chatList/ChatCard";
+import ChatCard from "@/components/pages/chatList/chatCard/ChatCard";
 import * as S from "./ChatList.style";
 import React from "react";
 

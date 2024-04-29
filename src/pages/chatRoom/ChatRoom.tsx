@@ -1,14 +1,13 @@
 import IconButton from "@/components/common/iconButton/IconButton";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ChargerInfoBar from "@/components/pages/chatRoom/ChargerInfoBar";
-import ChatBottomSheet from "@/components/pages/chatRoom/ChatBottomSheet";
-import MessageForm from "@/components/pages/chatRoom/MessageForm";
-import MyChat from "@/components/pages/chatRoom/MyChat";
-import OtherChat from "@/components/pages/chatRoom/OtherChat";
+import ChargerInfoBar from "@/components/pages/chatRoom/chargerInfoBar/ChargerInfoBar";
+import ChatBottomSheet from "@/components/pages/chatRoom/chatBottomSheet/ChatBottomSheet";
+import MyChat from "@/components/pages/chatRoom/myChat/MyChat";
+import OtherChat from "@/components/pages/chatRoom/otherChat/OtherChat";
 import { useToggle } from "@/hooks/useToggle";
-import { flexColumn } from "@/styles/common";
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import * as S from "./ChatRoom.style";
+import MessageForm from "@/components/pages/chatRoom/messageForm/MessageForm";
 
 export interface Message {
   text: string;
@@ -32,11 +31,10 @@ export default function ChatRoom() {
   useEffect(() => {
     if (chatRoomRef.current) {
       chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
-      console.log(chatRoomRef.current.scrollHeight);
     }
   }, []);
   return (
-    <Container>
+    <S.Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="배츠마루"
@@ -48,8 +46,8 @@ export default function ChatRoom() {
         name="송정동 개인 충전소"
         address="서울 성동구 동일로 199"
       />
-      <List ref={chatRoomRef}>
-        <CreatedAt>2024년 4월 11일</CreatedAt>
+      <S.List ref={chatRoomRef}>
+        <S.CreatedAt>2024년 4월 11일</S.CreatedAt>
         <OtherChat
           profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
           createdAt="오후 04:55"
@@ -67,42 +65,9 @@ export default function ChatRoom() {
               <MyChat key={index} createdAt={msg.createdAt} text={msg.text} />
             );
           })}
-      </List>
+      </S.List>
       <MessageForm text={text} onChange={onChange} onSubmit={onSubmit} />
       {isOpen && <ChatBottomSheet close={close} open={isOpen} />}
-    </Container>
+    </S.Container>
   );
 }
-
-const Container = styled.section`
-  width: 100%;
-  padding-top: 118px;
-  ${flexColumn}
-`;
-
-const List = styled.div`
-  padding: 16px;
-  gap: 16px;
-  ${flexColumn};
-  width: 100%;
-  height: 586px;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: block;
-    width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.PALETTE.mainColor};
-    border-radius: 10px;
-  }
-`;
-
-const CreatedAt = styled.p`
-  text-align: center;
-  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
-  color: ${({ theme }) => theme.PALETTE.gray[400]};
-`;

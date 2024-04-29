@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ChatCard.style";
-import DefaultProfile from "./DefaultProfile";
+import DefaultProfile from "../defaultProfile/DefaultProfile";
 
 export interface ChatCardProps {
   id: string;
