@@ -4,6 +4,10 @@ import Label from "../label/Label";
 import Select from "../select/Select";
 import { SelectOptionsType } from "@/components/common/select/Select";
 
+interface OptionsMap {
+  [key: string]: SelectOptionsType[];
+}
+
 const fastOptions: SelectOptionsType[] = [
   { DC콤보: "DC콤보" },
   { DC차데모: "DC차데모" },
@@ -33,9 +37,14 @@ export default function SelectCharger({
   value,
   label = false,
 }: SelectChargerProps) {
-  const allOptions = [...fastOptions, ...slowOptions];
-  const options =
-    type === "fast" ? fastOptions : type === "slow" ? slowOptions : allOptions;
+  const optionsMap: OptionsMap = {
+    fast: fastOptions,
+    slow: slowOptions,
+    all: [...fastOptions, ...slowOptions],
+  };
+
+  const options = optionsMap[type] || optionsMap["all"];
+
   return (
     <div>
       {label && <Label require={require}>충전기 타입</Label>}

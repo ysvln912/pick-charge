@@ -35,10 +35,18 @@ const FONT_WEIGHT = {
   bold: 700,
 };
 
+const ZINDEX = {
+  nav: 50,
+  overLay: 100,
+  confirm: 500,
+  toast: 999,
+};
+
 const theme = {
   PALETTE,
   FONT_SIZE,
   FONT_WEIGHT,
+  ZINDEX,
 };
 
 export default theme;
