@@ -1,20 +1,23 @@
 import IconButton from "@/components/common/iconButton/IconButton";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ChargerInfoBar from "@/components/pages/chatRoom/ChargerInfoBar";
+import ChatBottomSheet from "@/components/pages/chatRoom/ChatBottomSheet";
 import MessageForm from "@/components/pages/chatRoom/MessageForm";
 import MyChat from "@/components/pages/chatRoom/MyChat";
 import OtherChat from "@/components/pages/chatRoom/OtherChat";
+import { useToggle } from "@/hooks/useToggle";
 import { flexColumn } from "@/styles/common";
 import React from "react";
 import styled from "styled-components";
 
 export default function ChatRoom() {
+  const { open, close, isOpen } = useToggle(false);
   return (
     <Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="배츠마루"
-        rightBtn={<IconButton icon="more" />}
+        rightBtn={<IconButton icon="more" onClick={open} />}
       />
       <ChargerInfoBar
         image="https://plus.unsplash.com/premium_photo-1661598310312-185fd0630045?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8JUVDJUI2JUE5JUVDJUEwJTg0JUVBJUI4JUIwfGVufDB8fDB8fHww"
@@ -41,6 +44,7 @@ export default function ChatRoom() {
         <MyChat createdAt="08:50" text="알겠습니다! 내일 방문할게요!" />
       </List>
       <MessageForm />
+      {isOpen && <ChatBottomSheet close={close} open={isOpen} />}
     </Container>
   );
 }
