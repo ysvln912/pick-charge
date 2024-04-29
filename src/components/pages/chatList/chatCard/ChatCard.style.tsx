@@ -15,8 +15,8 @@ export const Card = styled.div`
 `;
 
 export const ProfilePhotoBox = styled.div`
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   flex-shrink: 0;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 50%;
