@@ -7,11 +7,32 @@ import MyChat from "@/components/pages/chatRoom/MyChat";
 import OtherChat from "@/components/pages/chatRoom/OtherChat";
 import { useToggle } from "@/hooks/useToggle";
 import { flexColumn } from "@/styles/common";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+
+export interface Message {
+  text: string;
+  createdAt: string;
+}
 
 export default function ChatRoom() {
   const { open, close, isOpen } = useToggle(false);
+  const [text, setText] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    setText(value);
+  };
+  const onSubmit = (
+    event: React.FormEvent<HTMLFormElement>,
+    text: string,
+    createdAt: string
+  ) => {
+    event.preventDefault();
+    const message = { text, createdAt };
+    setMessages((prev) => [...prev, message]);
+    setText("");
+  };
   return (
     <Container>
       <TopNavigationBar
@@ -32,18 +53,14 @@ export default function ChatRoom() {
           createdAt="08:30"
           text="네 안녕하세요 오전 9시부터 오후 1시까지 가능합니다"
         />
-        <MyChat
-          createdAt="08:40"
-          text="그럼 내일 오전 10시쯤 방문하면 바로 충전 가능할까요? 미리 예약하고 싶어서요. 충전 비용은 얼마인가요?"
-        />
-        <OtherChat
-          profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
-          createdAt="08:45"
-          text="오전 10시까지 가능합니다~ 충전 비용은 대략 0000원 입니다."
-        />
-        <MyChat createdAt="08:50" text="알겠습니다! 내일 방문할게요!" />
+        {messages.length > 0 &&
+          messages.map((msg, index) => {
+            return (
+              <MyChat key={index} createdAt={msg.createdAt} text={msg.text} />
+            );
+          })}
       </List>
-      <MessageForm />
+      <MessageForm text={text} onChange={onChange} onSubmit={onSubmit} />
       {isOpen && <ChatBottomSheet close={close} open={isOpen} />}
     </Container>
   );

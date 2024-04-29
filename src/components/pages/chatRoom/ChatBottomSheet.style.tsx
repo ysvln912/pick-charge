@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { flexAlignCenter } from "@/styles/common";
 
-export const Item = styled.li`
+export const Item = styled.div`
   cursor: pointer;
   ${flexAlignCenter}
   gap: 1rem;

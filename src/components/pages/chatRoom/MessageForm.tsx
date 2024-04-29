@@ -2,10 +2,29 @@ import { flexAlignCenter } from "@/styles/common";
 import React from "react";
 import styled from "styled-components";
 
-export default function MessageForm() {
+export interface MessageFormProps {
+  text: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (
+    event: React.FormEvent<HTMLFormElement>,
+    text: string,
+    createdAt: string
+  ) => void;
+}
+
+export default function MessageForm({
+  text,
+  onChange,
+  onSubmit,
+}: MessageFormProps) {
   return (
-    <Form>
-      <Input type="text" placeholder="메시지 보내기" />
+    <Form onSubmit={(e) => onSubmit(e, text, "08:40")}>
+      <Input
+        type="text"
+        placeholder="메시지 보내기"
+        value={text}
+        onChange={onChange}
+      />
       <SubmitButton>
         <svg
           xmlns="http://www.w3.org/2000/svg"
