@@ -7,7 +7,7 @@ import MyChat from "@/components/pages/chatRoom/MyChat";
 import OtherChat from "@/components/pages/chatRoom/OtherChat";
 import { useToggle } from "@/hooks/useToggle";
 import { flexColumn } from "@/styles/common";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 export interface Message {
@@ -19,6 +19,7 @@ export default function ChatRoom() {
   const { open, close, isOpen } = useToggle(false);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const chatRoomRef = useRef<HTMLDivElement>(null);
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setText(value);
@@ -28,6 +29,12 @@ export default function ChatRoom() {
     setMessages((prev) => [...prev, message]);
     setText("");
   };
+  useEffect(() => {
+    if (chatRoomRef.current) {
+      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+      console.log(chatRoomRef.current.scrollHeight);
+    }
+  }, []);
   return (
     <Container>
       <TopNavigationBar
@@ -41,7 +48,7 @@ export default function ChatRoom() {
         name="송정동 개인 충전소"
         address="서울 성동구 동일로 199"
       />
-      <List>
+      <List ref={chatRoomRef}>
         <CreatedAt>2024년 4월 11일</CreatedAt>
         <OtherChat
           profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
@@ -53,6 +60,7 @@ export default function ChatRoom() {
           createdAt="오후 04:56"
           text="유저 프로필 이미지 없을 때"
         />
+
         {messages.length > 0 &&
           messages.map((msg, index) => {
             return (
