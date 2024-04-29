@@ -1,7 +1,7 @@
 import Input from "@/components/common/input/input";
 import SearchIcon from "@/components/common/icons/SearchIcon";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FocusEvent } from "react";
 
 export interface SearchInputProps {
   require?: boolean;
@@ -10,6 +10,7 @@ export interface SearchInputProps {
   error?: boolean | string;
   errorMessage?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   name?: string;
   value?: string | null;
 }
@@ -19,6 +20,7 @@ export default function SearchInput({
   require = false,
   placeholder,
   onChange,
+  onFocus,
   error = false,
   name,
   errorMessage,
@@ -34,6 +36,7 @@ export default function SearchInput({
         <Input.Center
           placeholder={placeholder}
           onChange={onChange}
+          onFocus={onFocus}
           name={name}
           value={value || ""}
         />
