@@ -51,9 +51,6 @@ export default function ChargerSearch({
         setShow(false);
     };
 
-    console.log(`show : ${show}`);
-    console.log(`searchResults : ${searchResults}`);
-
     return (
         <S.SearchContainer viewstyle={viewtype}>
             {viewtype === "map" ? (

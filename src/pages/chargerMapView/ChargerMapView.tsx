@@ -7,6 +7,7 @@ import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
+import Center from "@/components/common/input/Center/Center";
 
 export interface SearchInfo {
     address: {
@@ -18,12 +19,14 @@ export interface SearchInfo {
     keyword: string;
 }
 
+export interface MapCenter {
+    lat: number;
+    lon: number;
+}
+
 export default function ChargerMapView() {
     const navigate = useNavigate();
-    const [center, setCenter] = useState<{
-        lat: number;
-        lon: number;
-    }>({
+    const [mapCenter, setMapCenter] = useState<MapCenter>({
         lat: 0,
         lon: 0,
     });
@@ -45,7 +48,7 @@ export default function ChargerMapView() {
                 var lat = position.coords.latitude, // 위도
                     lon = position.coords.longitude; // 경도
 
-                setCenter({
+                setMapCenter({
                     lat,
                     lon,
                 });
@@ -71,7 +74,7 @@ export default function ChargerMapView() {
                             lat: Number(result[0].y),
                             lon: Number(result[0].x),
                         };
-                        setCenter({
+                        setMapCenter({
                             lat: coords.lat,
                             lon: coords.lon,
                         });
@@ -82,6 +85,10 @@ export default function ChargerMapView() {
             );
         }
     }, [chargerInfo]);
+
+    useEffect(()=>{
+        console.log(`api요청 : ${mapCenter.lat}, ${mapCenter.lon}`)
+    },[mapCenter])
 
     const sampleData: Charger[] = [
         {
@@ -173,8 +180,9 @@ export default function ChargerMapView() {
             </S.ButtonContainer>
             <ChargerMap
                 info={sampleData}
-                center={center}
-                key={`${center.lat}-${center.lon}`}
+                mapCenter={mapCenter}
+                setMapCenter={setMapCenter}
+                key={`${mapCenter.lat}-${mapCenter.lon}`}
             />
         </div>
     );

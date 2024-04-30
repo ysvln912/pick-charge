@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import * as S from "./ChargerMap.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
+import { MapCenter } from "@/pages/chargerMapView/ChargerMapView";
 declare global {
     interface Window {
         kakao: any;
@@ -11,18 +12,16 @@ declare global {
 export interface ChargerProps {
     info: Charger[];
     type?: "full" | "half";
-    center : {
-        lat : number;
-        lon : number
-    }
+    mapCenter : MapCenter;
+    setMapCenter : React.Dispatch<React.SetStateAction<MapCenter>>
 }
 
-export default function ChargerMap({ info, type = "full", center }: ChargerProps) {
+export default function ChargerMap({ info, type = "full", mapCenter, setMapCenter }: ChargerProps) {
     useEffect(() => {
         let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         let options = {
             //지도를 생성할 때 필요한 기본 옵션
-            center: new window.kakao.maps.LatLng(center.lat, center.lon), //지도의 중심좌표.
+            center: new window.kakao.maps.LatLng(mapCenter.lat, mapCenter.lon), //지도의 중심좌표.
             level: 4, //지도의 레벨(확대, 축소 정도)
         };
 
@@ -32,12 +31,7 @@ export default function ChargerMap({ info, type = "full", center }: ChargerProps
         window.kakao.maps.event.addListener(map, "dragend", function () {
             // 지도 중심좌표를 얻어옵니다
             var latlng = map.getCenter();
-
-            var message =
-                "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
-            message += "경도는 " + latlng.getLng() + " 입니다";
-
-            console.log(message);
+            setMapCenter({ lat : latlng.getLat(), lon : latlng.getLng()})
         });
 
         // 마커 이미지의 이미지 주소입니다
