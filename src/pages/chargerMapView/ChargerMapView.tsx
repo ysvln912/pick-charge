@@ -7,7 +7,6 @@ import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
-import Center from "@/components/common/input/Center/Center";
 
 export interface SearchInfo {
     address: {
@@ -86,9 +85,23 @@ export default function ChargerMapView() {
         }
     }, [chargerInfo]);
 
-    useEffect(()=>{
-        console.log(`api요청 : ${mapCenter.lat}, ${mapCenter.lon}`)
-    },[mapCenter])
+    useEffect(() => {
+        var geocoder = new window.kakao.maps.services.Geocoder();
+        
+        geocoder.coord2Address(
+            mapCenter.lon,
+            mapCenter.lat,
+            function (result: any, status: string) {
+                if (status === window.kakao.maps.services.Status.OK) {
+                    var detailAddr = !!result[0].road_address
+                        ? result[0].road_address.address_name
+                        : result[0].address.address_name;
+                    
+                    console.log(`api 요청 : ${detailAddr}`)
+                }
+            }
+        );
+    }, [mapCenter]);
 
     const sampleData: Charger[] = [
         {

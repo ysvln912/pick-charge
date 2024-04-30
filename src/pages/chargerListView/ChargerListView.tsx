@@ -105,14 +105,6 @@ export default function ChargerListView() {
                 setChargerInfo={setChargerInfo}
                 viewtype="list"
             />
-            {/* <Input>
-                <Input.Base>
-                    <Input.Left>
-                        <LeftIcon />
-                    </Input.Left>
-                    <Input.Center placeholder="충전소를 검색해 보세요." />
-                </Input.Base>
-            </Input> */}
             <div>
             {sampleData.map((data) => {
                 return (
