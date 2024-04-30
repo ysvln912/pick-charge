@@ -1,8 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import * as S from "./ChargerMap.style";
 import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import { MapCenter } from "@/pages/chargerMapView/ChargerMapView";
+import ChargingRoleCard from "@/components/common/chargingRoleCard/ChargingRoleCard";
+import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
+import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
+import FastChargerIcon from "@/components/common/icons/FastChargerIcon";
+import SlowChargerIcon from "@/components/common/icons/SlowChargerIcon";
+
 declare global {
     interface Window {
         kakao: any;
@@ -12,11 +19,29 @@ declare global {
 export interface ChargerProps {
     info: Charger[];
     type?: "full" | "half";
-    mapCenter : MapCenter;
-    setMapCenter : React.Dispatch<React.SetStateAction<MapCenter>>
+    mapCenter: MapCenter;
+    setMapCenter: React.Dispatch<React.SetStateAction<MapCenter>>;
 }
 
-export default function ChargerMap({ info, type = "full", mapCenter, setMapCenter }: ChargerProps) {
+export default function ChargerMap({
+    info,
+    type = "full",
+    mapCenter,
+    setMapCenter,
+}: ChargerProps) {
+    const [isDetailOpen, setDetailOpen] = useState(false);
+    const [detailId, setDetailId] = useState(-1);
+
+    function markerClickHandler(i: number) {
+        setDetailOpen(true);
+        setDetailId(i - 1);
+    }
+
+    function mapClickHandler() {
+        setDetailOpen(false);
+        setDetailId(-1);
+    }
+
     useEffect(() => {
         let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         let options = {
@@ -31,7 +56,7 @@ export default function ChargerMap({ info, type = "full", mapCenter, setMapCente
         window.kakao.maps.event.addListener(map, "dragend", function () {
             // 지도 중심좌표를 얻어옵니다
             var latlng = map.getCenter();
-            setMapCenter({ lat : latlng.getLat(), lon : latlng.getLng()})
+            setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
 
         // 마커 이미지의 이미지 주소입니다
@@ -58,7 +83,55 @@ export default function ChargerMap({ info, type = "full", mapCenter, setMapCente
                 title: info[i].charger_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
+
+            window.kakao.maps.event.addListener(marker, "click", () =>
+                markerClickHandler(i)
+            );
+            window.kakao.maps.event.addListener(map, "click", () =>
+                mapClickHandler()
+            );
         }
     }, []);
-    return <S.MapContainer id="map" type={type} />;
+
+    return (
+        <>
+            <S.MapContainer id="map" type={type} />
+            {isDetailOpen && info[detailId] && (
+                <Link to={`/charger/${info[detailId].id}`}>
+                    <S.ChargerDetail>
+                        <S.DetailStatus>
+                            <ChargingRoleCard
+                                role={info[detailId].charger_role}
+                            />
+                            <RatingWithStar rating={info[detailId].avg_rate} />
+                        </S.DetailStatus>
+                        <S.DetailTitle>
+                            {info[detailId].charger_name}
+                        </S.DetailTitle>
+                        <S.DetailLocation>
+                            {info[detailId].charger_location}
+                        </S.DetailLocation>
+                        <S.TypeContainer>
+                            <S.DetailType>
+                                {info[detailId].charger_type}
+                            </S.DetailType>
+                            <S.DetailType>
+                                DC 콤보
+                            </S.DetailType>
+                        </S.TypeContainer>
+
+                        <S.StatusContainer>
+                            {info[detailId].charging_speed === "급속" ? (
+                                <FastChargerIcon />
+                            ) : (
+                                <SlowChargerIcon />
+                            )}
+                            <p>{info[detailId].charging_speed}</p>
+                            <ChargerStatus status={info[detailId].status} />
+                        </S.StatusContainer>
+                    </S.ChargerDetail>
+                </Link>
+            )}
+        </>
+    );
 }
