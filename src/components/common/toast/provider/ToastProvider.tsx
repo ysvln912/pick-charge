@@ -68,12 +68,10 @@ function ToastProvider(props: PropsWithChildren) {
       {children}
       {createPortal(
         <>
-          {isShow ? (
+          {isShow && (
             <S.ToastContainer isShow={isShow}>
               <Toast message={message} type={type} />
             </S.ToastContainer>
-          ) : (
-            <></>
           )}
         </>,
         document.querySelector("#root") as Element

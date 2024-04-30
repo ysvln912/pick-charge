@@ -10,6 +10,7 @@ export const Container = styled.button<Props>`
   bottom: 68px;
   width: 390px;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  z-index: ${({ theme }) => theme.ZINDEX.nav};
   padding: 1rem;
   background-color: ${({ theme, disabled }) =>
     disabled ? theme.PALETTE.gray[100] : theme.PALETTE.mainColor};
