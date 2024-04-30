@@ -3,7 +3,6 @@ import React from "react";
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
-
 import profile from "@/assets/imgs/profile_big.png";
 import LabelInput from "@/components/common/labelInput/LabelInput";
 import Button from "@/components/common/button/Button";
@@ -25,6 +24,7 @@ export default function MyInfo() {
         resign: false,
     };
 
+
     return (
         <S.UserInfoContainer>
             <TopNavigationBar text="내 정보 관리" leftBtn={<ArrowLeftIcon />} />
@@ -37,10 +37,10 @@ export default function MyInfo() {
                     <S.EmailPara>{user.email}</S.EmailPara>
                 </S.ProfileInfoContainer>
 
-                <LabelInput label="이메일" value={user.email} />
-                <LabelInput label="이름" value={user.userName} />
+                <LabelInput label="이메일" name="email" value={user.email} />
+                <LabelInput label="이름" name="name" value={user.userName} />
                 <S.EditContainer>
-                    <LabelInput label="닉네임" value={user.nickname} />
+                    <LabelInput label="닉네임" name="nickname" value={user.nickname} />
                     <Button size="sm" category="normal">
                         수정하기
                     </Button>
