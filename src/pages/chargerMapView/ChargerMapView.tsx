@@ -164,7 +164,7 @@ export default function ChargerMapView() {
     useEffect(() => {
         setCenter({
             lat: chargerInfo.address.latitude,
-            lon: chargerInfo.address.longitude
+            lon: chargerInfo.address.longitude,
         });
     }, [chargerInfo]);
 
@@ -175,8 +175,10 @@ export default function ChargerMapView() {
                 var lat = position.coords.latitude, // 위도
                     lon = position.coords.longitude; // 경도
 
-                var locPosition = new window.kakao.maps.LatLng(lat, lon);
-                // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                setCenter({
+                    lat,
+                    lon,
+                });
             });
         } else {
             // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -216,7 +218,11 @@ export default function ChargerMapView() {
                     <p>목록보기</p>
                 </Button>
             </S.ButtonContainer>
-            <ChargerMap info={sampleData} center={center} key={`${center.lat}-${center.lon}`}/>
+            <ChargerMap
+                info={sampleData}
+                center={center}
+                key={`${center.lat}-${center.lon}`}
+            />
         </div>
     );
 }
