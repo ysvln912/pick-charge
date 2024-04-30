@@ -37,3 +37,12 @@ export const SubmitButton = styled.button`
   background-color: transparent;
   height: 32px;
 `;
+
+export const Svg = styled.svg`
+  width: 19px;
+  height: 16px;
+`;
+
+export const Path = styled.path<{ active: boolean }>`
+  fill: ${({ active }) => (active ? "#02C0C0" : "#d9d9d9")};
+`;

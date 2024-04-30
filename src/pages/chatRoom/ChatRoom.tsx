@@ -51,7 +51,7 @@ export default function ChatRoom() {
         <OtherChat
           profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
           createdAt="오후 04:55"
-          text="유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때 유저 프로필 이미지 있을 때"
+          text="유저 프로필 이미지 있을 때 + 장문일 때 유저 프로필 이미지 있을 때 + 장문일 때 유저 프로필 이미지 있을 때 + 장문일 때 유저 프로필 이미지 있을 때 + 장문일 때 유저 프로필 이미지 있을 때 + 장문일 때 유저 프로필 이미지 있을 때 + 장문일 때"
         />
         <OtherChat
           profileImg=""
