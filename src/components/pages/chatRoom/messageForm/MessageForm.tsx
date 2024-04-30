@@ -1,7 +1,6 @@
 import formatTime from "@/utils/formatTime";
 import React from "react";
 import * as S from "./MessageForm.style";
-
 export interface MessageFormProps {
   text: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +18,7 @@ export default function MessageForm({
       return;
     }
     const createdAt = formatTime();
+
     onSubmit(text, createdAt);
   };
   return (
@@ -30,15 +30,13 @@ export default function MessageForm({
         onChange={onChange}
       />
       <S.SubmitButton>
-        <svg
+        <S.Svg
           xmlns="http://www.w3.org/2000/svg"
-          width="19"
-          height="16"
           viewBox="0 0 19 16"
           fill="none"
         >
-          <path d="M0 16V10L8 8L0 6V0L19 8L0 16Z" fill="#D9D9D9" />
-        </svg>
+          <S.Path d="M0 16V10L8 8L0 6V0L19 8L0 16Z" active={text !== ""} />
+        </S.Svg>
       </S.SubmitButton>
     </S.Form>
   );
