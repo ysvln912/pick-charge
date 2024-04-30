@@ -57,28 +57,30 @@ export default function ChargerMapView() {
     }, []);
 
     useEffect(() => {
-        var geocoder = new window.kakao.maps.services.Geocoder();
-        var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
+        if (chargerInfo.address.location) {
+            var geocoder = new window.kakao.maps.services.Geocoder();
+            var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
 
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(
-            chargerInfo.address.location,
-            function (result: any, status: string) {
-                // 정상적으로 검색이 완료됐으면
-                if (status === window.kakao.maps.services.Status.OK) {
-                    coords = {
-                        lat: Number(result[0].y),
-                        lon: Number(result[0].x),
-                    };
-                    setCenter({
-                        lat: coords.lat,
-                        lon: coords.lon,
-                    });
-                } else {
-                    console.log("위도/경도를 구할 수 없습니다.");
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(
+                chargerInfo.address.location,
+                function (result: any, status: string) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === window.kakao.maps.services.Status.OK) {
+                        coords = {
+                            lat: Number(result[0].y),
+                            lon: Number(result[0].x),
+                        };
+                        setCenter({
+                            lat: coords.lat,
+                            lon: coords.lon,
+                        });
+                    } else {
+                        console.log("위도/경도를 구할 수 없습니다.");
+                    }
                 }
-            }
-        );
+            );
+        }
     }, [chargerInfo]);
 
     const sampleData: Charger[] = [

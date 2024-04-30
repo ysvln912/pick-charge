@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerListView.style";
@@ -8,9 +8,24 @@ import Input from "@/components/common/input/input";
 import LeftIcon from "@/components/common/icons/LeftIcon";
 import Button from "@/components/common/button/Button";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
+import { SearchInfo } from "../chargerMapView/ChargerMapView";
+import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 
 export default function ChargerListView() {
     const navigate = useNavigate();
+    const [chargerInfo, setChargerInfo] = useState<SearchInfo>({
+        address: {
+            name: "",
+            location: "",
+            latitude: 0,
+            longitude: 0,
+        },
+        keyword: "",
+    });
+
+    useEffect(()=>{
+        console.log("api 요청")
+    },[chargerInfo])
 
     const sampleData: Charger[] = [
         {
@@ -85,14 +100,19 @@ export default function ChargerListView() {
 
     return (
         <div>
-            <Input>
+            <ChargerSearch
+                chargerInfo={chargerInfo}
+                setChargerInfo={setChargerInfo}
+                viewtype="list"
+            />
+            {/* <Input>
                 <Input.Base>
                     <Input.Left>
                         <LeftIcon />
                     </Input.Left>
                     <Input.Center placeholder="충전소를 검색해 보세요." />
                 </Input.Base>
-            </Input>
+            </Input> */}
             <div>
             {sampleData.map((data) => {
                 return (

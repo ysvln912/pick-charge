@@ -7,15 +7,19 @@ import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
 import { SearchInfo } from "@/pages/chargerMapView/ChargerMapView";
 import { useDebounce } from "@/hooks/useDebounce";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
+import Input from "@/components/common/input/input";
+import LeftIcon from "@/components/common/icons/LeftIcon";
 
 interface ChargerSearchProps {
     chargerInfo: SearchInfo;
     setChargerInfo: React.Dispatch<React.SetStateAction<SearchInfo>>;
+    viewtype?: "map" | "list";
 }
 
 export default function ChargerSearch({
     chargerInfo,
     setChargerInfo,
+    viewtype = "map",
 }: ChargerSearchProps) {
     const [show, setShow] = useState(false);
     const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
@@ -47,16 +51,36 @@ export default function ChargerSearch({
         setShow(false);
     };
 
+    console.log(`show : ${show}`);
+    console.log(`searchResults : ${searchResults}`);
+
     return (
-        <S.SearchContainer>
-            <SearchInput
-                placeholder="충전소를 검색해보세요"
-                onChange={updateInput}
-                value={chargerInfo.keyword}
-                name="keyword"
-            />
+        <S.SearchContainer viewstyle={viewtype}>
+            {viewtype === "map" ? (
+                <SearchInput
+                    placeholder="충전소를 검색해보세요"
+                    onChange={updateInput}
+                    value={chargerInfo.keyword}
+                    name="keyword"
+                />
+            ) : (
+                <Input>
+                    <Input.Base>
+                        <Input.Left>
+                            <LeftIcon />
+                        </Input.Left>
+                        <Input.Center
+                            placeholder="충전소를 검색해 보세요."
+                            onChange={updateInput}
+                            value={chargerInfo.keyword}
+                            name="keyword"
+                        />
+                    </Input.Base>
+                </Input>
+            )}
+
             {show && searchResults.length > 0 && (
-                <S.SearchResultsBox>
+                <S.SearchResultsBox viewstyle={viewtype}>
                     {searchResults.map((result) => (
                         <SearchResultItem
                             key={result.id}
