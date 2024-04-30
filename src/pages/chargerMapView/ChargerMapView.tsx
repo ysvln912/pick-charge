@@ -34,6 +34,13 @@ export default function ChargerMapView() {
         },
         keyword: "",
     });
+    const [center, setCenter] = useState<{
+        lat: number;
+        lon: number;
+    }>({
+        lat: 0,
+        lon: 0,
+    });
     const debouncedKeyword = useDebounce(chargerInfo.keyword);
     const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
 
@@ -128,8 +135,10 @@ export default function ChargerMapView() {
             function (result: any, status: string) {
                 // 정상적으로 검색이 완료됐으면
                 if (status === window.kakao.maps.services.Status.OK) {
-                    coords = { lat: Number(result[0].y), lon: Number(result[0].x) };
-                    console.log(`coords : ${coords.lat}, ${coords.lon}`);
+                    coords = {
+                        lat: Number(result[0].y),
+                        lon: Number(result[0].x),
+                    };
                     setChargerInfo((info) => ({
                         ...info,
                         keyword: name,
@@ -141,7 +150,6 @@ export default function ChargerMapView() {
                         },
                     }));
                     setShow(false);
-                    console.log("지도 센터 이동");
                 } else {
                     console.log("위도/경도를 구할 수 없습니다.");
                 }
@@ -149,10 +157,16 @@ export default function ChargerMapView() {
         );
     };
 
-    console.log(chargerInfo);
     useEffect(() => {
         searchAddress(debouncedKeyword, setSearchResults);
     }, [debouncedKeyword]);
+
+    useEffect(() => {
+        setCenter({
+            lat: chargerInfo.address.latitude,
+            lon: chargerInfo.address.longitude
+        });
+    }, [chargerInfo]);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -202,7 +216,7 @@ export default function ChargerMapView() {
                     <p>목록보기</p>
                 </Button>
             </S.ButtonContainer>
-            <ChargerMap info={sampleData} />
+            <ChargerMap info={sampleData} center={center} key={`${center.lat}-${center.lon}`}/>
         </div>
     );
 }

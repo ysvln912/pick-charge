@@ -11,34 +11,38 @@ declare global {
 export interface ChargerProps {
     info: Charger[];
     type?: "full" | "half";
+    center : {
+        lat : number;
+        lon : number
+    }
 }
 
-export default function ChargerMap({ info, type = "full" }: ChargerProps) {
+export default function ChargerMap({ info, type = "full", center }: ChargerProps) {
     useEffect(() => {
         let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         let options = {
             //지도를 생성할 때 필요한 기본 옵션
-            center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-            level: 6, //지도의 레벨(확대, 축소 정도)
+            center: new window.kakao.maps.LatLng(center.lat, center.lon), //지도의 중심좌표.
+            level: 5, //지도의 레벨(확대, 축소 정도)
         };
 
         let map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
-        if (navigator.geolocation) {
-            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var lat = position.coords.latitude, // 위도
-                    lon = position.coords.longitude; // 경도
+        // if (navigator.geolocation) {
+        //     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        //     navigator.geolocation.getCurrentPosition(function (position) {
+        //         var lat = position.coords.latitude, // 위도
+        //             lon = position.coords.longitude; // 경도
 
-                var locPosition = new window.kakao.maps.LatLng(lat, lon);
-                // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        //         var locPosition = new window.kakao.maps.LatLng(lat, lon);
+        //         // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 
-                map.setCenter(locPosition);
-            });
-        } else {
-            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-            console.log("geolocation을 사용할수 없어요..");
-        }
+        //         map.setCenter(locPosition);
+        //     });
+        // } else {
+        //     // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+        //     console.log("geolocation을 사용할수 없어요..");
+        // }
 
         // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
         window.kakao.maps.event.addListener(map, "dragend", function () {
