@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { flexColumn } from "@/styles/common";
 
 export const SearchContainer = styled.div`
     position: absolute;
@@ -16,8 +17,19 @@ export const ButtonContainer = styled.div`
         color: ${({ theme }) => theme.PALETTE.gray[400]};
     }
     svg {
-        width : 20px;
-        height : 20px;
+        width: 20px;
+        height: 20px;
         margin-right: 0.5rem;
     }
+`;
+
+export const SearchResultsBox = styled.div`
+    border-radius: 5px;
+    border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+    background-color: ${({ theme }) => theme.PALETTE.white};
+    ${flexColumn};
+    position: absolute;
+    width: 87.5%;
+    top: 70px;
+    z-index: 2;
 `;
