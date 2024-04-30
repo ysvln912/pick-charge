@@ -8,6 +8,15 @@ import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 
+export interface SearchInfo {
+    address: {
+        name: string;
+        location: string;
+        latitude: number;
+        longitude: number;
+    };
+    keyword: string;
+}
 
 export default function ChargerMapView() {
     const navigate = useNavigate();
@@ -19,6 +28,58 @@ export default function ChargerMapView() {
         lon: 0,
     });
 
+    const [chargerInfo, setChargerInfo] = useState<SearchInfo>({
+        address: {
+            name: "",
+            location: "",
+            latitude: 0,
+            longitude: 0,
+        },
+        keyword: "",
+    });
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+
+                setCenter({
+                    lat,
+                    lon,
+                });
+            });
+        } else {
+            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            console.log("geolocation을 사용할수 없어요..");
+        }
+    }, []);
+
+    useEffect(() => {
+        var geocoder = new window.kakao.maps.services.Geocoder();
+        var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(
+            chargerInfo.address.location,
+            function (result: any, status: string) {
+                // 정상적으로 검색이 완료됐으면
+                if (status === window.kakao.maps.services.Status.OK) {
+                    coords = {
+                        lat: Number(result[0].y),
+                        lon: Number(result[0].x),
+                    };
+                    setCenter({
+                        lat: coords.lat,
+                        lon: coords.lon,
+                    });
+                } else {
+                    console.log("위도/경도를 구할 수 없습니다.");
+                }
+            }
+        );
+    }, [chargerInfo]);
 
     const sampleData: Charger[] = [
         {
@@ -91,10 +152,12 @@ export default function ChargerMapView() {
         },
     ];
 
-
     return (
         <div>
-            <ChargerSearch center={center} setCenter={setCenter} />
+            <ChargerSearch
+                chargerInfo={chargerInfo}
+                setChargerInfo={setChargerInfo}
+            />
             <S.ButtonContainer>
                 <Button
                     size="md"
