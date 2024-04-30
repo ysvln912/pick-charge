@@ -7,16 +7,18 @@ import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
-import {
-    IAddress,
-    ISearchResult,
-} from "../registerCharger/RegisterCharger";
+import { ISearchResult } from "../registerCharger/RegisterCharger";
 import { useDebounce } from "@/hooks/useDebounce";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
 import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
 
 interface SearchInfo {
-    address: IAddress;
+    address: {
+        name: string;
+        location: string;
+        latitude: string;
+        longitude: string;
+    };
     keyword: string;
 }
 
@@ -27,6 +29,8 @@ export default function ChargerMapView() {
         address: {
             name: "",
             location: "",
+            latitude: "",
+            longitude: "",
         },
         keyword: "",
     });
@@ -104,8 +108,6 @@ export default function ChargerMapView() {
         },
     ];
 
-    
-
     const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.currentTarget;
         if (name === "keyword") {
@@ -115,18 +117,58 @@ export default function ChargerMapView() {
     };
 
     const updateSearchItem = (name: string, location: string) => {
-        setChargerInfo((info) => ({
-            ...info,
-            keyword: name,
-            address: { name, location },
-        }));
-        setShow(false);
-        console.log("지도 센터 이동")
+        //주소로 좌표 구하기 추가
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new window.kakao.maps.services.Geocoder();
+        var coords: { lat: string; lon: string } = { lat: "", lon: "" };
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(
+            location,
+            function (result: any, status: string) {
+                // 정상적으로 검색이 완료됐으면
+                if (status === window.kakao.maps.services.Status.OK) {
+                    coords = { lat: result[0].y, lon: result[0].x };
+                    console.log(`coords : ${coords.lat}, ${coords.lon}`);
+                    setChargerInfo((info) => ({
+                        ...info,
+                        keyword: name,
+                        address: {
+                            name,
+                            location,
+                            latitude: coords.lat,
+                            longitude: coords.lon,
+                        },
+                    }));
+                    setShow(false);
+                    console.log("지도 센터 이동");
+                } else {
+                    console.log("위도/경도를 구할 수 없습니다.");
+                }
+            }
+        );
     };
 
+    console.log(chargerInfo);
     useEffect(() => {
         searchAddress(debouncedKeyword, setSearchResults);
     }, [debouncedKeyword]);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+
+                var locPosition = new window.kakao.maps.LatLng(lat, lon);
+                // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            });
+        } else {
+            // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            console.log("geolocation을 사용할수 없어요..");
+        }
+    }, []);
 
     return (
         <div>
