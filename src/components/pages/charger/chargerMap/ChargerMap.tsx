@@ -40,6 +40,18 @@ export default function ChargerMap({ info, type = "full" }: ChargerProps) {
             console.log("geolocation을 사용할수 없어요..");
         }
 
+        // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+        window.kakao.maps.event.addListener(map, "dragend", function () {
+            // 지도 중심좌표를 얻어옵니다
+            var latlng = map.getCenter();
+
+            var message =
+                "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
+            message += "경도는 " + latlng.getLng() + " 입니다";
+
+            console.log(message);
+        });
+
         // 마커 이미지의 이미지 주소입니다
         var imageSrc =
             "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";

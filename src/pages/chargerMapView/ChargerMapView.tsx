@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerMapView.style";
@@ -7,9 +7,31 @@ import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
+import {
+    IAddress,
+    ISearchResult,
+} from "../registerCharger/RegisterCharger";
+import { useDebounce } from "@/hooks/useDebounce";
+import { searchAddress } from "@/apis/kakaoSearchAddress";
+import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
+
+interface SearchInfo {
+    address: IAddress;
+    keyword: string;
+}
 
 export default function ChargerMapView() {
     const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const [chargerInfo, setChargerInfo] = useState<SearchInfo>({
+        address: {
+            name: "",
+            location: "",
+        },
+        keyword: "",
+    });
+    const debouncedKeyword = useDebounce(chargerInfo.keyword);
+    const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
 
     const sampleData: Charger[] = [
         {
@@ -21,7 +43,7 @@ export default function ChargerMapView() {
             latitude: 37.537598,
             longitude: 127.082334,
             content: "이 충전기는 전기차를 위한 빠른 충전을 지원합니다.",
-            avg_rate: 4.5,
+            avg_rate: "4.5",
             company_name: "에코차지 주식회사",
             member_price: 10,
             nonmember_price: 15,
@@ -38,7 +60,7 @@ export default function ChargerMapView() {
             latitude: 37.537216,
             longitude: 127.071839,
             content: "이 충전기는 전기차를 위한 표준 충전을 제공합니다.",
-            avg_rate: 3.8,
+            avg_rate: "3.8",
             company_name: "에코차지 주식회사",
             member_price: 5,
             nonmember_price: 10,
@@ -55,7 +77,7 @@ export default function ChargerMapView() {
             latitude: 37.543924,
             longitude: 127.075433,
             content: "이 충전기는 스마트한 기능을 제공하는 급속 충전기입니다.",
-            avg_rate: 4.2,
+            avg_rate: "4.2",
             company_name: "스마트차지 주식회사",
             member_price: 12,
             nonmember_price: 18,
@@ -72,7 +94,7 @@ export default function ChargerMapView() {
             latitude: 37.548327,
             longitude: 127.07299,
             content: "이 충전기는 편의시설과 함께 제공되는 완속 충전기입니다.",
-            avg_rate: 4.0,
+            avg_rate: "4.0",
             company_name: "편의차지 주식회사",
             member_price: 8,
             nonmember_price: 12,
@@ -82,10 +104,50 @@ export default function ChargerMapView() {
         },
     ];
 
+    
+
+    const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.currentTarget;
+        if (name === "keyword") {
+            setShow(true);
+        }
+        setChargerInfo((info) => ({ ...info, [name]: value }));
+    };
+
+    const updateSearchItem = (name: string, location: string) => {
+        setChargerInfo((info) => ({
+            ...info,
+            keyword: name,
+            address: { name, location },
+        }));
+        setShow(false);
+        console.log("지도 센터 이동")
+    };
+
+    useEffect(() => {
+        searchAddress(debouncedKeyword, setSearchResults);
+    }, [debouncedKeyword]);
+
     return (
         <div>
             <S.SearchContainer>
-                <SearchInput placeholder="충전소를 검색해보세요" />
+                <SearchInput
+                    placeholder="충전소를 검색해보세요"
+                    onChange={updateInput}
+                    value={chargerInfo.keyword}
+                    name="keyword"
+                />
+                {show && searchResults.length > 0 && (
+                    <S.SearchResultsBox>
+                        {searchResults.map((result) => (
+                            <SearchResultItem
+                                key={result.id}
+                                {...result}
+                                onClick={updateSearchItem}
+                            />
+                        ))}
+                    </S.SearchResultsBox>
+                )}
             </S.SearchContainer>
             <S.ButtonContainer>
                 <Button
