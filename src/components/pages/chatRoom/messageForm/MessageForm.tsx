@@ -1,7 +1,6 @@
 import formatTime from "@/utils/formatTime";
 import React from "react";
 import * as S from "./MessageForm.style";
-
 export interface MessageFormProps {
   text: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +18,7 @@ export default function MessageForm({
       return;
     }
     const createdAt = formatTime();
+
     onSubmit(text, createdAt);
   };
   return (
