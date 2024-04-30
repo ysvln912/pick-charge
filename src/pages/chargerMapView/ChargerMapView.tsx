@@ -16,8 +16,8 @@ interface SearchInfo {
     address: {
         name: string;
         location: string;
-        latitude: string;
-        longitude: string;
+        latitude: number;
+        longitude: number;
     };
     keyword: string;
 }
@@ -29,8 +29,8 @@ export default function ChargerMapView() {
         address: {
             name: "",
             location: "",
-            latitude: "",
-            longitude: "",
+            latitude: 0,
+            longitude: 0,
         },
         keyword: "",
     });
@@ -120,7 +120,7 @@ export default function ChargerMapView() {
         //주소로 좌표 구하기 추가
         // 주소-좌표 변환 객체를 생성합니다
         var geocoder = new window.kakao.maps.services.Geocoder();
-        var coords: { lat: string; lon: string } = { lat: "", lon: "" };
+        var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
 
         // 주소로 좌표를 검색합니다
         geocoder.addressSearch(
@@ -128,7 +128,7 @@ export default function ChargerMapView() {
             function (result: any, status: string) {
                 // 정상적으로 검색이 완료됐으면
                 if (status === window.kakao.maps.services.Status.OK) {
-                    coords = { lat: result[0].y, lon: result[0].x };
+                    coords = { lat: Number(result[0].y), lon: Number(result[0].x) };
                     console.log(`coords : ${coords.lat}, ${coords.lon}`);
                     setChargerInfo((info) => ({
                         ...info,
