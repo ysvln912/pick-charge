@@ -8,8 +8,8 @@ const PROFILE_SIZE: ObjMap = {
     height: 50px;
   `,
   md: css`
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   `,
 };
 
