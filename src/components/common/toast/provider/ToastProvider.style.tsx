@@ -6,7 +6,8 @@ export const ToastContainer = styled.div<{ isShow: boolean }>`
   transform: translateX(-50%);
   bottom: 70px;
   width: 370px;
+  z-index: ${({ theme }) => theme.ZINDEX.toast};
 
   opacity: ${({ isShow }) => (isShow ? 1 : 0)};
-  transition: opacity 0.2s ease;
+  transition: opacity 0.5s ease;
 `;

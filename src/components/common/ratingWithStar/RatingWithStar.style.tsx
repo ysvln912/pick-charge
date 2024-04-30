@@ -8,5 +8,5 @@ export const Container = styled.div`
 
 export const Rating = styled.p`
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-  font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+  font-size: ${({ theme }) => theme.FONT_SIZE.xs};
 `;

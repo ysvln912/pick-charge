@@ -6,11 +6,12 @@ import { ColorType } from "@/types";
 export interface InputCenterProps
   extends InputHTMLAttributes<HTMLInputElement> {
   color?: ColorType;
+  type?: string;
 }
 
 function InputCenter(props: InputCenterProps, ref: Ref<HTMLInputElement>) {
-  const { color = "default", ...rest } = props;
-  return <S.Input type="text" ref={ref} color={color} {...rest} />;
+  const { color = "default", type = "text", ...rest } = props;
+  return <S.Input type={type} ref={ref} color={color} {...rest} />;
 }
 
 export default forwardRef(InputCenter);

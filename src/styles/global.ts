@@ -49,12 +49,12 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Pretendard';
         letter-spacing : -0.3px;
         ${bodyContainer};
-        margin: 0 auto;
         position: relative;
         background-color: ${({ theme }) => theme.PALETTE.gray[100]};
     }
 
     #root{
+        overflow: auto;
         min-height: 100vh;
         background-color: ${({ theme }) => theme.PALETTE.white};
     }
@@ -67,14 +67,42 @@ const GlobalStyles = createGlobalStyle`
         list-style: none;
     }
 
-    ::-webkit-scrollbar {
-        display: none;
-    }
-
     a{
         text-decoration: none;
         color: inherit;
     }
+
+    input:-webkit-autofill { 
+        -webkit-box-shadow: 0 0 0 30px #fff inset; 
+        -webkit-text-fill-color: #000; 
+    }
+
+    input:-webkit-autofill, 
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active { 
+        transition: background-color 5000s ease-in-out 0s; 
+    }
+
+    ::-webkit-scrollbar {
+    /* width: 10px; */
+    /* background-color: ${({ theme }) => theme.PALETTE.gray[100]}; */
+    display: none;
+  }
+/* 
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.PALETTE.gray[300]};
+    border-radius: 10px;
+
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    max-height: 40px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.PALETTE.gray[100]};
+    border-radius: 10px;
+  } */
 `;
 
 export default GlobalStyles;

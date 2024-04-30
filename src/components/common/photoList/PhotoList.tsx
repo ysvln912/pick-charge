@@ -2,9 +2,14 @@ import React from "react";
 import * as S from "./PhotoList.style";
 import PhotoCard from "../photoCard/PhotoCard";
 
-export default function PhotoList({ imgs }: { imgs: string[] }) {
+export interface PhotoListProps {
+  imgs: string[];
+  onClick?: () => void;
+}
+
+export default function PhotoList({ imgs, onClick }: PhotoListProps) {
   return (
-    <S.List>
+    <S.List onClick={onClick}>
       {imgs.map((img, index) => {
         return <PhotoCard key={index} url={img}></PhotoCard>;
       })}

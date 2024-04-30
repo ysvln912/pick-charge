@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import * as S from "./BottomNavigationBar.style";
 import HomeIcon from "../icons/HomeIcon";
-import MapIcon from "../icons/MapIcon";
+import OutlineMapIcon from "../icons/OutlineMapIcon";
 import ChatIcon from "../icons/ChatIcon";
 import PersonIcon from "../icons/PersonIcon";
 
@@ -14,8 +14,8 @@ export default function BottomNavigationBar() {
                 <HomeIcon />
                 <p>메인</p>
             </NavLink>
-            <NavLink to={"/charging-map"}>
-                <MapIcon />
+            <NavLink to={"/charger/map"}>
+                <OutlineMapIcon />
                 <p>충전소</p>
             </NavLink>
             <NavLink to={"/chat-list"}>

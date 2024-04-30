@@ -3,14 +3,18 @@ import * as S from "./Base.style";
 import { HTMLAttributes, forwardRef, Ref, ReactNode, useState } from "react";
 import { SizeType, ShapeType, ColorType } from "@/types";
 
-export interface InputBaseProps extends HTMLAttributes<HTMLDivElement> {
-  error?: boolean;
+export interface InputBaseStyleProps extends HTMLAttributes<HTMLDivElement> {
+  $error?: boolean;
+  $isFocus?: boolean;
   size?: SizeType;
   shape?: ShapeType;
   color?: ColorType;
-  isFocus?: boolean;
   disabled?: boolean;
+}
+
+export interface InputBaseProps extends InputBaseStyleProps {
   children: ReactNode;
+  error?: boolean;
 }
 
 function InputBase(props: InputBaseProps, ref: Ref<HTMLInputElement>) {
@@ -39,9 +43,9 @@ function InputBase(props: InputBaseProps, ref: Ref<HTMLInputElement>) {
         size={size}
         shape={shape}
         color={color}
-        error={error}
         disabled={disabled}
-        isFocus={isFocus}
+        $isFocus={isFocus}
+        $error={error}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...props}

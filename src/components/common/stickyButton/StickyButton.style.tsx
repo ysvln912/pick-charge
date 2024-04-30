@@ -4,12 +4,13 @@ interface Props {
   disabled: boolean;
 }
 
-export const Container = styled.div<Props>`
+export const Container = styled.button<Props>`
   position: fixed;
   // 하단 네비게이션 높이값
-  bottom: 48.8px;
+  bottom: 68px;
   width: 390px;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  z-index: ${({ theme }) => theme.ZINDEX.nav};
   padding: 1rem;
   background-color: ${({ theme, disabled }) =>
     disabled ? theme.PALETTE.gray[100] : theme.PALETTE.mainColor};
