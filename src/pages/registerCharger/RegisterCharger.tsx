@@ -1,5 +1,4 @@
 import { searchAddress } from "@/apis/kakaoSearchAddress";
-import Button from "@/components/common/button/Button";
 import IconButton from "@/components/common/iconButton/IconButton";
 import Label from "@/components/common/label/Label";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
@@ -7,14 +6,13 @@ import SearchInput from "@/components/common/searchInput/SearchInput";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import Textarea from "@/components/common/textarea/Textarea";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ChargerCard from "@/components/pages/registerCharger/ChargerCard";
-import DetailedAddress from "@/components/pages/registerCharger/DetailedAddress";
-import SearchResultItem from "@/components/pages/registerCharger/SearchResultItem";
-import SpeedRadioBtn from "@/components/pages/registerCharger/SpeedRadioBtn";
+import DetailedAddress from "@/components/pages/registerCharger/detailedAddress/DetailedAddress";
+import SearchResultItem from "@/components/pages/registerCharger/searchResultItem/SearchResultItem";
+import SpeedRadioBtn from "@/components/pages/registerCharger/speedRadioBtn/SpeedRadioBtn";
 import { useDebounce } from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
-import FareInput from "@/components/pages/registerCharger/FareInput";
+import FareInput from "@/components/pages/registerCharger/fareInput/FareInput";
 import StickButton from "@/components/common/stickyButton/StickyButton";
 export interface IChargerInfo {
   address: IAddress;
@@ -22,12 +20,6 @@ export interface IChargerInfo {
   detailed: string;
   speed: string;
   fare: string;
-}
-export interface ICard {
-  id: string;
-  speed: string;
-  fare: string;
-  chargerType: string;
 }
 
 export interface IAddress {
@@ -50,6 +42,16 @@ export interface ISearchResult {
   y: string;
 }
 
+export interface IError {
+  isError: boolean;
+  errorMessage: string;
+}
+export interface IErrors {
+  address: IError;
+  fare: IError;
+  chargerType: IError;
+}
+
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
     address: {
@@ -63,16 +65,44 @@ export default function RegisterCharger() {
   });
   const [chargerType, setChargerType] = useState<string | null>(null);
   const [content, setContent] = useState("");
-  const [cards, setCards] = useState<ICard[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
   const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState<IErrors>({
+    address: { isError: false, errorMessage: "" },
+    fare: { isError: false, errorMessage: "" },
+    chargerType: { isError: false, errorMessage: "" },
+  });
 
   const testInputValue = () => {
+    if (chargerInfo.address.location === "") {
+      setErrors((prev) => ({
+        ...prev,
+        address: { isError: true, errorMessage: "필수 입력 항목입니다." },
+      }));
+      return;
+    }
+    if (chargerInfo.fare === "") {
+      setErrors((prev) => ({
+        ...prev,
+        fare: { isError: true, errorMessage: "필수 입력 항목입니다." },
+      }));
+      return;
+    }
+    if (chargerType === null) {
+      setErrors((prev) => ({
+        ...prev,
+        chargerType: { isError: true, errorMessage: "필수 입력 항목입니다." },
+      }));
+      return;
+    }
     console.log(
-      JSON.stringify(chargerInfo),
-      cards.map((card) => JSON.stringify(card)),
+      chargerInfo.address,
+      chargerInfo.detailed,
+      chargerInfo.speed,
+      chargerInfo.fare,
+      chargerType,
       content,
       photos.map((photo) => photo.name)
     );
@@ -84,6 +114,10 @@ export default function RegisterCharger() {
       keyword: name,
       address: { name, location },
     }));
+    setErrors((prev) => ({
+      ...prev,
+      address: { isError: false, errorMessage: "" },
+    }));
     setShow(false);
   };
 
@@ -91,6 +125,19 @@ export default function RegisterCharger() {
     const { name, value } = event.currentTarget;
     if (name === "keyword") {
       setShow(true);
+      setChargerInfo((prev) => ({
+        ...prev,
+        address: { name: "", location: "" },
+      }));
+    }
+    if (name === "keyword" && value === "") {
+      setShow(false);
+    }
+    if (name === "fare" && value !== "") {
+      setErrors((prev) => ({
+        ...prev,
+        fare: { isError: false, errorMessage: "" },
+      }));
     }
     setChargerInfo((info) => ({ ...info, [name]: value }));
   };
@@ -98,27 +145,6 @@ export default function RegisterCharger() {
   const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = event.currentTarget;
     setChargerType(value);
-  };
-
-  const addCard = () => {
-    if (!chargerInfo.speed || !chargerInfo.fare || !chargerType) {
-      return;
-    }
-    setCards((card) => [
-      {
-        id: String(Date.now()),
-        chargerType,
-        speed: chargerInfo.speed,
-        fare: chargerInfo.fare,
-      },
-      ...card,
-    ]);
-    setChargerInfo((prev) => ({ ...prev, fare: "" }));
-    setChargerType(null);
-  };
-
-  const deleteCard = (id: string) => {
-    setCards(cards.filter((card) => card.id !== id));
   };
 
   const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -147,10 +173,11 @@ export default function RegisterCharger() {
         <S.ColumnBox>
           <S.Box>
             <SearchInput
-              label="충전소 주소 *"
+              label="충전소 주소"
+              require
               placeholder="충전소 주소를 입력해 주세요."
-              error={false}
-              errorMessage="필수 입력 항목입니다."
+              error={errors.address.isError}
+              errorMessage={errors.address.errorMessage}
               value={chargerInfo.keyword}
               onChange={updateInput}
               name="keyword"
@@ -179,7 +206,9 @@ export default function RegisterCharger() {
         />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
-          <Label size="md">충전 속도 *</Label>
+          <Label size="md" require>
+            충전 속도
+          </Label>
           <S.RowBox>
             <SpeedRadioBtn
               id="fast"
@@ -196,23 +225,24 @@ export default function RegisterCharger() {
           </S.RowBox>
         </S.ColumnBox>
         <S.ColumnBox>
-          <Label size="md">요금 *</Label>
-          <FareInput value={chargerInfo.fare ?? ""} onChange={updateInput} />
+          <Label size="md" require>
+            요금
+          </Label>
+          <FareInput
+            value={chargerInfo.fare ?? ""}
+            onChange={updateInput}
+            error={errors.fare.isError}
+            errorMessage={errors.fare.errorMessage}
+          />
         </S.ColumnBox>
         <SelectCharger
           label
+          require
           value={chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           disabled={chargerInfo.speed === ""}
         />
-        {cards.length > 0 &&
-          cards.map((card) => {
-            return <ChargerCard key={card.id} {...card} onClick={deleteCard} />;
-          })}
-        <Button size="lg" category="normal" onClick={addCard}>
-          충전기 추가하기
-        </Button>
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."
