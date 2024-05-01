@@ -1,7 +1,8 @@
 import { MouseEvent } from "react";
 
-import Label from "../label/Label";
-import Select from "../select/Select";
+import Label from "@/components/common/label/Label";
+import Select from "@/components/common/select/Select";
+import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 import { SelectOptionsType } from "@/components/common/select/Select";
 
 interface OptionsMap {
@@ -21,6 +22,8 @@ const slowOptions: SelectOptionsType[] = [
 ];
 
 interface SelectChargerProps {
+  error?: boolean;
+  errorMessage?: string;
   disabled?: boolean;
   label?: boolean;
   type?: string;
@@ -33,22 +36,24 @@ export default function SelectCharger({
   disabled = false,
   type = "all",
   onChange,
+  errorMessage,
   require = false,
   value,
   label = false,
+  error = false,
 }: SelectChargerProps) {
   const optionsMap: OptionsMap = {
     fast: fastOptions,
     slow: slowOptions,
     all: [...fastOptions, ...slowOptions],
   };
-
   const options = optionsMap[type] || optionsMap["all"];
 
   return (
     <div>
       {label && <Label require={require}>충전기 타입</Label>}
       <Select
+        error={error}
         disabled={disabled}
         value={value}
         selectText="충전기 타입을 선택해 주세요."
@@ -56,6 +61,9 @@ export default function SelectCharger({
         onChange={onChange}
         options={options}
       />
+      {error && (
+        <ErrorMessage visible={error}>{errorMessage || error}</ErrorMessage>
+      )}
     </div>
   );
 }
