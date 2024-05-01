@@ -6,7 +6,7 @@ import { ChangeEvent, useState } from "react";
 import SearchInput, {
   SearchInputProps,
 } from "@/components/common/searchInput/SearchInput";
-import SearchResultItem from "../../registerCharger/SearchResultItem";
+import SearchResultItem from "../../registerCharger/searchResultItem/SearchResultItem";
 
 interface SearchChargerInputProps extends SearchInputProps {
   error: string | boolean;
