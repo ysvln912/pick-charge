@@ -1,10 +1,9 @@
 export interface UserType {
-  name: string;
-  code?: string;
-  passwordCheck?: string;
-  nickname: string;
   email: string;
+  code: string;
+  passwordCheck: string;
   password: string;
-  charger: string;
-  passwordConfirm?: string;
+  name?: string;
+  nickname?: string;
+  charger?: string;
 }

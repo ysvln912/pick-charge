@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./AccountForm.style";
 
-import { MouseEvent, useState, useEffect } from "react";
+import {
+  MouseEvent,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+} from "react";
 
 import EmailVerificationInput from "@/components/pages/signup/emailVerificationInput/EmailVerificationInput ";
 import LabelInput from "@/components/common/labelInput/LabelInput";
@@ -14,11 +21,11 @@ import { useToast } from "@/hooks/useToast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { UserType } from "@/types";
 interface AccountFormProps {
-  data: UserType;
+  setData: Dispatch<SetStateAction<UserType>>;
   onNext: () => void;
 }
 
-export default function AccountForm({ onNext }: AccountFormProps) {
+export default function AccountForm({ onNext, setData }: AccountFormProps) {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
@@ -76,6 +83,14 @@ export default function AccountForm({ onNext }: AccountFormProps) {
     }
   };
 
+  const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isFormValid) {
+      setData({ ...formState });
+      onNext();
+    }
+  };
+
   useEffect(() => {
     if (isTimeOver) {
       triggerToast(MESSAGE.SIGNUP.TIMER, "error");
@@ -84,7 +99,7 @@ export default function AccountForm({ onNext }: AccountFormProps) {
   }, [isTimeOver]);
 
   return (
-    <SignUpForm onSubmit={handleSubmit(onNext)}>
+    <SignUpForm onSubmit={handleSubmitForm}>
       <EmailVerificationInput
         name="email"
         label="이메일"

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as S from "./UserInfoForm.style";
 
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, Dispatch, SetStateAction } from "react";
 
 import EmailVerificationInput from "@/components/pages/signup/emailVerificationInput/EmailVerificationInput ";
 import LabelInput from "@/components/common/labelInput/LabelInput";
@@ -10,6 +10,7 @@ import Button from "@/components/common/button/Button";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import SignUpForm from "@/components/pages/signup/form/Form";
 
+import { UserType } from "@/types";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useToast } from "@/hooks/useToast";
 import { useSignUp } from "@/hooks/queries/user";
@@ -17,9 +18,15 @@ import { useSignUp } from "@/hooks/queries/user";
 import MESSAGE from "@/constants/message";
 interface UserInfoFormProps {
   onNext: () => void;
+  setData: Dispatch<SetStateAction<UserType>>;
+  data: UserType;
 }
 
-export default function UserInfoForm({ onNext }: UserInfoFormProps) {
+export default function UserInfoForm({
+  onNext,
+  setData,
+  data,
+}: UserInfoFormProps) {
   const [charger, setCharger] = useState<string | null>(null);
   const [isNickNameVerified, setIsNickNameVerified] = useState(false);
   const initialState = {
@@ -62,9 +69,14 @@ export default function UserInfoForm({ onNext }: UserInfoFormProps) {
   const handleUserInfoFormSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isFormValid) {
-      // 폼 유효성 검사
+      const { code, passwordCheck, ...rest } = data;
+      const submitData = {
+        ...rest,
+        ...formState,
+        charger,
+      };
+      console.log({ submitData }, "회원가입성공");
       // await signUp(formState);
-      console.log("회원가입성공");
       onNext();
     } else {
       console.log("폼 검증 실패");
