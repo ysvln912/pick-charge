@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerDetail.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
@@ -12,6 +12,7 @@ import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
 
 export default function ChargerDetail() {
+    const navigate = useNavigate();
     const sampleCharger = {
         id: 1,
         user_id: 101,
@@ -28,7 +29,20 @@ export default function ChargerDetail() {
         nonmember_price: 350.2,
         personal_price: 350.2,
         charger_role: "개인",
-        charger_type: "DC차데모, AC3상",
+        chargerTypeList: [
+            {
+                id: 125222,
+                type: "DC차데모",
+            },
+            {
+                id: 125223,
+                type: "AC3상",
+            },
+            {
+                id: 125224,
+                type: "DC콤보",
+            },
+        ],
     };
     const sampleReview = [
         {
@@ -100,7 +114,9 @@ export default function ChargerDetail() {
                         <td>
                             <ChargerStatus status={sampleCharger.status} />
                         </td>
-                        <td>{sampleCharger.charger_type}</td>
+                        <td>{sampleCharger.chargerTypeList.map((chargerType)=>{
+                            return <span key={chargerType.id}>{chargerType.type}</span>
+                        })}</td>
                     </tr>
                 </table>
             </S.ChargerInfo>
@@ -114,15 +130,19 @@ export default function ChargerDetail() {
                         <div>비회원가</div>
                     </div>
                     <div className="price-rate row">
-                        <div><span>{sampleCharger.member_price}원</span> /kWh</div>
-                        <div><span>{sampleCharger.nonmember_price}원</span> /kWh</div>
+                        <div>
+                            <span>{sampleCharger.member_price}원</span> /kWh
+                        </div>
+                        <div>
+                            <span>{sampleCharger.nonmember_price}원</span> /kWh
+                        </div>
                     </div>
                 </S.PriceInfo>
             </S.ChargerPrice>
             <S.ChargerReview>
                 <div className="reviewTitle">
                     <S.Title>충전소 리뷰 </S.Title>
-                    <Link to={"/"}>
+                    <Link to={`/charger/${sampleCharger.id}/reviews`}>
                         전체보기
                         <ArrowRightIcon />
                     </Link>
@@ -136,6 +156,7 @@ export default function ChargerDetail() {
                             address={sampleCharger.charger_name}
                             rating={review.rating}
                             review={review.content}
+                            onClick={() => {navigate(`/review/${review.id}`)}}
                         />
                     );
                 })}
