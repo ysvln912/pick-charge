@@ -9,6 +9,8 @@ import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
 import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
 import FastChargerIcon from "@/components/common/icons/FastChargerIcon";
 import SlowChargerIcon from "@/components/common/icons/SlowChargerIcon";
+import marker_individual from "@/assets/imgs/marker_individual.png"
+import marker_public from "@/assets/imgs/marker_public.png"
 
 declare global {
     interface Window {
@@ -59,12 +61,15 @@ export default function ChargerMap({
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
 
-        // 마커 이미지의 이미지 주소입니다
-        var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+       
 
         for (var i = 0; i < info.length; i++) {
-            // 마커 이미지의 이미지 크기 입니다
+            let imageSrc;
+            if(info[i].charger_role==="개인"){
+                imageSrc = marker_individual;
+            } else {
+                imageSrc = marker_public;
+            }
             var imageSize = new window.kakao.maps.Size(24, 35);
 
             // 마커 이미지를 생성합니다
