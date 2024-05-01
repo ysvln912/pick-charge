@@ -118,7 +118,8 @@ export default function RegisterCharger() {
         <S.ColumnBox>
           <S.Box>
             <SearchInput
-              label="충전소 주소 *"
+              label="충전소 주소"
+              require
               placeholder="충전소 주소를 입력해 주세요."
               error={false}
               errorMessage="필수 입력 항목입니다."
@@ -150,7 +151,9 @@ export default function RegisterCharger() {
         />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
-          <Label size="md">충전 속도 *</Label>
+          <Label size="md" require>
+            충전 속도
+          </Label>
           <S.RowBox>
             <SpeedRadioBtn
               id="fast"
@@ -167,11 +170,14 @@ export default function RegisterCharger() {
           </S.RowBox>
         </S.ColumnBox>
         <S.ColumnBox>
-          <Label size="md">요금 *</Label>
+          <Label size="md" require>
+            요금
+          </Label>
           <FareInput value={chargerInfo.fare ?? ""} onChange={updateInput} />
         </S.ColumnBox>
         <SelectCharger
           label
+          require
           value={chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
