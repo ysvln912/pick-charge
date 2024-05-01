@@ -1,7 +1,9 @@
+import { ChangeEvent, FocusEvent } from "react";
+
+import { ColorType } from "@/types";
 import Input from "@/components/common/input/input";
 import SearchIcon from "@/components/common/icons/SearchIcon";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
-import { ChangeEvent, FocusEvent } from "react";
 
 export interface SearchInputProps {
   require?: boolean;
@@ -13,6 +15,7 @@ export interface SearchInputProps {
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   name?: string;
   value?: string | null;
+  color?: ColorType;
 }
 
 export default function SearchInput({
@@ -22,6 +25,7 @@ export default function SearchInput({
   onChange,
   onFocus,
   error = false,
+  color = "primary",
   name,
   errorMessage,
   value,
@@ -29,7 +33,7 @@ export default function SearchInput({
   return (
     <Input>
       {label && <Input.Label require={require}>{label}</Input.Label>}
-      <Input.Base color="primary">
+      <Input.Base color={color}>
         <Input.Left>
           <SearchIcon />
         </Input.Left>
