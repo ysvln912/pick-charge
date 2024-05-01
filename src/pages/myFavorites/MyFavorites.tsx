@@ -16,8 +16,8 @@ const data: Charger[] = [
         charger_name: "퀵차지 2000",
         charging_speed: "급속",
         status: "이용가능",
-        latitude: 37.123456,
-        longitude: -122.345678,
+        latitude: 37.568830,
+        longitude: 126.899630,
         content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
         avg_rate: "4.5",
         company_name: "에코차지 주식회사",
@@ -188,11 +188,16 @@ export default function MyFavorites() {
                             {data.map((data) => {
                                 return (
                                     <ChargingInfo
-                                        path={`/charger/${data.id}`}
                                         info={data}
                                         like={true}
                                         tag={true}
                                         border="bottom"
+                                        onClick={() => {
+                                            setMapCenter({
+                                                lat: data.latitude,
+                                                lon: data.longitude,
+                                            });
+                                        }}
                                     />
                                 );
                             })}

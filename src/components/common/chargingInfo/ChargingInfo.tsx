@@ -31,37 +31,33 @@ export interface ChargingInfoProps {
     border: "full" | "bottom";
     like: boolean;
     tag: boolean;
-    path: string;
+    onClick: () => void;
 }
 
 export default function ChargingInfo(props: ChargingInfoProps) {
     return (
-        <Link to={props.path}>
-            <S.ChargingContainer border={props.border}>
-                <div>
-                    <S.ChargingContent>
-                        <p className="chargingTitle">
-                            {props.info.charger_name}
-                        </p>
-                        {props.tag && (
-                            <ChargingRoleCard role={props.info.charger_role} />
-                        )}
-                        <RatingWithStar rating={props.info.avg_rate} />
-                    </S.ChargingContent>
-                    <S.ChargingAddress>
-                        {props.info.charger_location}
-                    </S.ChargingAddress>
-                    <S.ChargingStatus>
-                        <ChargerStatus status={props.info.status} />
-                        <p className="type">{props.info.charger_type}</p>
-                    </S.ChargingStatus>
+        <S.ChargingContainer border={props.border} onClick={props.onClick}>
+            <div>
+                <S.ChargingContent>
+                    <p className="chargingTitle">{props.info.charger_name}</p>
+                    {props.tag && (
+                        <ChargingRoleCard role={props.info.charger_role} />
+                    )}
+                    <RatingWithStar rating={props.info.avg_rate} />
+                </S.ChargingContent>
+                <S.ChargingAddress>
+                    {props.info.charger_location}
+                </S.ChargingAddress>
+                <S.ChargingStatus>
+                    <ChargerStatus status={props.info.status} />
+                    <p className="type">{props.info.charger_type}</p>
+                </S.ChargingStatus>
+            </div>
+            {props.like && (
+                <div className="iconDiv">
+                    <IconButton icon="like" />
                 </div>
-                {props.like && (
-                    <div className="iconDiv">
-                        <IconButton icon="like" />
-                    </div>
-                )}
-            </S.ChargingContainer>
-        </Link>
+            )}
+        </S.ChargingContainer>
     );
 }
