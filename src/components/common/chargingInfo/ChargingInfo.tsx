@@ -1,9 +1,5 @@
-import { Link } from "react-router-dom";
-
 import * as S from "./ChargingInfo.style";
 import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
-import BatterErrorIcon from "../icons/BatteryErrorIcon";
-import BoltIcon from "../icons/BoltIcon";
 import IconButton from "../iconButton/IconButton";
 import RatingWithStar from "../ratingWithStar/RatingWithStar";
 import ChargerStatus from "../chargerStatus/ChargerStatus";

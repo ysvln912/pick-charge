@@ -113,7 +113,7 @@ export default function ChargerListView() {
                         like={false}
                         tag={true}
                         border="bottom"
-                        path={`/charger/${data.id}`}
+                        onClick={()=>{navigate(`/charger/${data.id}`)}}
                     />
                 );
             })}
