@@ -36,6 +36,7 @@ export default function FareInput({
     <>
       <S.Container>
         <S.Input
+          ref={inputRef}
           type="text"
           id="fare"
           name="fare"

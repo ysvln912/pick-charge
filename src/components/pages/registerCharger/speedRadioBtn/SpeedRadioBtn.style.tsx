@@ -4,6 +4,7 @@ import { flexAlignCenter } from "@/styles/common";
 export const Container = styled.div`
   ${flexAlignCenter}
   height: 25px;
+  margin-right: 8px;
 `;
 
 export const FakeRadioButton = styled.label<{ checked: boolean }>`
