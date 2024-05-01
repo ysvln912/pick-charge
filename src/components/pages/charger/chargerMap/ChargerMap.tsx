@@ -102,8 +102,48 @@ export default function ChargerMap({
         <>
             <S.MapContainer id="map" type={type} />
             {isDetailOpen && info[detailId] && (
-                <></>
+                <Link to={`/charger/${info[detailId].chargerStationId}`}>
+                    <S.ChargerStaitionDetail>
+                        <S.DetailTitle>
+                            {info[detailId].chargerName}
+                        </S.DetailTitle>
+                        <S.DetailLocation>
+                            {info[detailId].chargerLocation}
+                        </S.DetailLocation>
+                        {info[detailId].chargers.map((charger) => {
+                            return (
+                                <S.ChargerDetail key={charger.chargerId}>
+                                    <ChargingRoleCard
+                                        role={charger.chargerRole}
+                                    />
+                                    {/* <RatingWithStar rating={charger.avgRate} /> */}
+                                    <S.StatusContainer>
+                                        {charger.chargingSpeed === "급속" ? (
+                                            <FastChargerIcon />
+                                        ) : (
+                                            <SlowChargerIcon />
+                                        )}
+                                        <p>{charger.chargingSpeed}</p>
+                                        <ChargerStatus
+                                            status={charger.chargerStatus}
+                                        />
+                                    </S.StatusContainer>
+                                    <S.TypeContainer>
+                                        {charger.chargerTypeList.map((type) => {
+                                            return (
+                                                <S.DetailType key={type.id}>
+                                                    {type.type}
+                                                </S.DetailType>
+                                            );
+                                        })}
+                                    </S.TypeContainer>
+                                </S.ChargerDetail>
+                            );
+                        })}
+                    </S.ChargerStaitionDetail>
+                </Link>
             )}
         </>
     );
 }
+
