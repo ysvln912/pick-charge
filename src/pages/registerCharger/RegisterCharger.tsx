@@ -23,12 +23,6 @@ export interface IChargerInfo {
   speed: string;
   fare: string;
 }
-export interface ICard {
-  id: string;
-  speed: string;
-  fare: string;
-  chargerType: string;
-}
 
 export interface IAddress {
   name: string;
@@ -63,7 +57,6 @@ export default function RegisterCharger() {
   });
   const [chargerType, setChargerType] = useState<string | null>(null);
   const [content, setContent] = useState("");
-  const [cards, setCards] = useState<ICard[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
@@ -72,7 +65,6 @@ export default function RegisterCharger() {
   const testInputValue = () => {
     console.log(
       JSON.stringify(chargerInfo),
-      cards.map((card) => JSON.stringify(card)),
       content,
       photos.map((photo) => photo.name)
     );
@@ -98,27 +90,6 @@ export default function RegisterCharger() {
   const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = event.currentTarget;
     setChargerType(value);
-  };
-
-  const addCard = () => {
-    if (!chargerInfo.speed || !chargerInfo.fare || !chargerType) {
-      return;
-    }
-    setCards((card) => [
-      {
-        id: String(Date.now()),
-        chargerType,
-        speed: chargerInfo.speed,
-        fare: chargerInfo.fare,
-      },
-      ...card,
-    ]);
-    setChargerInfo((prev) => ({ ...prev, fare: "" }));
-    setChargerType(null);
-  };
-
-  const deleteCard = (id: string) => {
-    setCards(cards.filter((card) => card.id !== id));
   };
 
   const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -206,13 +177,6 @@ export default function RegisterCharger() {
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           disabled={chargerInfo.speed === ""}
         />
-        {cards.length > 0 &&
-          cards.map((card) => {
-            return <ChargerCard key={card.id} {...card} onClick={deleteCard} />;
-          })}
-        <Button size="lg" category="normal" onClick={addCard}>
-          충전기 추가하기
-        </Button>
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."

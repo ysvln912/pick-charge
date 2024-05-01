@@ -1,9 +1,12 @@
 import Button from "@/components/common/button/Button";
-import { ICard } from "@/pages/registerCharger/RegisterCharger";
 import * as S from "./ChargerCard.style";
 import React from "react";
 
-export interface ChargerCardProps extends ICard {
+export interface ChargerCardProps {
+  id: string;
+  speed: string;
+  fare: string;
+  chargerType: string;
   onClick: (id: string) => void;
 }
 
