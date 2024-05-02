@@ -97,15 +97,7 @@ export default function RegisterCharger() {
       }));
       return;
     }
-    console.log(
-      chargerInfo.address,
-      chargerInfo.detailed,
-      chargerInfo.speed,
-      chargerInfo.fare,
-      chargerType,
-      content,
-      photos.map((photo) => photo.name)
-    );
+    createCharger();
   };
 
   const updateSearchItem = (name: string, location: string) => {
@@ -144,6 +136,12 @@ export default function RegisterCharger() {
 
   const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = event.currentTarget;
+    if (value !== "") {
+      setErrors((prev) => ({
+        ...prev,
+        chargerType: { isError: false, errorMessage: "" },
+      }));
+    }
     setChargerType(value);
   };
 
@@ -162,7 +160,50 @@ export default function RegisterCharger() {
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
+  function createFormData() {
+    const formData = new FormData();
 
+    const jsonData = {
+      chargerLocation: chargerInfo.address.location,
+      chargerName: chargerInfo.address.name,
+      chargingSpeed: chargerInfo.speed,
+      latitude: 0,
+      longitude: 0,
+      content: content,
+      personalPrice: parseInt(chargerInfo.fare),
+      chargerTypeDtoList: [{ type: chargerType }],
+    };
+
+    formData.append("data", JSON.stringify(jsonData));
+    photos.forEach((photo) => {
+      formData.append("multipartFiles", photo);
+    });
+
+    return formData;
+  }
+
+  const createCharger = async () => {
+    const url = `/api/chargers/users/${1}`;
+
+    const formData = createFormData();
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "multipart/form-data" },
+        body: formData,
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const json = await res.json(); // 응답을 JSON으로 파싱
+      console.log(json);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <S.Container>
       <TopNavigationBar
@@ -173,6 +214,7 @@ export default function RegisterCharger() {
         <S.ColumnBox>
           <S.Box>
             <SearchInput
+              color={errors.address.isError ? "primary" : "default"}
               label="충전소 주소"
               require
               placeholder="충전소 주소를 입력해 주세요."
@@ -201,8 +243,6 @@ export default function RegisterCharger() {
           name="detailed"
           value={chargerInfo.detailed ?? ""}
           onChange={updateInput}
-          error={false}
-          errorMessage="필수 입력 항목입니다."
         />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
@@ -241,7 +281,8 @@ export default function RegisterCharger() {
           value={chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
-          disabled={chargerInfo.speed === ""}
+          error={errors.chargerType.isError}
+          errorMessage={errors.chargerType.errorMessage}
         />
         <Textarea
           label="내용"
