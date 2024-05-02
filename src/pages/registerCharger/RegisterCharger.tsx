@@ -208,8 +208,6 @@ export default function RegisterCharger() {
           name="detailed"
           value={chargerInfo.detailed ?? ""}
           onChange={updateInput}
-          error={false}
-          errorMessage="필수 입력 항목입니다."
         />
         <Label size="lg">충전기 정보</Label>
         <S.ColumnBox>
@@ -248,7 +246,6 @@ export default function RegisterCharger() {
           value={chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
-          disabled={chargerInfo.speed === ""}
           error={errors.chargerType.isError}
           errorMessage={errors.chargerType.errorMessage}
         />
