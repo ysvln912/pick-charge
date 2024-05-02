@@ -3,7 +3,7 @@ import StarIcon from "../icons/StarIcon";
 
 interface RatingWithStarProps {
   color?: string;
-  rating?: string;
+  rating?: number;
 }
 const mainColor = "#02c0c0";
 

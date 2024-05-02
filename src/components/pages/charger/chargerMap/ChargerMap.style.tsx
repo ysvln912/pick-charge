@@ -19,17 +19,22 @@ export const MapContainer = styled.div<{ type: "full" | "half" }>`
     ${({ type }) => MAP_TYPE[type]}
 `;
 
-export const ChargerDetail = styled.div`
+export const ChargerStaitionDetail = styled.div`
     position: absolute;
     width: 390px;
-    height: 190px;
     bottom: 68px;
     background-color: ${({ theme }) => theme.PALETTE.white};
     z-index: 2;
     padding: 1rem;
 `;
 
-export const DetailStatus = styled.div`
+export const ChargerDetail = styled.div`
+    margin: 0.3rem 0.5rem;
+    display: flex;
+    align-items: center;
+`;
+
+export const DetailRole = styled.div`
     display: flex;
 `;
 
@@ -53,6 +58,7 @@ export const DetailType = styled.span`
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
     border-radius: 0.2rem;
     padding: 0.2rem;
+    margin : 0 0.3rem;
     color: ${({ theme }) => theme.PALETTE.gray[400]};
     font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
@@ -61,6 +67,7 @@ export const DetailType = styled.span`
 export const StatusContainer = styled.div`
     margin: 0.3rem;
     display: flex;
+
     p {
         font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
         margin: 0 0.5rem;

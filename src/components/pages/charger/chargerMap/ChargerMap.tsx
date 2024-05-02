@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import * as S from "./ChargerMap.style";
-import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
+import { ChargerStation } from "@/types/charger";
 import { MapCenter } from "@/pages/chargerMapView/ChargerMapView";
 import ChargingRoleCard from "@/components/common/chargingRoleCard/ChargingRoleCard";
 import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
 import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
 import FastChargerIcon from "@/components/common/icons/FastChargerIcon";
 import SlowChargerIcon from "@/components/common/icons/SlowChargerIcon";
+import marker_individual from "@/assets/imgs/marker_individual.png";
+import marker_public from "@/assets/imgs/marker_public.png";
 
 declare global {
     interface Window {
@@ -17,7 +19,7 @@ declare global {
 }
 
 export interface ChargerProps {
-    info: Charger[];
+    info: ChargerStation[];
     type?: "full" | "half";
     mapCenter: MapCenter;
     setMapCenter: React.Dispatch<React.SetStateAction<MapCenter>>;
@@ -58,29 +60,29 @@ export default function ChargerMap({
             var latlng = map.getCenter();
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
-
-        // 마커 이미지의 이미지 주소입니다
-        var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-        for (var i = 0; i < info.length; i++) {
-            // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new window.kakao.maps.Size(24, 35);
+        for (let i = 0; i < info.length; i++) {
+            let imageSrc;
+            if (info[i].chargers[0].chargerRole === "개인") {
+                imageSrc = marker_individual;
+            } else {
+                imageSrc = marker_public;
+            }
+            let imageSize = new window.kakao.maps.Size(24, 35);
 
             // 마커 이미지를 생성합니다
-            var markerImage = new window.kakao.maps.MarkerImage(
+            let markerImage = new window.kakao.maps.MarkerImage(
                 imageSrc,
                 imageSize
             );
 
             // 마커를 생성합니다
-            var marker = new window.kakao.maps.Marker({
+            let marker = new window.kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
                 position: new window.kakao.maps.LatLng(
-                    info[i].latitude,
-                    info[i].longitude
+                    info[i].chargers[0].latitude,
+                    info[i].chargers[0].longitude
                 ), // 마커를 표시할 위치
-                title: info[i].charger_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                title: info[i].chargerName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
 
@@ -97,40 +99,48 @@ export default function ChargerMap({
         <>
             <S.MapContainer id="map" type={type} />
             {isDetailOpen && info[detailId] && (
-                <Link to={`/charger/${info[detailId].id}`}>
-                    <S.ChargerDetail>
-                        <S.DetailStatus>
-                            <ChargingRoleCard
-                                role={info[detailId].charger_role}
-                            />
-                            <RatingWithStar rating={info[detailId].avg_rate} />
-                        </S.DetailStatus>
-                        <S.DetailTitle>
-                            {info[detailId].charger_name}
-                        </S.DetailTitle>
-                        <S.DetailLocation>
-                            {info[detailId].charger_location}
-                        </S.DetailLocation>
-                        <S.TypeContainer>
-                            <S.DetailType>
-                                {info[detailId].charger_type}
-                            </S.DetailType>
-                            <S.DetailType>
-                                DC 콤보
-                            </S.DetailType>
-                        </S.TypeContainer>
-
-                        <S.StatusContainer>
-                            {info[detailId].charging_speed === "급속" ? (
-                                <FastChargerIcon />
-                            ) : (
-                                <SlowChargerIcon />
-                            )}
-                            <p>{info[detailId].charging_speed}</p>
-                            <ChargerStatus status={info[detailId].status} />
-                        </S.StatusContainer>
-                    </S.ChargerDetail>
-                </Link>
+                <S.ChargerStaitionDetail>
+                    {info[detailId].chargers.map((charger) => {
+                        return (
+                            <Link to={`/charger/${charger.chargerId}`}>
+                                <S.DetailRole>
+                                    <ChargingRoleCard
+                                        role={charger.chargerRole}
+                                    />
+                                    <RatingWithStar rating={charger.avgRate} />
+                                </S.DetailRole>
+                                <S.DetailTitle>
+                                    {charger.chargerName}
+                                </S.DetailTitle>
+                                <S.DetailLocation>
+                                    {charger.chargerLocation}
+                                </S.DetailLocation>
+                                <S.ChargerDetail>
+                                    <S.StatusContainer>
+                                        {charger.chargingSpeed === "급속" ? (
+                                            <FastChargerIcon />
+                                        ) : (
+                                            <SlowChargerIcon />
+                                        )}
+                                        <p>{charger.chargingSpeed}</p>
+                                        <ChargerStatus
+                                            status={charger.chargerStatus}
+                                        />
+                                    </S.StatusContainer>
+                                    <S.TypeContainer>
+                                        {charger.chargerTypeList.map((type) => {
+                                            return (
+                                                <S.DetailType key={type.id}>
+                                                    {type.type}
+                                                </S.DetailType>
+                                            );
+                                        })}
+                                    </S.TypeContainer>
+                                </S.ChargerDetail>
+                            </Link>
+                        );
+                    })}
+                </S.ChargerStaitionDetail>
             )}
         </>
     );
