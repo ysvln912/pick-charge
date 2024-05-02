@@ -10,6 +10,7 @@ import Button from "@/components/common/button/Button";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import SignUpForm from "@/components/pages/signup/form/Form";
 
+import userApi from "@/apis/user";
 import { UserType } from "@/types";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useToast } from "@/hooks/useToast";
@@ -27,30 +28,36 @@ export default function UserInfoForm({
   setData,
   data,
 }: UserInfoFormProps) {
-  const [charger, setCharger] = useState<string | null>(null);
+  const [chargerType, setChargerType] = useState<string | null>(null);
   const [isNickNameVerified, setIsNickNameVerified] = useState(false);
   const initialState = {
-    name: "",
+    username: "",
     nickname: "",
   };
+  const defaultData = {
+    roleId: 1,
+    address: null,
+    phoneNumber: null,
+    profileImage: null,
+  };
 
-  // const { triggerToast } = useToast();
   const { formState, handleInputChange, error } =
     useFormValidation(initialState);
+  const { triggerToast } = useToast();
   // const { signUp } = useSignUp();
 
   const handleChangeCharger = (e: MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
-    setCharger(value);
+    setChargerType(value);
   };
 
-  const isNameInvalid = !!error.name || !formState.name;
+  const isNameInvalid = !!error.name || !formState.username;
   const isFormValid =
     !Object.keys(error).length &&
-    formState.name &&
+    formState.username &&
     formState.nickname &&
     isNickNameVerified &&
-    charger;
+    chargerType;
 
   const handleCheckNickName = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -73,25 +80,31 @@ export default function UserInfoForm({
       const submitData = {
         ...rest,
         ...formState,
-        charger,
+        ...defaultData,
+        chargerType,
       };
-      console.log({ submitData }, "회원가입성공");
-      // await signUp(formState);
-      onNext();
-    } else {
-      console.log("폼 검증 실패");
+
+      try {
+        const response = await userApi.signup(submitData);
+        console.log("회원가입데이터", { submitData });
+        console.log(response, "회원가입 성공");
+        onNext();
+      } catch (error) {
+        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
+        console.error(error);
+      }
     }
   };
 
   return (
     <SignUpForm>
       <LabelInput
-        name="name"
+        name="username"
         label="이름"
-        error={error.name}
+        error={error.username}
         placeholder="이름은 변경할 수 없어요."
-        onChange={handleInputChange("name")}
-        value={formState.name}
+        onChange={handleInputChange("username")}
+        value={formState.username}
       />
       <EmailVerificationInput
         name="nickname"
@@ -104,7 +117,7 @@ export default function UserInfoForm({
         value={formState.nickname}
         isVerified={isNickNameVerified}
       />
-      <SelectCharger value={charger} label onChange={handleChangeCharger} />
+      <SelectCharger value={chargerType} label onChange={handleChangeCharger} />
       <S.ButtonWrapper>
         <Button
           type={"submit"}
