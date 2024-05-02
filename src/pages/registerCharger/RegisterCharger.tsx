@@ -144,6 +144,12 @@ export default function RegisterCharger() {
 
   const updateChargerType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = event.currentTarget;
+    if (value !== "") {
+      setErrors((prev) => ({
+        ...prev,
+        chargerType: { isError: false, errorMessage: "" },
+      }));
+    }
     setChargerType(value);
   };
 
@@ -173,6 +179,7 @@ export default function RegisterCharger() {
         <S.ColumnBox>
           <S.Box>
             <SearchInput
+              color={errors.address.isError ? "primary" : "default"}
               label="충전소 주소"
               require
               placeholder="충전소 주소를 입력해 주세요."
@@ -242,6 +249,8 @@ export default function RegisterCharger() {
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           disabled={chargerInfo.speed === ""}
+          error={errors.chargerType.isError}
+          errorMessage={errors.chargerType.errorMessage}
         />
         <Textarea
           label="내용"
