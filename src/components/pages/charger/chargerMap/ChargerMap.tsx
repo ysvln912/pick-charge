@@ -60,7 +60,6 @@ export default function ChargerMap({
             var latlng = map.getCenter();
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
-
         for (let i = 0; i < info.length; i++) {
             let imageSrc;
             if (info[i].chargers[0].chargerRole === "개인") {

@@ -7,6 +7,7 @@ import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
+import chargerApi from "@/apis/charger";
 
 export interface SearchInfo {
     address: {
@@ -23,143 +24,6 @@ export interface MapCenter {
     lon: number;
 }
 
-const sampleData: ChargerStation[] = [
-    {
-        chargerStationId: 1,
-        chargerLocation: "서울특별시 광진구 구의강변로 11",
-        chargerName: "자양한양아파트 앞 전기차 충전소",
-        chargers: [
-            {
-                chargerId: 51423,
-                chargerLocation: "서울특별시 광진구 구의강변로 11",
-                chargerName: "자양한양아파트 앞 전기차 충전소",
-                latitude: 37.531773223,
-                longitude: 127.09169799,
-                chargerTypeList: [
-                    {
-                        id: 62227,
-                        type: "DC콤보",
-                    },
-                ],
-                chargerRole: "공공",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "급속",
-            },
-        ],
-    },
-    {
-        chargerStationId: 2,
-        chargerLocation: "서울특별시 광진구 구의강변로5길 7",
-        chargerName: "성동강변파크빌",
-        chargers: [
-            {
-                chargerId: 40575,
-                chargerLocation: "서울특별시 광진구 구의강변로5길 7",
-                chargerName: "성동강변파크빌",
-                latitude: 37.537837,
-                longitude: 127.092781,
-                chargerTypeList: [
-                    {
-                        id: 51156,
-                        type: "AC완속",
-                    },
-                ],
-                chargerRole: "공공",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "완속",
-            },
-        ],
-    },
-    {
-        chargerStationId: 3,
-        chargerLocation: "서울특별시 광진구 광나루로56길 29",
-        chargerName: "서울광진 현대프라임5",
-        chargers: [
-            {
-                chargerId: 94450,
-                chargerLocation: "서울특별시 광진구 광나루로56길 29",
-                chargerName: "서울광진 현대프라임5",
-                latitude: 37.538079799,
-                longitude: 127.09784394,
-                chargerTypeList: [
-                    {
-                        id: 107067,
-                        type: "AC완속",
-                    },
-                ],
-                chargerRole: "공공",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "완속",
-            },
-            {
-                chargerId: 94451,
-                chargerLocation: "서울특별시 광진구 광나루로56길 29",
-                chargerName: "서울광진 현대프라임5",
-                latitude: 37.538079799,
-                longitude: 127.09784394,
-                chargerTypeList: [
-                    {
-                        id: 107068,
-                        type: "DC콤보",
-                    },
-                    {
-                        id: 107069,
-                        type: "DC차데모",
-                    },
-                ],
-                chargerRole: "공공",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "급속",
-            },
-        ],
-    },
-    {
-        chargerStationId: 4,
-        chargerLocation: "서울특별시 광진구 광나루로56길 29",
-        chargerName: "서울광진 현대프라임4",
-        chargers: [
-            {
-                chargerId: 94448,
-                chargerLocation: "서울특별시 광진구 광나루로56길 29",
-                chargerName: "서울광진 현대프라임4",
-                latitude: 37.537622764,
-                longitude: 127.09757462,
-                chargerTypeList: [
-                    {
-                        id: 107065,
-                        type: "AC완속",
-                    },
-                ],
-                chargerRole: "개인",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "완속",
-            },
-            {
-                chargerId: 94449,
-                chargerLocation: "서울특별시 광진구 광나루로56길 29",
-                chargerName: "서울광진 현대프라임4",
-                latitude: 37.537622764,
-                longitude: 127.09757462,
-                chargerTypeList: [
-                    {
-                        id: 107066,
-                        type: "AC완속",
-                    },
-                ],
-                chargerRole: "개인",
-                avgRate: 0,
-                chargerStatus: "이용가능",
-                chargingSpeed: "완속",
-            },
-        ],
-    },
-];
-
 export default function ChargerMapView() {
     const navigate = useNavigate();
     const [mapCenter, setMapCenter] = useState<MapCenter>({
@@ -167,7 +31,7 @@ export default function ChargerMapView() {
         lon: 0,
     });
 
-    const [chargerInfo, setChargerInfo] = useState<SearchInfo>({
+    const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
             location: "",
@@ -176,6 +40,8 @@ export default function ChargerMapView() {
         },
         keyword: "",
     });
+
+    const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -196,13 +62,13 @@ export default function ChargerMapView() {
     }, []);
 
     useEffect(() => {
-        if (chargerInfo.address.location) {
+        if (searchInfo.address.location) {
             var geocoder = new window.kakao.maps.services.Geocoder();
             var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
 
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(
-                chargerInfo.address.location,
+                searchInfo.address.location,
                 function (result: any, status: string) {
                     // 정상적으로 검색이 완료됐으면
                     if (status === window.kakao.maps.services.Status.OK) {
@@ -220,11 +86,11 @@ export default function ChargerMapView() {
                 }
             );
         }
-    }, [chargerInfo]);
+    }, [searchInfo]);
 
     useEffect(() => {
         var geocoder = new window.kakao.maps.services.Geocoder();
-        
+
         geocoder.coord2Address(
             mapCenter.lon,
             mapCenter.lat,
@@ -233,8 +99,16 @@ export default function ChargerMapView() {
                     var detailAddr = !!result[0].road_address
                         ? result[0].road_address.address_name
                         : result[0].address.address_name;
-                    
-                    console.log(`api 요청 : ${detailAddr}`)
+
+                    chargerApi
+                        .getChargerlist(detailAddr)
+                        .then((res: ChargerStation[]) => {
+                            setChargerInfo(res);
+                            console.log(res.length)
+                        })
+                        .catch((err: any) => {
+                            console.log(err);
+                        });
                 }
             }
         );
@@ -243,8 +117,8 @@ export default function ChargerMapView() {
     return (
         <div>
             <ChargerSearch
-                chargerInfo={chargerInfo}
-                setChargerInfo={setChargerInfo}
+                chargerInfo={searchInfo}
+                setChargerInfo={setSearchInfo}
             />
             <S.ButtonContainer>
                 <Button
@@ -258,7 +132,7 @@ export default function ChargerMapView() {
                 </Button>
             </S.ButtonContainer>
             <ChargerMap
-                info={sampleData}
+                info={chargerInfo}
                 mapCenter={mapCenter}
                 setMapCenter={setMapCenter}
                 key={`${mapCenter.lat}-${mapCenter.lon}`}
