@@ -103,13 +103,17 @@ const sampleData: ChargerStation[] = [
                 chargerTypeList: [
                     {
                         id: 107068,
-                        type: "AC완속",
+                        type: "DC콤보",
+                    },
+                    {
+                        id: 107069,
+                        type: "DC차데모",
                     },
                 ],
                 chargerRole: "공공",
                 avgRate: 0,
                 chargerStatus: "이용가능",
-                chargingSpeed: "완속",
+                chargingSpeed: "급속",
             },
         ],
     },

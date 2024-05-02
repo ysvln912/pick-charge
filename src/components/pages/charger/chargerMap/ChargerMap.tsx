@@ -9,8 +9,8 @@ import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
 import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
 import FastChargerIcon from "@/components/common/icons/FastChargerIcon";
 import SlowChargerIcon from "@/components/common/icons/SlowChargerIcon";
-import marker_individual from "@/assets/imgs/marker_individual.png"
-import marker_public from "@/assets/imgs/marker_public.png"
+import marker_individual from "@/assets/imgs/marker_individual.png";
+import marker_public from "@/assets/imgs/marker_public.png";
 
 declare global {
     interface Window {
@@ -61,11 +61,9 @@ export default function ChargerMap({
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
 
-       
-
         for (let i = 0; i < info.length; i++) {
             let imageSrc;
-            if(info[i].chargers[0].chargerRole==="개인"){
+            if (info[i].chargers[0].chargerRole === "개인") {
                 imageSrc = marker_individual;
             } else {
                 imageSrc = marker_public;
@@ -102,21 +100,23 @@ export default function ChargerMap({
         <>
             <S.MapContainer id="map" type={type} />
             {isDetailOpen && info[detailId] && (
-                <Link to={`/charger/${info[detailId].chargerStationId}`}>
-                    <S.ChargerStaitionDetail>
-                        <S.DetailTitle>
-                            {info[detailId].chargerName}
-                        </S.DetailTitle>
-                        <S.DetailLocation>
-                            {info[detailId].chargerLocation}
-                        </S.DetailLocation>
-                        {info[detailId].chargers.map((charger) => {
-                            return (
-                                <S.ChargerDetail key={charger.chargerId}>
+                <S.ChargerStaitionDetail>
+                    {info[detailId].chargers.map((charger) => {
+                        return (
+                            <Link to={`/charger/${charger.chargerId}`}>
+                                <S.DetailRole>
                                     <ChargingRoleCard
                                         role={charger.chargerRole}
                                     />
-                                    {/* <RatingWithStar rating={charger.avgRate} /> */}
+                                    <RatingWithStar rating={charger.avgRate} />
+                                </S.DetailRole>
+                                <S.DetailTitle>
+                                    {charger.chargerName}
+                                </S.DetailTitle>
+                                <S.DetailLocation>
+                                    {charger.chargerLocation}
+                                </S.DetailLocation>
+                                <S.ChargerDetail>
                                     <S.StatusContainer>
                                         {charger.chargingSpeed === "급속" ? (
                                             <FastChargerIcon />
@@ -138,12 +138,11 @@ export default function ChargerMap({
                                         })}
                                     </S.TypeContainer>
                                 </S.ChargerDetail>
-                            );
-                        })}
-                    </S.ChargerStaitionDetail>
-                </Link>
+                            </Link>
+                        );
+                    })}
+                </S.ChargerStaitionDetail>
             )}
         </>
     );
 }
-
