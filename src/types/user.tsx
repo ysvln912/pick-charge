@@ -3,7 +3,7 @@ export interface UserType {
   code: string;
   passwordCheck: string;
   password: string;
-  name?: string;
+  username?: string;
   nickname?: string;
   charger?: string;
 }
