@@ -97,15 +97,7 @@ export default function RegisterCharger() {
       }));
       return;
     }
-    console.log(
-      chargerInfo.address,
-      chargerInfo.detailed,
-      chargerInfo.speed,
-      chargerInfo.fare,
-      chargerType,
-      content,
-      photos.map((photo) => photo.name)
-    );
+    createCharger();
   };
 
   const updateSearchItem = (name: string, location: string) => {
@@ -168,7 +160,50 @@ export default function RegisterCharger() {
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
+  function createFormData() {
+    const formData = new FormData();
 
+    const jsonData = {
+      chargerLocation: chargerInfo.address.location,
+      chargerName: chargerInfo.address.name,
+      chargingSpeed: chargerInfo.speed,
+      latitude: 0,
+      longitude: 0,
+      content: content,
+      personalPrice: parseInt(chargerInfo.fare),
+      chargerTypeDtoList: [{ type: chargerType }],
+    };
+
+    formData.append("data", JSON.stringify(jsonData));
+    photos.forEach((photo) => {
+      formData.append("multipartFiles", photo);
+    });
+
+    return formData;
+  }
+
+  const createCharger = async () => {
+    const url = `/api/chargers/users/${1}`;
+
+    const formData = createFormData();
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "multipart/form-data" },
+        body: formData,
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const json = await res.json(); // 응답을 JSON으로 파싱
+      console.log(json);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <S.Container>
       <TopNavigationBar
