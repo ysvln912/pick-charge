@@ -3,24 +3,25 @@ import ChargingRoleCard from "../chargingRoleCard/ChargingRoleCard";
 import IconButton from "../iconButton/IconButton";
 import RatingWithStar from "../ratingWithStar/RatingWithStar";
 import ChargerStatus from "../chargerStatus/ChargerStatus";
+import { Charger } from "@/types/charger";
 
-export interface Charger {
-    id: number;
-    charger_location: string;
-    charger_name: string;
-    charging_speed: string;
-    status: "이용가능" | "이용자제한";
-    latitude: number;
-    longitude: number;
-    content: string;
-    avg_rate: string;
-    company_name: string;
-    member_price: number;
-    nonmember_price: number;
-    personal_price: number;
-    charger_type: string;
-    charger_role: "개인" | "공공";
-}
+// export interface Charger {
+//     id: number;
+//     charger_location: string;
+//     charger_name: string;
+//     charging_speed: string;
+//     status: "이용가능" | "이용자제한";
+//     latitude: number;
+//     longitude: number;
+//     content: string;
+//     avg_rate: string;
+//     company_name: string;
+//     member_price: number;
+//     nonmember_price: number;
+//     personal_price: number;
+//     charger_type: string;
+//     charger_role: "개인" | "공공";
+// }
 
 export interface ChargingInfoProps {
     info: Charger;
@@ -30,26 +31,28 @@ export interface ChargingInfoProps {
     onClick: () => void;
 }
 
-export default function ChargingInfo(props: ChargingInfoProps) {
+export default function ChargingInfo({info, border, like, tag, onClick}: ChargingInfoProps) {
     return (
-        <S.ChargingContainer border={props.border} onClick={props.onClick}>
+        <S.ChargingContainer border={border} onClick={onClick}>
             <div>
                 <S.ChargingContent>
-                    <p className="chargingTitle">{props.info.charger_name}</p>
-                    {props.tag && (
-                        <ChargingRoleCard role={props.info.charger_role} />
+                    <p className="chargingTitle">{info.chargerName}</p>
+                    {tag && (
+                        <ChargingRoleCard role={info.chargerRole} />
                     )}
-                    <RatingWithStar rating={props.info.avg_rate} />
+                    <RatingWithStar rating={info.avgRate} />
                 </S.ChargingContent>
                 <S.ChargingAddress>
-                    {props.info.charger_location}
+                    {info.chargerLocation}
                 </S.ChargingAddress>
                 <S.ChargingStatus>
-                    <ChargerStatus status={props.info.status} />
-                    <p className="type">{props.info.charger_type}</p>
+                    <ChargerStatus status={info.chargerStatus} />
+                    <p className="type">{info.chargerTypeList.map((type)=>{
+                        return <span key={type.id}>{type.type}</span>
+                    })}</p>
                 </S.ChargingStatus>
             </div>
-            {props.like && (
+            {like && (
                 <div className="iconDiv">
                     <IconButton icon="like" />
                 </div>

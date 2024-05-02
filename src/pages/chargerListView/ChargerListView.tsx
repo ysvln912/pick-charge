@@ -2,18 +2,153 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerListView.style";
-import { Charger } from "@/components/common/chargingInfo/ChargingInfo";
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
-import Input from "@/components/common/input/input";
-import LeftIcon from "@/components/common/icons/LeftIcon";
 import Button from "@/components/common/button/Button";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 import { SearchInfo } from "../chargerMapView/ChargerMapView";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
+import { ChargerStation } from "@/types/charger";
+
+const sampleData: ChargerStation[] = [
+    {
+        chargerStationId: 1,
+        chargerLocation: "서울특별시 광진구 구의강변로 11",
+        chargerName: "자양한양아파트 앞 전기차 충전소",
+        chargers: [
+            {
+                chargerId: 51423,
+                chargerLocation: "서울특별시 광진구 구의강변로 11",
+                chargerName: "자양한양아파트 앞 전기차 충전소",
+                latitude: 37.531773223,
+                longitude: 127.09169799,
+                chargerTypeList: [
+                    {
+                        id: 62227,
+                        type: "DC콤보",
+                    },
+                ],
+                chargerRole: "공공",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "급속",
+            },
+        ],
+    },
+    {
+        chargerStationId: 2,
+        chargerLocation: "서울특별시 광진구 구의강변로5길 7",
+        chargerName: "성동강변파크빌",
+        chargers: [
+            {
+                chargerId: 40575,
+                chargerLocation: "서울특별시 광진구 구의강변로5길 7",
+                chargerName: "성동강변파크빌",
+                latitude: 37.537837,
+                longitude: 127.092781,
+                chargerTypeList: [
+                    {
+                        id: 51156,
+                        type: "AC완속",
+                    },
+                ],
+                chargerRole: "공공",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "완속",
+            },
+        ],
+    },
+    {
+        chargerStationId: 3,
+        chargerLocation: "서울특별시 광진구 광나루로56길 29",
+        chargerName: "서울광진 현대프라임5",
+        chargers: [
+            {
+                chargerId: 94450,
+                chargerLocation: "서울특별시 광진구 광나루로56길 29",
+                chargerName: "서울광진 현대프라임5",
+                latitude: 37.538079799,
+                longitude: 127.09784394,
+                chargerTypeList: [
+                    {
+                        id: 107067,
+                        type: "AC완속",
+                    },
+                ],
+                chargerRole: "공공",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "완속",
+            },
+            {
+                chargerId: 94451,
+                chargerLocation: "서울특별시 광진구 광나루로56길 29",
+                chargerName: "서울광진 현대프라임5",
+                latitude: 37.538079799,
+                longitude: 127.09784394,
+                chargerTypeList: [
+                    {
+                        id: 107068,
+                        type: "DC콤보",
+                    },
+                    {
+                        id: 107069,
+                        type: "DC차데모",
+                    },
+                ],
+                chargerRole: "공공",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "급속",
+            },
+        ],
+    },
+    {
+        chargerStationId: 4,
+        chargerLocation: "서울특별시 광진구 광나루로56길 29",
+        chargerName: "서울광진 현대프라임4",
+        chargers: [
+            {
+                chargerId: 94448,
+                chargerLocation: "서울특별시 광진구 광나루로56길 29",
+                chargerName: "서울광진 현대프라임4",
+                latitude: 37.537622764,
+                longitude: 127.09757462,
+                chargerTypeList: [
+                    {
+                        id: 107065,
+                        type: "AC완속",
+                    },
+                ],
+                chargerRole: "개인",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "완속",
+            },
+            {
+                chargerId: 94449,
+                chargerLocation: "서울특별시 광진구 광나루로56길 29",
+                chargerName: "서울광진 현대프라임4",
+                latitude: 37.537622764,
+                longitude: 127.09757462,
+                chargerTypeList: [
+                    {
+                        id: 107066,
+                        type: "AC완속",
+                    },
+                ],
+                chargerRole: "개인",
+                avgRate: 0,
+                chargerStatus: "이용가능",
+                chargingSpeed: "완속",
+            },
+        ],
+    },
+];
 
 export default function ChargerListView() {
     const navigate = useNavigate();
-    const [chargerInfo, setChargerInfo] = useState<SearchInfo>({
+    const [seaerchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
             location: "",
@@ -25,88 +160,19 @@ export default function ChargerListView() {
 
     useEffect(()=>{
         console.log("api 요청")
-    },[chargerInfo])
+    },[seaerchInfo])
 
-    const sampleData: Charger[] = [
-        {
-            id: 1,
-            charger_location: "서울특별시 광진구 자양로 222",
-            charger_name: "퀵차지 2000",
-            charging_speed: "급속",
-            status: "이용가능",
-            latitude: 37.537598,
-            longitude: 127.082334,
-            content: "이 충전기는 전기차를 위한 빠른 충전을 지원합니다.",
-            avg_rate: "4.5",
-            company_name: "에코차지 주식회사",
-            member_price: 10,
-            nonmember_price: 15,
-            personal_price: 12,
-            charger_type: "DC차데모AC3상",
-            charger_role: "개인",
-        },
-        {
-            id: 2,
-            charger_location: "서울특별시 광진구 아차산로 200",
-            charger_name: "에코차지 표준",
-            charging_speed: "완속",
-            status: "이용자제한",
-            latitude: 37.537216,
-            longitude: 127.071839,
-            content: "이 충전기는 전기차를 위한 표준 충전을 제공합니다.",
-            avg_rate: "3.8",
-            company_name: "에코차지 주식회사",
-            member_price: 5,
-            nonmember_price: 10,
-            personal_price: 8,
-            charger_type: "완속",
-            charger_role: "공공",
-        },
-        {
-            id: 3,
-            charger_location: "서울특별시 광진구 능동로 100",
-            charger_name: "스마트차지 100",
-            charging_speed: "급속",
-            status: "이용가능",
-            latitude: 37.543924,
-            longitude: 127.075433,
-            content: "이 충전기는 스마트한 기능을 제공하는 급속 충전기입니다.",
-            avg_rate: "4.2",
-            company_name: "스마트차지 주식회사",
-            member_price: 12,
-            nonmember_price: 18,
-            personal_price: 15,
-            charger_type: "DC차데모",
-            charger_role: "개인",
-        },
-        {
-            id: 4,
-            charger_location: "서울특별시 광진구 뚝섬로 100",
-            charger_name: "편의차지 500",
-            charging_speed: "완속",
-            status: "이용가능",
-            latitude: 37.548327,
-            longitude: 127.07299,
-            content: "이 충전기는 편의시설과 함께 제공되는 완속 충전기입니다.",
-            avg_rate: "4.0",
-            company_name: "편의차지 주식회사",
-            member_price: 8,
-            nonmember_price: 12,
-            personal_price: 10,
-            charger_type: "AC3상",
-            charger_role: "공공",
-        },
-    ];
+    
 
     return (
         <div>
             <ChargerSearch
-                chargerInfo={chargerInfo}
-                setChargerInfo={setChargerInfo}
+                chargerInfo={seaerchInfo}
+                setChargerInfo={setSearchInfo}
                 viewtype="list"
             />
             <div>
-            {sampleData.map((data) => {
+            {/* {sampleData.map((data) => {
                 return (
                     <ChargingInfo key={data.id}
                         info={data}
@@ -116,7 +182,16 @@ export default function ChargerListView() {
                         onClick={()=>{navigate(`/charger/${data.id}`)}}
                     />
                 );
-            })}
+            })} */}
+            {sampleData.map((chargerStation) => { return chargerStation.chargers.map((charger)=>{
+                return <ChargingInfo key={charger.chargerId}
+                info={charger}
+                like={false}
+                tag={true}
+                border="bottom"
+                onClick={()=>{navigate(`/charger/${charger.chargerId}`)}}
+            />
+            }) })}
             </div>
             <S.ButtonContainer>
                 <Button
