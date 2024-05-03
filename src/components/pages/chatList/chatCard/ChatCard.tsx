@@ -20,7 +20,9 @@ export default function ChatCard({
 }: ChatCardProps) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/chat-list/${id}`);
+    navigate(`/chat-list/${id}`, {
+      state: { card: { id, image, name, createdAt } },
+    });
   };
   return (
     <S.Card onClick={onClick}>

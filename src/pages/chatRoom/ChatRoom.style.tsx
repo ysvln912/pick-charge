@@ -8,6 +8,7 @@ export const Container = styled.section`
 `;
 
 export const List = styled.div`
+  position: relative;
   padding: 16px;
   gap: 16px;
   ${flexColumn};

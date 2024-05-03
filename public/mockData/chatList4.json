@@ -1,0 +1,82 @@
+[
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "me",
+      "profileImg": ""
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "other",
+      "profileImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "me",
+      "profileImg": ""
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "other",
+      "profileImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "me",
+      "profileImg": ""
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "other",
+      "profileImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "me",
+      "profileImg": ""
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "other",
+      "profileImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "me",
+      "profileImg": ""
+    }
+  },
+  {
+    "createdAt": "오후 03:00",
+    "text": "오후 3시 채팅 10개",
+    "user": {
+      "name": "other",
+      "profileImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iPzYmO4980INBLkD7iHIoxyPSD8oM-v7WA&s"
+    }
+  }
+]
