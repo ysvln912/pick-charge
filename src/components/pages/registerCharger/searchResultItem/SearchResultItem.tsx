@@ -1,5 +1,4 @@
 import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
-import React from "react";
 import * as S from "./SearchResultItem.style";
 
 export interface ISearchResultItemProps extends ISearchResult {
