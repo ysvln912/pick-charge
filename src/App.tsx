@@ -5,15 +5,20 @@ import GlobalStyles from "./styles/global.ts";
 
 import theme from "./styles/theme.ts";
 import router from "./routes/routing.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <ToastProvider>
-          <RouterProvider router={router} />
-        </ToastProvider>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyles />
+          <ToastProvider>
+            <RouterProvider router={router} />
+          </ToastProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );
