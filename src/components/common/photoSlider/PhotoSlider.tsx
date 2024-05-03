@@ -46,7 +46,6 @@ export default function PhotoSlider({ imgs, category }: PhotoSliderProps) {
             dragElastic={imgs.length > 1 ? 1 : 0}
             onDragEnd={(e, { offset, velocity }) => {
               if (imgs.length < 2) {
-                console.log(e);
                 return;
               }
               const swipe = swipePower(offset.x, velocity.x);
