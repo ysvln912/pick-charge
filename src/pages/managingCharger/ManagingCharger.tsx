@@ -4,29 +4,47 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import { Charger } from "@/types";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ManagingCharger.style";
+import { useEffect, useState } from "react";
+import myChargerApi from "@/apis/myCharger";
 
 export default function ManagingCharger() {
-  const COUNT = sampleData.length;
   const navigate = useNavigate();
+  const [myChargerList, setMyChargerList] = useState<Charger[]>([]);
+  const USER_ID = "1";
+  useEffect(() => {
+    if (!USER_ID) {
+      return;
+    }
+    myChargerApi.getMyChargerlist(USER_ID).then((res: Charger[]) => {
+      // 네트워크 요청 성공한 경우
+      if (res) {
+        setMyChargerList(res);
+      }
+      // 네트워크 요청 실패한 경우
+      setMyChargerList(sampleData);
+    });
+  }, []);
+
   return (
     <S.Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="충전기 관리"
       />
-      <S.Title>내가 관리하는 {COUNT}개의 충전기</S.Title>
+      <S.Title>내가 관리하는 {myChargerList.length}개의 충전기</S.Title>
       <div>
-        {sampleData.map((data) => {
-          return (
-            <ChargingInfo
-              info={data}
-              like={false}
-              tag={false}
-              border="bottom"
-              onClick={() => navigate(`/charger/${data.chargerId}`)}
-            />
-          );
-        })}
+        {myChargerList?.length > 1 &&
+          myChargerList.map((data) => {
+            return (
+              <ChargingInfo
+                info={data}
+                like={false}
+                tag={false}
+                border="bottom"
+                onClick={() => navigate(`/charger/${data.chargerId}`)}
+              />
+            );
+          })}
       </div>
     </S.Container>
   );
