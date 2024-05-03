@@ -2,11 +2,13 @@ import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import IconButton from "@/components/common/iconButton/IconButton";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import { flexColumn } from "@/styles/common";
+import { Charger } from "@/types";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function ManagingCharger() {
-  const COUNT = 3;
-
+  const COUNT = sampleData.length;
+  const navigate = useNavigate();
   return (
     <Container>
       <TopNavigationBar
@@ -22,7 +24,7 @@ export default function ManagingCharger() {
               like={false}
               tag={false}
               border="bottom"
-              path={`/charger/${data.id}`}
+              onClick={() => navigate(`/charger/${data.chargerId}`)}
             />
           );
         })}
@@ -32,68 +34,320 @@ export default function ManagingCharger() {
 }
 
 const Container = styled.section`
-  padding: 1.5rem;
-  padding-top: 80px;
-  ${flexColumn}
-  gap: 1rem;
+  margin: 56px 0 68px;
+  ${flexColumn};
+  height: 720px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.PALETTE.mainColor};
+    border-radius: 10px;
+  }
 `;
 
 const Title = styled.h3`
+  padding: 24px 1.5rem 0;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `;
 
-export const sampleData: Charger[] = [
+const sampleData: Charger[] = [
   {
-    id: 1,
-    charger_location: "서울특별시 마포구 월드컵북로 502-37",
-    charger_name: "상암월드컵파크3단지",
-    charging_speed: "급속",
-    status: "이용가능",
-    latitude: 37.123456,
-    longitude: -122.345678,
-    content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
-    avg_rate: 3,
-    company_name: "에코차지 주식회사",
-    member_price: 10,
-    nonmember_price: 15,
-    personal_price: 12,
-    charger_type: "DC차데모AC3상",
-    charger_role: "개인",
+    chargerId: 259682,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "대현주택 705호",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274962,
+        type: "D타입",
+      },
+      {
+        id: 274963,
+        type: "E타입",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
   },
   {
-    id: 2,
-    charger_location: "서울 송파구 올림픽로43길 88 서울아산병원 (풍납동 388-1)",
-    charger_name: "서울아산병원 전기차충전소",
-    charging_speed: "완속",
-    status: "이용자제한",
-    latitude: 37.987654,
-    longitude: -122.876543,
-    content: "이 충전s는 전기 차량을 위한 표준 충전을 제공합니다.",
-    avg_rate: 1,
-    company_name: "에코차지 주식회사",
-    member_price: 5,
-    nonmember_price: 10,
-    personal_price: 8,
-    charger_type: "완속",
-    charger_role: "공공",
+    chargerId: 259683,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "대현주택 705호",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274964,
+        type: "D타입",
+      },
+      {
+        id: 274965,
+        type: "E타입",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
   },
   {
-    id: 3,
-    charger_location:
-      "서울 강동구 고덕로 131 강동 롯데캐슬퍼스트아파트 (암사동 414-2)",
-    charger_name: "서울시 강동구 강동롯데캐슬 전기차충전소",
-    charging_speed: "급속",
-    status: "이용자제한",
-    latitude: 37.123456,
-    longitude: -122.345678,
-    content: "이 충전기는 전s 차량을 위한 빠른 충전을 지원합니다.",
-    avg_rate: 5,
-    company_name: "에코차지 주식회사",
-    member_price: 10,
-    nonmember_price: 15,
-    personal_price: 12,
-    charger_type: "DC차데모AC3상",
-    charger_role: "개인",
+    chargerId: 259684,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "대현주택 705호",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274966,
+        type: "D타입",
+      },
+      {
+        id: 274967,
+        type: "E타입",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259685,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "태평역 수인분당선",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274968,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259686,
+    chargerLocation: "경기 부천시 원미구 조마루로 2",
+    chargerName: "태평역 수인분당선",
+    latitude: 37.4999701,
+    longitude: 126.7442354,
+    chargerTypeList: [
+      {
+        id: 274969,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259687,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "대현주택 705호",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274970,
+        type: "D타입",
+      },
+      {
+        id: 274971,
+        type: "E타입",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259688,
+    chargerLocation: "서울 용산구 한강대로 405",
+    chargerName: "서울역",
+    latitude: 37.5548376,
+    longitude: 126.9717326,
+    chargerTypeList: [
+      {
+        id: 274972,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259689,
+    chargerLocation: "경기 성남시 수정구 수진동",
+    chargerName: "서울역",
+    latitude: 37.438569,
+    longitude: 127.139015,
+    chargerTypeList: [
+      {
+        id: 274973,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259690,
+    chargerLocation: "경기 성남시 수정구 수진동",
+    chargerName: "서울역",
+    latitude: 37.438569,
+    longitude: 127.139015,
+    chargerTypeList: [
+      {
+        id: 274974,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259691,
+    chargerLocation: "경기 성남시 수정구 수진동",
+    chargerName: "태평역사거리",
+    latitude: 37.438569,
+    longitude: 127.139015,
+    chargerTypeList: [
+      {
+        id: 274975,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259692,
+    chargerLocation: "경기 성남시 수정구 수진동",
+    chargerName: "태평역사거리",
+    latitude: 37.438569,
+    longitude: 127.139015,
+    chargerTypeList: [
+      {
+        id: 274976,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259693,
+    chargerLocation: "경기 성남시 수정구 성남대로 1229",
+    chargerName: "태평역사거리",
+    latitude: 37.4398906,
+    longitude: 127.1276717,
+    chargerTypeList: [
+      {
+        id: 274977,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259694,
+    chargerLocation: "경기 성남시 수정구 성남대로 1229",
+    chargerName: "태평역사거리",
+    latitude: 37.4398906,
+    longitude: 127.1276717,
+    chargerTypeList: [
+      {
+        id: 274978,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259695,
+    chargerLocation: "경기 성남시 수정구 성남대로 1229",
+    chargerName: "태평역사거리",
+    latitude: 37.4398906,
+    longitude: 127.1276717,
+    chargerTypeList: [
+      {
+        id: 274979,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259696,
+    chargerLocation: "경기도 부천시 소사로 201번길 25",
+    chargerName: "대현주택 705호",
+    latitude: 37.4762374,
+    longitude: 126.7941637,
+    chargerTypeList: [
+      {
+        id: 274980,
+        type: "D타입",
+      },
+      {
+        id: 274981,
+        type: "E타입",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259697,
+    chargerLocation: "서울 용산구 한강대로 405",
+    chargerName: "서울역",
+    latitude: 37.5548376,
+    longitude: 126.9717326,
+    chargerTypeList: [
+      {
+        id: 274982,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
+  },
+  {
+    chargerId: 259698,
+    chargerLocation: "서울 용산구 한강대로 405",
+    chargerName: "서울역",
+    latitude: 37.5548376,
+    longitude: 126.9717326,
+    chargerTypeList: [
+      {
+        id: 274983,
+        type: "DC콤보",
+      },
+    ],
+    chargerRole: "개인",
+    avgRate: 0,
+    chargerStatus: "이용가능",
   },
 ];
