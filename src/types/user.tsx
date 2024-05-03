@@ -7,3 +7,15 @@ export interface UserType {
   nickname?: string;
   charger?: string;
 }
+
+export interface UserInfoResponse {
+  roleId: number;
+  id: number | null;
+  username: string;
+  email: string;
+  nickname: string;
+  chargerType: string | null;
+  address?: string;
+  phoneNumber?: string;
+  profileImage?: string;
+}
