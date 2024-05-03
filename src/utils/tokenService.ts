@@ -1,14 +1,16 @@
+const TOKEN_KEY = "token";
+
 const TokenService = {
   setToken(token: string) {
-    localStorage.setItem(`${import.meta.env.VITE_APP_TOKEN_KEY}`, token);
+    localStorage.setItem(TOKEN_KEY, token);
   },
 
   getToken() {
-    return localStorage.getItem(`${import.meta.env.VITE_APP_TOKEN_KEY}`);
+    return localStorage.getItem(TOKEN_KEY);
   },
 
   removeToken() {
-    localStorage.removeItem(`${import.meta.env.VITE_APP_TOKEN_KEY}`);
+    localStorage.removeItem(TOKEN_KEY);
   },
 };
 
