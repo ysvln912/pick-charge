@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
 import FareInput from "@/components/pages/registerCharger/fareInput/FareInput";
 import StickButton from "@/components/common/stickyButton/StickyButton";
+import axios from "axios";
 export interface IChargerInfo {
   address: IAddress;
   keyword: string;
@@ -182,24 +183,39 @@ export default function RegisterCharger() {
     return formData;
   }
 
-  const createCharger = async () => {
-    const url = `/api/chargers/users/${1}`;
+  // const createCharger = async () => {
+  //   const url = "/api/chargers/users/1";
+  //   const formData = createFormData();
 
+  //   try {
+  //     const res = await fetch(url, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //       body: formData,
+  //     });
+  //     if (!res.ok) {
+  //       throw new Error(`HTTP error! status: ${res.status}`);
+  //     }
+  //     const json = await res.json();
+  //     console.log(json);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
+  axios;
+  const createCharger = async () => {
+    const url = "/api/chargers/users/1";
     const formData = createFormData();
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+
     try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
-        body: formData,
+      const res = await axios({
+        method: "post",
+        url: url,
+        data: formData,
       });
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const json = await res.json(); // 응답을 JSON으로 파싱
-      console.log(json);
+
+      console.log(res.data);
     } catch (error) {
       console.error("Error:", error);
     }
