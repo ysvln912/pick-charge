@@ -16,6 +16,7 @@ const MESSAGE = {
   },
   REVIEW: {
     REQUIRE: "필수 입력 항목입니다.",
+    DELETE: "삭제 되었어요.",
   },
   LOGIN: {
     FAILURE: "이메일 또는 비밀번호가 올바르지 않습니다.",
