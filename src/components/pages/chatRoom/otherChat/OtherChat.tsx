@@ -1,4 +1,3 @@
-import React from "react";
 import DefaultProfile from "../../chatList/defaultProfile/DefaultProfile";
 import * as S from "./OtherChat.style";
 

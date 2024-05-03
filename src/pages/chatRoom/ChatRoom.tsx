@@ -81,7 +81,7 @@ export default function ChatRoom() {
     queryKey: ["chatList", card.id],
     queryFn: getChatList,
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allpages) => {
+    getNextPageParam: (allpages) => {
       const nextPage =
         allpages.length < TOTAL_PAGE_COUNT ? allpages.length + 1 : undefined;
       return nextPage;

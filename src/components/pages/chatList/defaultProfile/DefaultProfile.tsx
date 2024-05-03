@@ -1,5 +1,4 @@
 import ProfileIcon from "@/components/common/icons/ProfileIcon";
-import React from "react";
 import * as S from "./DefaultProfile.style";
 
 export interface DefaultProfileProps {
