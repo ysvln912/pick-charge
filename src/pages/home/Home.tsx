@@ -1,8 +1,7 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import * as S from "./Home.style";
-import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
+// import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import MenuCard from "@/components/pages/home/MenuCard";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import logo from "@/assets/imgs/logo_small.png";

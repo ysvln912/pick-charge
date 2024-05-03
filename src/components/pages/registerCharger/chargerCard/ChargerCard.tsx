@@ -1,6 +1,5 @@
 import Button from "@/components/common/button/Button";
 import * as S from "./ChargerCard.style";
-import React from "react";
 
 export interface ChargerCardProps {
   id: string;

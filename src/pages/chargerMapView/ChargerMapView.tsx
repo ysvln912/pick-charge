@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerMapView.style";
@@ -135,7 +135,7 @@ export default function ChargerMapView() {
                 info={chargerInfo}
                 mapCenter={mapCenter}
                 setMapCenter={setMapCenter}
-                key={chargerInfo.map(station => station.chargerStationId).join('-')}
+                // key={chargerInfo.map(station => station.chargerStationId).join('-')}
             />
         </div>
     );
