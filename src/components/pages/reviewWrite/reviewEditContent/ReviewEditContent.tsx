@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/useToast";
 
 import MESSAGE from "@/constants/message";
-
+import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import SearchChargerInput from "../searchChargerInput/SearchChargerInput";
 import Label from "@/components/common/label/Label";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
@@ -29,6 +29,15 @@ export default function ReviewEditContent({
     content: "",
   });
 
+  const [chargerInfo, setChargerInfo] = useState({
+    address: {
+      name: "",
+      location: "",
+      latitude: 0,
+      longitude: 0,
+    },
+    keyword: "",
+  });
   const [photos, setPhotos] = useState<File[]>([]);
 
   const navigate = useNavigate();
@@ -58,6 +67,7 @@ export default function ReviewEditContent({
       return;
     }
     const newData = { ...data, photos };
+
     triggerToast("리뷰가 저장되었어요.", "success");
     // navigate(`/reviwew/${reviewId}`)
     console.log({ newData });
@@ -67,9 +77,14 @@ export default function ReviewEditContent({
     <>
       <S.Container>
         <S.Box>
+          {/* <ChargerSearch
+            chargerInfo={chargerInfo}
+            setChargerInfo={setChargerInfo}
+          /> */}
+
           <SearchChargerInput
             error={error.chargerId}
-            onChange={(e) => handleUpdateValue(e.target.value, "chagerId")}
+            onChange={(e) => handleUpdateValue(e.target.value, "chargerId")}
           />
           {/* <SearchInput
             require

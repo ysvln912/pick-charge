@@ -23,11 +23,7 @@ interface UserInfoFormProps {
   data: UserType;
 }
 
-export default function UserInfoForm({
-  onNext,
-  setData,
-  data,
-}: UserInfoFormProps) {
+export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
   const [chargerType, setChargerType] = useState<string | null>(null);
   const [isNickNameVerified, setIsNickNameVerified] = useState(false);
   const initialState = {
@@ -90,6 +86,7 @@ export default function UserInfoForm({
         console.log(response, "회원가입 성공");
         onNext();
       } catch (error) {
+        console.log(submitData);
         triggerToast(MESSAGE.ERROR.DEFAULT, "error");
         console.error(error);
       }

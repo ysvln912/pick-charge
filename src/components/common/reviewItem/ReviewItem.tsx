@@ -7,7 +7,7 @@ import RatingWithStar from "../ratingWithStar/RatingWithStar";
 
 export interface ReviewItemProps {
   onClick: () => void;
-  date: Date;
+  date: Date | string;
   address: string;
   rating: string;
   review: string;

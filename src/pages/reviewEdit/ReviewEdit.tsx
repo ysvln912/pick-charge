@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar.tsx";
 import IconButton from "@/components/common/iconButton/IconButton.tsx";
 import ReviewEditContent from "@/components/pages/reviewWrite/reviewEditContent/ReviewEditContent.tsx";
+
+import reviewApi from "@/apis/review";
 
 import { useValidParams } from "@/hooks/useValidParams";
 export interface ReviewType {
@@ -15,19 +18,26 @@ export interface ReviewType {
 export default function ReviewEdit() {
   const { id: reviewId } = useValidParams();
 
-  useEffect(() => {
-    // reviewId 넣어서 api 콜 => data에 set
-  }, []);
+  // const [data, setData] = useState<ReviewType>({
+  //   chargerName: "",
+  //   content: "",
+  //   rating: 0,
+  //   imgs: [],
+  // });
 
-  const [data, setData] = useState<ReviewType>({
-    chargerId: null,
-    rating: 1,
-    content: "",
-    // 유저 id는 따로 전역 상태에서 가져오기
-    userId: null,
-  });
+  // const getReviewData = async () => {
+  //   try {
+  //     const response = await reviewApi.getEditReview(reviewId);
+  //     setData(response);
+  //     console.log(response, "리뷰 수정페이지");
+  //   } catch (error) {
+  //     console.log("ERR", error);
+  //   }
+  // };
 
-  // 수정하는 api handler 함수
+  // useEffect(() => {
+  //   getReviewData();
+  // }, []);
 
   return (
     <>
@@ -35,7 +45,7 @@ export default function ReviewEdit() {
         text="리뷰 수정하기"
         leftBtn={<IconButton icon={"arrowLeft"} />}
       />
-      <ReviewEditContent data={data} setData={setData} />
+      {/* <ReviewEditContent data={data} setData={setData} /> */}
     </>
   );
 }
