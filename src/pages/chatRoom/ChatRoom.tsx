@@ -10,6 +10,7 @@ import * as S from "./ChatRoom.style";
 import MessageForm from "@/components/pages/chatRoom/messageForm/MessageForm";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
+import { useLocation } from "react-router-dom";
 
 export interface IUser {
   name: string;
@@ -22,6 +23,9 @@ export interface IMessage {
 }
 
 export default function ChatRoom() {
+  const {
+    state: { card },
+  } = useLocation();
   const { open, close, isOpen } = useToggle(false);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -44,7 +48,8 @@ export default function ChatRoom() {
   const TOTAL_PAGE_COUNT = 6;
 
   // 채팅방 생성 날짜 상수
-  const CREATEDAT_CHAT_ROOM = "2024년 5월 3일";
+  const CREATEDAT_CHAT_ROOM = card.createdAt;
+
   const onSubmit = (text: string, createdAt: string) => {
     const message = { text, createdAt, user };
     setMessages((prev) => [...prev, message]);
@@ -73,7 +78,7 @@ export default function ChatRoom() {
 
   // infinity query문
   const { data, status, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["chatList"],
+    queryKey: ["chatList", card.id],
     queryFn: getChatList,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allpages) => {
@@ -97,7 +102,7 @@ export default function ChatRoom() {
               key={index}
               createdAt={chat.createdAt}
               text={chat.text}
-              profileImg={chat.user.profileImg}
+              profileImg={card.image}
             />
           );
         })
@@ -107,8 +112,6 @@ export default function ChatRoom() {
 
   // 채팅방 스크롤 최상단으로 올리면 이전 채팅 내용 GET 요청
   useEffect(() => {
-    console.log(hasNextPage);
-
     if (inView && hasNextPage) {
       setScrollHeightBeforeFetching(chatRoomRef.current?.scrollHeight ?? 0);
       fetchNextPage();
