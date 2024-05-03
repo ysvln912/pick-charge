@@ -1,4 +1,3 @@
-import React from "react";
 import { ChangeEvent } from "react";
 import Input from "@/components/common/input/input";
 

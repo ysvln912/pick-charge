@@ -1,10 +1,7 @@
-import ChargingInfo, {
-  Charger,
-} from "@/components/common/chargingInfo/ChargingInfo";
+import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import IconButton from "@/components/common/iconButton/IconButton";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import { flexColumn } from "@/styles/common";
-import React from "react";
 import styled from "styled-components";
 
 export default function ManagingCharger() {
