@@ -17,8 +17,7 @@ export const validatePasswordMatch = (
 };
 
 export const useFormValidation = <T extends Record<string, string>>(
-  initialState: T,
-  inputRefs?: { [key: string]: RefObject<HTMLInputElement> }
+  initialState: T
 ) => {
   const [value, setValue] = useState<T>(initialState);
   const [error, setError] = useState<FormErrorType>({});

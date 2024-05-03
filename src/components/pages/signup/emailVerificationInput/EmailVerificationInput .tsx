@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./EmailVerificationInput.style";
 
-import {
-  MouseEvent,
-  useState,
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { MouseEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import Input from "@/components/common/input/input";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
