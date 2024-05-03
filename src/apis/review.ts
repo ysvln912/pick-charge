@@ -25,7 +25,7 @@ const reviewApi = {
   },
   getDetailReview(reviewId: string) {
     return api
-      .get(`/review/deatil/${reviewId}`)
+      .get(`/review/detail/${reviewId}`)
       .then((response) => response.data);
   },
   getChargerReview(reviewId: string) {
