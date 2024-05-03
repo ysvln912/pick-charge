@@ -8,7 +8,11 @@ const inputview = {
         width: 100%;
         z-index: 2;
     `,
-    list: css``,
+    list: css`
+        position: fixed;
+        top: 0;
+        width: 390px;
+    `,
 };
 
 const resultview = {
@@ -22,7 +26,10 @@ const resultview = {
         top: 70px;
         z-index: 2;
     `,
-    list: css``,
+    list: css`
+        border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+        background-color: ${({ theme }) => theme.PALETTE.white};
+    `,
 };
 
 export const SearchContainer = styled.div<{ viewstyle: "map" | "list" }>`

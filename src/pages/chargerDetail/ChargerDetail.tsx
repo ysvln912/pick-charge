@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import * as S from "./ChargerDetail.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
@@ -10,98 +10,45 @@ import ChargingRoleCard from "@/components/common/chargingRoleCard/ChargingRoleC
 import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 import ChargerStatus from "@/components/common/chargerStatus/ChargerStatus";
+import { Charger } from "@/types/charger";
+import chargerApi from "@/apis/charger";
 
 export default function ChargerDetail() {
     const navigate = useNavigate();
-    const sampleCharger = {
-        id: 1,
-        user_id: 101,
-        charger_location: "서울특별시 광진구 자양로 222",
-        charger_name: "퀵차지 2000",
-        charging_speed: "급속",
-        status: "이용가능",
-        latitude: 37.537598,
-        longitude: 127.082334,
-        company_name: "에코차지 주식회사",
-        content: "이 충전기는 전기차를 위한 빠른 충전을 지원합니다.",
-        avg_rate: "4.5",
-        member_price: 350.2,
-        nonmember_price: 350.2,
-        personal_price: 350.2,
-        charger_role: "개인",
-        chargerTypeList: [
-            {
-                id: 125222,
-                type: "DC차데모",
-            },
-            {
-                id: 125223,
-                type: "AC3상",
-            },
-            {
-                id: 125224,
-                type: "DC콤보",
-            },
-        ],
-    };
-    const sampleReview = [
-        {
-            id: 1,
-            user_id: 101,
-            content: "Great charging experience, very fast!",
-            used_charger_id: 1,
-            review_image: "image1.jpg",
-            rating: "5",
-            created_date: "2024-04-25 10:00:00",
-            modified_at: "2024-04-25 10:00:00",
-        },
-        {
-            id: 2,
-            user_id: 102,
-            content: "Average charging speed, but convenient location.",
-            used_charger_id: 2,
-            review_image: "image2.jpg",
-            rating: "3",
-            created_date: "2024-04-24 15:30:00",
-            modified_at: "2024-04-24 15:30:00",
-        },
-        {
-            id: 3,
-            user_id: 103,
-            content: "Poor maintenance, charger was out of order.",
-            used_charger_id: 3,
-            review_image: "image3.jpg",
-            rating: "2",
-            created_date: "2024-04-23 09:45:00",
-            modified_at: "2024-04-23 09:45:00",
-        },
-        {
-            id: 4,
-            user_id: 104,
-            content: "Excellent service, friendly staff!",
-            used_charger_id: 4,
-            review_image: "image4.jpg",
-            rating: "4",
-            created_date: "2024-04-22 12:20:00",
-            modified_at: "2024-04-22 12:20:00",
-        },
-    ];
+    const { id } = useParams();
+    const chargerId = Number(id);
+    const [data, setData] = useState<Charger>();
+
+    useEffect(() => {
+        chargerApi
+            .getChargerDetail(chargerId, 1)
+            .then((res: Charger) => {
+                setData(res);
+            })
+            .catch((err: any) => {
+                console.log(err);
+            });
+    }, [chargerId]);
+
+    if(!data){
+        return <></>
+    }
 
     return (
         <S.ChargerContainer>
             <TopNavigationBar
                 leftBtn={<ArrowDownIcon />}
-                text={sampleCharger.charger_name}
+                text={data.chargerName}
                 rightBtn={<LikeIcon />}
             />
             <S.ChargerOverview>
-                <div className="company">{sampleCharger.company_name}</div>
+                <div className="company">회사명</div>
                 <div className="status">
-                    <ChargingRoleCard role={sampleCharger.charger_role} />
-                    <RatingWithStar rating={sampleCharger.avg_rate} />
+                    <ChargingRoleCard role={data.chargerRole} />
+                    <RatingWithStar rating={data.avgRate} />
                 </div>
-                <S.Title>{sampleCharger.charger_name}</S.Title>
-                <div className="address">{sampleCharger.charger_location}</div>
+                <S.Title>{data.chargerName}</S.Title>
+                <div className="address">{data.chargerLocation}</div>
             </S.ChargerOverview>
             <S.ChargerInfo>
                 <S.Title>충전기 정보</S.Title>
@@ -112,17 +59,25 @@ export default function ChargerDetail() {
                     </tr>
                     <tr>
                         <td>
-                            <ChargerStatus status={sampleCharger.status} />
+                            <ChargerStatus status={data.chargerStatus} />
                         </td>
-                        <td>{sampleCharger.chargerTypeList.map((chargerType)=>{
-                            return <span key={chargerType.id}>{chargerType.type}</span>
-                        })}</td>
+                        <td>
+                            {data.chargerTypeList.map(
+                                (chargerType) => {
+                                    return (
+                                        <span key={chargerType.id}>
+                                            {chargerType.type}
+                                        </span>
+                                    );
+                                }
+                            )}
+                        </td>
                     </tr>
                 </table>
             </S.ChargerInfo>
             <S.ChargerPrice>
                 <S.Title>충전 요금</S.Title>
-                <p>{sampleCharger.charging_speed}</p>
+                <p>{data.chargingSpeed}</p>
                 <S.PriceInfo>
                     <div className="price-quantity  row">100kWh</div>
                     <div className="price-member row">
@@ -131,10 +86,10 @@ export default function ChargerDetail() {
                     </div>
                     <div className="price-rate row">
                         <div>
-                            <span>{sampleCharger.member_price}원</span> /kWh
+                            <span>{data.memberPrice}원</span> /kWh
                         </div>
                         <div>
-                            <span>{sampleCharger.nonmember_price}원</span> /kWh
+                            <span>{data.nonmemberPrice}원</span> /kWh
                         </div>
                     </div>
                 </S.PriceInfo>
@@ -142,21 +97,23 @@ export default function ChargerDetail() {
             <S.ChargerReview>
                 <div className="reviewTitle">
                     <S.Title>충전소 리뷰 </S.Title>
-                    <Link to={`/charger/${sampleCharger.id}/reviews`}>
+                    <Link to={`/charger/${data.chargerId}/reviews`}>
                         전체보기
                         <ArrowRightIcon />
                     </Link>
                 </div>
 
-                {sampleReview.map((review) => {
+                {!data.reviewList? <></>:data.reviewList.map((review) => {
                     return (
                         <ReviewItem
                             key={review.id}
                             date={review.modified_at}
-                            address={sampleCharger.charger_name}
-                            rating={review.rating}
+                            address={data.chargerName}
+                            rating={String(review.rating)}
                             review={review.content}
-                            onClick={() => {navigate(`/review/${review.id}`)}}
+                            onClick={() => {
+                                navigate(`/review/${review.id}`);
+                            }}
                         />
                     );
                 })}
