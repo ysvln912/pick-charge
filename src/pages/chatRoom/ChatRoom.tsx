@@ -5,7 +5,7 @@ import ChatBottomSheet from "@/components/pages/chatRoom/chatBottomSheet/ChatBot
 import MyChat from "@/components/pages/chatRoom/myChat/MyChat";
 import OtherChat from "@/components/pages/chatRoom/otherChat/OtherChat";
 import { useToggle } from "@/hooks/useToggle";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as S from "./ChatRoom.style";
 import MessageForm from "@/components/pages/chatRoom/messageForm/MessageForm";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -27,30 +27,38 @@ export default function ChatRoom() {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const chatRoomRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
-
+  const [scrollHeightBeforeFetching, setScrollHeightBeforeFetching] =
+    useState(0);
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setText(value);
   };
 
-  // user 정보 가져오는 api
+  // user 정보 가져오는 api 대신 임시 데이터
   const user = {
     name: "me",
     profileImg: "",
   };
 
+  // 전체 페이지네이션 개수 상수
+  const TOTAL_PAGE_COUNT = 6;
+
+  // 채팅방 생성 날짜 상수
+  const CREATEDAT_CHAT_ROOM = "2024년 5월 3일";
   const onSubmit = (text: string, createdAt: string) => {
     const message = { text, createdAt, user };
     setMessages((prev) => [...prev, message]);
     setText("");
   };
 
+  // 채팅방 입장하면 스크롤 최하단으로 이동
   useEffect(() => {
     if (chatRoomRef.current) {
       chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
     }
   }, []);
 
+  // 새로운 채팅 입력하면 스크롤 최하단으로 이동
   useEffect(() => {
     if (chatRoomRef.current) {
       chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
@@ -59,64 +67,63 @@ export default function ChatRoom() {
 
   // 데이터 요청 함수
   const getChatList = async ({ pageParam }: { pageParam: number }) => {
-    console.log(`chatList${pageParam} 요청`);
     const res = await fetch(`/mockData/chatList${pageParam}.json`);
     return res.json();
   };
 
-  // infinity query
+  // infinity query문
   const { data, status, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["chatList"],
     queryFn: getChatList,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allpages) => {
-      const nextPage = lastPage.length ? allpages.length + 1 : undefined;
-
+      const nextPage =
+        allpages.length < TOTAL_PAGE_COUNT ? allpages.length + 1 : undefined;
       return nextPage;
     },
   });
 
-  // 렌더링
-  const content = data?.pages.reverse().map((list: IMessage[]) =>
-    list.map((chat, index) => {
-      if (index === 0) {
-        return chat.user.name === "me" ? (
-          <MyChat
-            innerRef={ref}
-            key={index}
-            createdAt={chat.createdAt}
-            text={chat.text}
-          />
-        ) : (
-          <OtherChat
-            innerRef={ref}
-            key={index}
-            createdAt={chat.createdAt}
-            text={chat.text}
-            profileImg={chat.user.profileImg}
-          />
-        );
-      }
-      return chat.user.name === "me" ? (
-        <MyChat key={index} createdAt={chat.createdAt} text={chat.text} />
-      ) : (
-        <OtherChat
-          key={index}
-          createdAt={chat.createdAt}
-          text={chat.text}
-          profileImg={chat.user.profileImg}
-        />
-      );
-    })
-  );
+  // 이전 채팅 내용이 위로 올라오게 거꾸로 렌더링
+  const content = useMemo(() => {
+    const reversePages = data && [...data.pages].reverse();
+    return (
+      reversePages &&
+      reversePages.map((list: IMessage[]) =>
+        list.map((chat, index) => {
+          return chat.user.name === "me" ? (
+            <MyChat key={index} createdAt={chat.createdAt} text={chat.text} />
+          ) : (
+            <OtherChat
+              key={index}
+              createdAt={chat.createdAt}
+              text={chat.text}
+              profileImg={chat.user.profileImg}
+            />
+          );
+        })
+      )
+    );
+  }, [data]);
 
-  // useEffect(() => {
-  //   if (inView && hasNextPage) {
-  //     console.log("재요청");
+  // 채팅방 스크롤 최상단으로 올리면 이전 채팅 내용 GET 요청
+  useEffect(() => {
+    console.log(hasNextPage);
 
-  //     fetchNextPage();
-  //   }
-  // }, [inView, hasNextPage, fetchNextPage]);
+    if (inView && hasNextPage) {
+      setScrollHeightBeforeFetching(chatRoomRef.current?.scrollHeight ?? 0);
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  // 이전 채팅 내용 불러오면 스크롤 원위치
+  useEffect(() => {
+    if (chatRoomRef.current && scrollHeightBeforeFetching !== 0) {
+      const currentScrollHeight = chatRoomRef.current.scrollHeight;
+      const newScrollPosition =
+        currentScrollHeight - scrollHeightBeforeFetching;
+      chatRoomRef.current.scrollTop = newScrollPosition;
+    }
+  }, [data?.pages.length, scrollHeightBeforeFetching]);
 
   if (status === "pending") {
     return <p>Loading...</p>;
@@ -139,8 +146,7 @@ export default function ChatRoom() {
         address="서울 성동구 동일로 199"
       />
       <S.List ref={chatRoomRef}>
-        <S.CreatedAt>2024년 4월 11일</S.CreatedAt>
-        <button onClick={() => fetchNextPage()}>이전 채팅 내용 불러오기</button>
+        <S.CreatedAt ref={ref}>{CREATEDAT_CHAT_ROOM}</S.CreatedAt>
         {content}
       </S.List>
       <MessageForm text={text} onChange={onChange} onSubmit={onSubmit} />
