@@ -8,6 +8,16 @@ export interface UserType {
   charger?: string;
 }
 
+export interface UserInfoRequest {
+  username: string;
+  email: string;
+  nickname: string;
+  chargerType: string | null;
+  address?: string | null;
+  phoneNumber?: string | null;
+  profileImage?: string | null;
+}
+
 export interface UserInfoResponse {
   roleId: number;
   id: number | null;
