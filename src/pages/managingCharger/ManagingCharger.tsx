@@ -1,21 +1,20 @@
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import IconButton from "@/components/common/iconButton/IconButton";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import { flexColumn } from "@/styles/common";
 import { Charger } from "@/types";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import * as S from "./ManagingCharger.style";
 
 export default function ManagingCharger() {
   const COUNT = sampleData.length;
   const navigate = useNavigate();
   return (
-    <Container>
+    <S.Container>
       <TopNavigationBar
         leftBtn={<IconButton icon="arrowLeft" />}
         text="충전기 관리"
       />
-      <Title>내가 관리하는 {COUNT}개의 충전기</Title>
+      <S.Title>내가 관리하는 {COUNT}개의 충전기</S.Title>
       <div>
         {sampleData.map((data) => {
           return (
@@ -29,33 +28,9 @@ export default function ManagingCharger() {
           );
         })}
       </div>
-    </Container>
+    </S.Container>
   );
 }
-
-const Container = styled.section`
-  margin: 56px 0 68px;
-  ${flexColumn};
-  height: 720px;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: block;
-    width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.PALETTE.mainColor};
-    border-radius: 10px;
-  }
-`;
-
-const Title = styled.h3`
-  padding: 24px 1.5rem 0;
-  font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-`;
 
 const sampleData: Charger[] = [
   {
