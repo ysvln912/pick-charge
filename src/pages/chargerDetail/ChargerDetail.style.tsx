@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
 
 export const ChargerContainer = styled.div`
     width: 390px;
-    height: 100vh;
+    height: 100%;
     margin-top: 56px;
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
@@ -96,6 +96,7 @@ export const PriceInfo = styled.div`
 `;
 
 export const ChargerReview = styled(StyledDiv)`
+    height : 240px;
     .reviewTitle {
         display: flex;
         justify-content: space-between;
