@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import * as S from "./PhotoSlider.style";
 import { AnimatePresence, wrap } from "framer-motion";
 import RightIcon from "../icons/RightIcon";

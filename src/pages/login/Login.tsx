@@ -8,6 +8,8 @@ import LabelInput from "@/components/common/labelInput/LabelInput";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 
 import { useFormValidation } from "@/hooks/useFormValidation";
+import userApi from "@/apis/user";
+import TokenService from "@/utils/tokenService";
 import { useLogin } from "@/hooks/queries/user";
 
 export default function Login() {
@@ -24,9 +26,14 @@ export default function Login() {
   const isFormValid =
     !Object.keys(error).length && formState.email && formState.password;
 
-  const test = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("로그인 성공!");
+  const handleLogin = async () => {
+    try {
+      const response = await userApi.login(formState);
+      console.log(response, "로그인 성공");
+      // TokenService.getToken(response.data.token)
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -38,7 +45,7 @@ export default function Login() {
         </S.LogoWrapper>
 
         {/* <S.Form onSubmit={handleSubmit(() => login(formState))}> */}
-        <S.Form onSubmit={test}>
+        <S.Form onSubmit={handleSubmit(handleLogin)}>
           <LabelInput
             name="email"
             label="이메일"

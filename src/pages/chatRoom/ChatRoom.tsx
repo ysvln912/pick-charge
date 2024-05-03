@@ -108,7 +108,7 @@ export default function ChatRoom() {
         })
       )
     );
-  }, [data]);
+  }, [data, card.image]);
 
   // 채팅방 스크롤 최상단으로 올리면 이전 채팅 내용 GET 요청
   useEffect(() => {

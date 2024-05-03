@@ -6,4 +6,4 @@ export interface ObjMap {
 
 export type SizeType = "sm" | "md" | "lg" | "full";
 export type ColorType = "default" | "primary";
-export type ShapeType = "default" | "round";
+export type ShapeType = "default" | "round" | "none";
