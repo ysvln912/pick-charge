@@ -161,6 +161,7 @@ export default function RegisterCharger() {
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
   }, [debouncedKeyword]);
+
   function createFormData() {
     const formData = new FormData();
 
@@ -175,44 +176,28 @@ export default function RegisterCharger() {
       chargerTypeDtoList: [{ type: chargerType }],
     };
 
-    formData.append("data", JSON.stringify(jsonData));
+    formData.append("chargerCreate", JSON.stringify(jsonData));
     photos.forEach((photo) => {
-      formData.append("multipartFiles", photo);
+      formData.append("imgUrl", photo);
     });
 
     return formData;
   }
 
-  // const createCharger = async () => {
-  //   const url = "/api/chargers/users/1";
-  //   const formData = createFormData();
-
-  //   try {
-  //     const res = await fetch(url, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //       body: formData,
-  //     });
-  //     if (!res.ok) {
-  //       throw new Error(`HTTP error! status: ${res.status}`);
-  //     }
-  //     const json = await res.json();
-  //     console.log(json);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-
-  axios;
   const createCharger = async () => {
-    const url = "/api/chargers/users/1";
+    const url = "/api/chargers/users/102";
     const formData = createFormData();
+    const token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcm5hbWUiOiLsnoTsi5zsnKDsoIAiLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTcxNDgzNDU3NiwiZXhwIjoxNzE0ODk1MDU2fQ.Ru47DRXMJEcRXcVT9DLG41RJjfypf2wnEATlDwvLAmw";
 
     try {
       const res = await axios({
         method: "post",
         url: url,
         data: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       console.log(res.data);
@@ -220,6 +205,7 @@ export default function RegisterCharger() {
       console.error("Error:", error);
     }
   };
+
   return (
     <S.Container>
       <TopNavigationBar
@@ -300,6 +286,7 @@ export default function RegisterCharger() {
           error={errors.chargerType.isError}
           errorMessage={errors.chargerType.errorMessage}
         />
+        <StickButton text="충전기 추가하기" />
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."
