@@ -13,18 +13,20 @@ export default function SearchResultItem({
   onClick,
 }: ISearchResultItemProps) {
   const handleClick = () => {
-    const name = place_name;
-    const address = road_address_name || address_name;
+    const name = place_name || "";
+    const address = road_address_name || address_name || "";
     onClick(name, address);
   };
 
   return (
     <S.Item onClick={handleClick}>
       <S.Top>
-        <S.Name>{place_name}</S.Name>
-        <S.Category>{category_name.split(">").pop()?.trim()}</S.Category>
+        <S.Name>{place_name || "정보 없음"}</S.Name>
+        <S.Category>
+          {category_name.split(">").pop()?.trim() || "정보 없음"}
+        </S.Category>
       </S.Top>
-      <S.Address>{road_address_name || address_name}</S.Address>
+      <S.Address>{road_address_name || address_name || "정보 없음"}</S.Address>
     </S.Item>
   );
 }

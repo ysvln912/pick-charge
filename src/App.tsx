@@ -18,7 +18,7 @@ function App() {
           <ToastProvider>
             <RouterProvider router={router} />
           </ToastProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </ThemeProvider>
     </>

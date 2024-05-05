@@ -23,7 +23,10 @@ export default function FareInput({
   }, [error]);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     let inputValue = event.currentTarget.value;
-    if (!/^\d*\.?\d*$/.test(inputValue)) {
+    // 숫자와 소숫점만 허용하는 정규식
+    const numberRegex = /^\d*\.?\d*$/;
+
+    if (!numberRegex.test(inputValue)) {
       inputValue = inputValue.replace(/[^-.0-9]/g, "");
     }
     if (onChange) {

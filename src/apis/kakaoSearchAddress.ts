@@ -1,4 +1,5 @@
 import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
+import axios from "axios";
 
 export const searchAddress = async (
   debouncedKeyword: string = "",
@@ -9,14 +10,12 @@ export const searchAddress = async (
   }
   const URL = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${debouncedKeyword}&size=3`;
   try {
-    const res = await fetch(URL, {
-      method: "GET",
+    const res = await axios.get(URL, {
       headers: {
         Authorization: `KakaoAK ${import.meta.env.VITE_APP_KAKAO_API_KEY}`,
       },
     });
-    const data = await res.json();
-    callback(data.documents);
+    callback(res.data.documents);
   } catch (error) {
     console.error("Error fetching data:", error);
   }

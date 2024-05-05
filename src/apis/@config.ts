@@ -13,31 +13,31 @@ export const api = axios.create({
   },
 });
 
-// // 요청
-// api.interceptors.request.use(
-//   (config) => {
-//     const token = TokenService.getToken();
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+// 요청
+api.interceptors.request.use(
+  (config) => {
+    const token = TokenService.getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-// // 응답
-// api.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
+// 응답
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
 
-//   (error: AxiosError) => {
-//     if (error?.response?.status === 401) {
-//       TokenService.removeToken();
-//     }
+  (error: AxiosError) => {
+    if (error?.response?.status === 401) {
+      TokenService.removeToken();
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
