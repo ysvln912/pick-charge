@@ -11,6 +11,7 @@ import MessageForm from "@/components/pages/chatRoom/messageForm/MessageForm";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 export interface IUser {
   name: string;
@@ -72,8 +73,8 @@ export default function ChatRoom() {
 
   // 데이터 요청 함수
   const getChatList = async ({ pageParam }: { pageParam: number }) => {
-    const res = await fetch(`/mockData/chatList${pageParam}.json`);
-    return res.json();
+    const res = await axios.get(`/mockData/chatList${pageParam}.json`);
+    return res.data;
   };
 
   // infinity query문
