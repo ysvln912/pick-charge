@@ -40,10 +40,11 @@ export default function ChargerMapView() {
         },
         keyword: "",
     });
-    const searchInfoHandler: React.Dispatch<React.SetStateAction<SearchInfo>> = (updatedInfo) => {
+    const searchInfoHandler: React.Dispatch<
+        React.SetStateAction<SearchInfo>
+    > = (updatedInfo) => {
         setSearchInfo(updatedInfo);
-      };
-
+    };
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
@@ -98,20 +99,20 @@ export default function ChargerMapView() {
         geocoder.coord2Address(
             mapCenter.lon,
             mapCenter.lat,
-            function (result: any, status: string) {
+            async function (result: any, status: string) {
                 if (status === window.kakao.maps.services.Status.OK) {
                     const detailAddr = !!result[0].road_address
                         ? result[0].road_address.address_name
                         : result[0].address.address_name;
 
-                    chargerApi
-                        .getChargerlist(detailAddr)
-                        .then((res: ChargerStation[]) => {
-                            setChargerInfo(res.slice(0, 30));
-                        })
-                        .catch((err: any) => {
-                            console.log(err);
-                        });
+                    try {
+                        const chargerList = await chargerApi.getChargerlist(
+                            detailAddr
+                        );
+                        setChargerInfo(chargerList.slice(0, 30));
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
             }
         );
@@ -139,7 +140,9 @@ export default function ChargerMapView() {
                 mapCenter={mapCenter}
                 setMapCenter={setMapCenter}
                 // key={`${mapCenter.lat}-${mapCenter.lon}`}
-                key={chargerInfo.map(station => station.chargerStationId).join('-')}
+                key={chargerInfo
+                    .map((station) => station.chargerStationId)
+                    .join("-")}
             />
         </div>
     );

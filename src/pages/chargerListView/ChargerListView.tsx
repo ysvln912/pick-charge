@@ -34,20 +34,21 @@ export default function ChargerListView() {
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    useEffect(() => {
+    async function fetchChargerList() {
         if (searchInfo.address.location) {
-            console.log(
-                `api 요청 : /chargers?location=${searchInfo.address.location}`
-            );
-            chargerApi
-                .getChargerlist(searchInfo.address.location)
-                .then((res: ChargerStation[]) => {
-                    setChargerInfo(res.slice(0, 30));
-                })
-                .catch((err: any) => {
-                    console.log(err);
-                });
+            try {
+                const chargerList = await chargerApi.getChargerlist(
+                    searchInfo.address.location
+                );
+                setChargerInfo(chargerList.slice(0, 30));
+            } catch (error) {
+                console.log(error);
+            }
         }
+    }
+
+    useEffect(() => {
+        fetchChargerList();
     }, [searchInfo]);
 
     console.log(chargerInfo);

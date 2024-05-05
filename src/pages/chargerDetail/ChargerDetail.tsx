@@ -19,19 +19,21 @@ export default function ChargerDetail() {
     const chargerId = Number(id);
     const [data, setData] = useState<Charger>();
 
+    async function fetchChargerDetail() {
+        try {
+            const res = await chargerApi.getChargerDetail(chargerId, 1);
+            setData(res);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
-        chargerApi
-            .getChargerDetail(chargerId, 1)
-            .then((res: Charger) => {
-                setData(res);
-            })
-            .catch((err: any) => {
-                console.log(err);
-            });
+        fetchChargerDetail();
     }, [chargerId]);
 
-    if(!data){
-        return <></>
+    if (!data) {
+        return <></>;
     }
 
     return (
@@ -62,15 +64,13 @@ export default function ChargerDetail() {
                             <ChargerStatus status={data.chargerStatus} />
                         </td>
                         <td>
-                            {data.chargerTypeList.map(
-                                (chargerType) => {
-                                    return (
-                                        <span key={chargerType.id}>
-                                            {chargerType.type}
-                                        </span>
-                                    );
-                                }
-                            )}
+                            {data.chargerTypeList.map((chargerType) => {
+                                return (
+                                    <span key={chargerType.id}>
+                                        {chargerType.type}
+                                    </span>
+                                );
+                            })}
                         </td>
                     </tr>
                 </table>
@@ -103,20 +103,24 @@ export default function ChargerDetail() {
                     </Link>
                 </div>
 
-                {!data.reviewList? <></>:data.reviewList.map((review) => {
-                    return (
-                        <ReviewItem
-                            key={review.id}
-                            date={review.modified_at}
-                            address={data.chargerName}
-                            rating={String(review.rating)}
-                            review={review.content}
-                            onClick={() => {
-                                navigate(`/review/${review.id}`);
-                            }}
-                        />
-                    );
-                })}
+                {!data.reviewList ? (
+                    <></>
+                ) : (
+                    data.reviewList.map((review) => {
+                        return (
+                            <ReviewItem
+                                key={review.id}
+                                date={review.modified_at}
+                                address={data.chargerName}
+                                rating={String(review.rating)}
+                                review={review.content}
+                                onClick={() => {
+                                    navigate(`/review/${review.id}`);
+                                }}
+                            />
+                        );
+                    })
+                )}
             </S.ChargerReview>
         </S.ChargerContainer>
     );
