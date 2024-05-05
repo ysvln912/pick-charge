@@ -6,7 +6,7 @@ interface SummaryProps {
     open : ()=> void;
 }
 
-export default function ChagerStationSummary (
+export default function ChargerStationSummary (
     {chargerStation, open} : SummaryProps
 ) {
     return <S.SummaryContainer onClick={open}>

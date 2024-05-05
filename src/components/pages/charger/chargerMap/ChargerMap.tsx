@@ -7,7 +7,7 @@ import marker_individual from "@/assets/imgs/marker_individual.png";
 import marker_public from "@/assets/imgs/marker_public.png";
 import ChargerListDetail from "../ChargerListDetail";
 import { useToggle } from "@/hooks/useToggle";
-import ChargerStationSummary from "../ChargerStationSummary";
+import ChargerStationSummary from "../chargerStationSummary/ChargerStationSummary";
 
 declare global {
     interface Window {
