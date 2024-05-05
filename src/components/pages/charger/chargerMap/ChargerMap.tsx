@@ -7,6 +7,7 @@ import marker_individual from "@/assets/imgs/marker_individual.png";
 import marker_public from "@/assets/imgs/marker_public.png";
 import ChargerListDetail from "../ChargerListDetail";
 import { useToggle } from "@/hooks/useToggle";
+import ChargerStationSummary from "../ChargerStationSummary";
 
 declare global {
     interface Window {
@@ -96,7 +97,8 @@ export default function ChargerMap({
         <>
             <S.MapContainer id="map" type={type} />
             {isStationOpen && info[stationId] && (
-                <S.ChargerStaitionDetail onClick={open}>
+                <>
+                {/* <S.ChargerStaitionDetail onClick={open}>
                     <S.DetailTitle>{info[stationId].chargerName}</S.DetailTitle>
                     <S.DetailLocation>
                         {info[stationId].chargerLocation}
@@ -104,7 +106,9 @@ export default function ChargerMap({
                     <S.DetailLocation>
                         {info[stationId].chargers.length}개의 충전기가 있습니다.
                     </S.DetailLocation>
-                </S.ChargerStaitionDetail>
+                </S.ChargerStaitionDetail> */}
+                <ChargerStationSummary chargerStation={info[stationId]} open={open}/>
+                </>
             )}
             {isOpen && (
                 <ChargerListDetail
