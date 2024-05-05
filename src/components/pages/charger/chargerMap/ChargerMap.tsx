@@ -58,13 +58,11 @@ export default function ChargerMap({
             let latlng = map.getCenter();
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
-
-        for (let i = 0; i < info.length; i++) {
+        info.forEach((chargerStation, i) => {
             const imageSrc =
-                info[i].chargers[0].chargerRole === "개인"
+                chargerStation.chargers[0].chargerRole === "개인"
                     ? marker_individual
                     : marker_public;
-
             const imageSize = new window.kakao.maps.Size(24, 35);
 
             // 마커 이미지를 생성합니다
@@ -72,15 +70,13 @@ export default function ChargerMap({
                 imageSrc,
                 imageSize
             );
-
-            // 마커를 생성합니다
             const marker = new window.kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
                 position: new window.kakao.maps.LatLng(
-                    info[i].chargers[0].latitude,
-                    info[i].chargers[0].longitude
+                    chargerStation.chargers[0].latitude,
+                    chargerStation.chargers[0].longitude
                 ), // 마커를 표시할 위치
-                title: info[i].chargerName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                title: chargerStation.chargerName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
 
@@ -90,7 +86,7 @@ export default function ChargerMap({
             window.kakao.maps.event.addListener(map, "click", () =>
                 mapClickHandler()
             );
-        }
+        });
     }, []);
 
     return (
@@ -98,16 +94,10 @@ export default function ChargerMap({
             <S.MapContainer id="map" type={type} />
             {isStationOpen && info[stationId] && (
                 <>
-                {/* <S.ChargerStaitionDetail onClick={open}>
-                    <S.DetailTitle>{info[stationId].chargerName}</S.DetailTitle>
-                    <S.DetailLocation>
-                        {info[stationId].chargerLocation}
-                    </S.DetailLocation>
-                    <S.DetailLocation>
-                        {info[stationId].chargers.length}개의 충전기가 있습니다.
-                    </S.DetailLocation>
-                </S.ChargerStaitionDetail> */}
-                <ChargerStationSummary chargerStation={info[stationId]} open={open}/>
+                    <ChargerStationSummary
+                        chargerStation={info[stationId]}
+                        open={open}
+                    />
                 </>
             )}
             {isOpen && (
