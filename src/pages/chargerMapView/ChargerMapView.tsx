@@ -103,8 +103,7 @@ export default function ChargerMapView() {
                     chargerApi
                         .getChargerlist(detailAddr)
                         .then((res: ChargerStation[]) => {
-                            setChargerInfo(res);
-                            console.log(res.length)
+                            setChargerInfo(res.slice(0, 30));
                         })
                         .catch((err: any) => {
                             console.log(err);
@@ -135,7 +134,8 @@ export default function ChargerMapView() {
                 info={chargerInfo}
                 mapCenter={mapCenter}
                 setMapCenter={setMapCenter}
-                // key={chargerInfo.map(station => station.chargerStationId).join('-')}
+                // key={`${mapCenter.lat}-${mapCenter.lon}`}
+                key={chargerInfo.map(station => station.chargerStationId).join('-')}
             />
         </div>
     );
