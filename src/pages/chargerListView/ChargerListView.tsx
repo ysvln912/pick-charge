@@ -9,9 +9,14 @@ import { SearchInfo } from "../chargerMapView/ChargerMapView";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
 import chargerApi from "@/apis/charger";
+import { useToggle } from "@/hooks/useToggle";
+import ChargerStationSummary from "@/components/pages/charger/chargerStationSummary/ChargerStationSummary";
+import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
 
 export default function ChargerListView() {
     const navigate = useNavigate();
+    const [stationId, setStationId] = useState(-1);
+    const { open, close, isOpen } = useToggle(false);
     const [seaerchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
@@ -25,11 +30,11 @@ export default function ChargerListView() {
 
     useEffect(() => {
         if (seaerchInfo.address.location) {
-            console.log(`api 요청 : ${seaerchInfo.address.location}`);
+            console.log(`api 요청 : /chargers?location=${seaerchInfo.address.location}`);
             chargerApi
                 .getChargerlist(seaerchInfo.address.location)
                 .then((res: ChargerStation[]) => {
-                    setChargerInfo(res);
+                    setChargerInfo(res.slice(0,30));
                 })
                 .catch((err: any) => {
                     console.log(err);
@@ -37,6 +42,7 @@ export default function ChargerListView() {
         }
     }, [seaerchInfo]);
 
+    console.log(chargerInfo)
     return (
         <S.ChargerContainer>
             <ChargerSearch
@@ -45,25 +51,27 @@ export default function ChargerListView() {
                 viewtype="list"
             />
             <S.listContainer>
-                {chargerInfo.length > 1 &&
-                    chargerInfo.map((chargerStation) => {
-                        return chargerStation.chargers.map((charger) => {
-                            return (
-                                <ChargingInfo
-                                    key={charger.chargerId}
-                                    info={charger}
-                                    like={false}
-                                    tag={true}
-                                    border="bottom"
-                                    onClick={() => {
-                                        navigate(
-                                            `/charger/${charger.chargerId}`
-                                        );
-                                    }}
-                                />
-                            );
-                        });
-                    })}
+                {chargerInfo.map((chargerStation) => {
+                    return (
+                        <div
+                            key={chargerStation.chargerStationId}
+                            onClick={() => {
+                                setStationId(chargerStation.chargerStationId);
+                            }}>
+                            <ChargerStationSummary
+                                chargerStation={chargerStation}
+                                open={open}
+                            />
+                        </div>
+                    );
+                })}
+                {isOpen && chargerInfo[stationId] && (
+                    <ChargerListDetail
+                        chargers={chargerInfo[stationId].chargers}
+                        close={close}
+                        open={isOpen}
+                    />
+                )}
             </S.listContainer>
             <S.ButtonContainer>
                 <Button

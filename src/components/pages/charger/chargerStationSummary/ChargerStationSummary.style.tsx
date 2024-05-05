@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const SummaryContainer = styled.div`
-    position: absolute;
-    width: 390px;
-    bottom: 68px;
-    background-color: ${({ theme }) => theme.PALETTE.white};
-    z-index: 2;
-    padding: 1rem;
+    // position: absolute;
+    // width: 390px;
+    // bottom: 68px;
+    // background-color: ${({ theme }) => theme.PALETTE.white};
+    // z-index: 2;
+    // padding: 1rem;
 `;
 
 export const DetailTitle = styled.p`
