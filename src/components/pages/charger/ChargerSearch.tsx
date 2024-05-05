@@ -12,20 +12,20 @@ import LeftIcon from "@/components/common/icons/LeftIcon";
 import { ViewStyle } from "@/types";
 
 interface ChargerSearchProps {
-  chargerInfo: SearchInfo;
-  setChargerInfo: React.Dispatch<React.SetStateAction<SearchInfo>>;
+  searchInfo: SearchInfo;
+  searchInfoHandler: React.Dispatch<React.SetStateAction<SearchInfo>>;
   viewtype?: ViewStyle;
 }
 
 export default function ChargerSearch({
-  chargerInfo,
-  setChargerInfo,
+  searchInfo,
+  searchInfoHandler,
   viewtype = "map",
 }: ChargerSearchProps) {
   const [show, setShow] = useState(false);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
 
-  const debouncedKeyword = useDebounce(chargerInfo.keyword);
+  const debouncedKeyword = useDebounce(searchInfo.keyword);
 
   useEffect(() => {
     searchAddress(debouncedKeyword, setSearchResults);
@@ -36,15 +36,15 @@ export default function ChargerSearch({
     if (name === "keyword") {
       setShow(true);
     }
-    setChargerInfo((info) => ({ ...info, [name]: value }));
+    searchInfoHandler((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const updateSearchItem = (name: string, location: string) => {
-    setChargerInfo((info) => ({
-      ...info,
+    searchInfoHandler((prevState) => ({
+      ...prevState,
       keyword: name,
       address: {
-        ...info.address,
+        ...prevState.address,
         name,
         location,
       },
@@ -58,7 +58,7 @@ export default function ChargerSearch({
         <SearchInput
           placeholder="충전소를 검색해보세요"
           onChange={updateInput}
-          value={chargerInfo.keyword}
+          value={searchInfo.keyword}
           name="keyword"
         />
       ) : (
@@ -70,7 +70,7 @@ export default function ChargerSearch({
             <Input.Center
               placeholder="충전소를 검색해 보세요."
               onChange={updateInput}
-              value={chargerInfo.keyword}
+              value={searchInfo.keyword}
               name="keyword"
             />
           </Input.Base>

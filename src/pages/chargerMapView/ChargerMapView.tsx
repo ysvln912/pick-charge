@@ -40,6 +40,10 @@ export default function ChargerMapView() {
         },
         keyword: "",
     });
+    const searchInfoHandler: React.Dispatch<React.SetStateAction<SearchInfo>> = (updatedInfo) => {
+        setSearchInfo(updatedInfo);
+      };
+
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
@@ -116,8 +120,8 @@ export default function ChargerMapView() {
     return (
         <div>
             <ChargerSearch
-                chargerInfo={searchInfo}
-                setChargerInfo={setSearchInfo}
+                searchInfo={searchInfo}
+                searchInfoHandler={searchInfoHandler}
             />
             <S.ButtonContainer>
                 <Button

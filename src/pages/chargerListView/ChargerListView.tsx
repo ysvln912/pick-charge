@@ -17,7 +17,7 @@ export default function ChargerListView() {
     const navigate = useNavigate();
     const [stationId, setStationId] = useState(-1);
     const { open, close, isOpen } = useToggle(false);
-    const [seaerchInfo, setSearchInfo] = useState<SearchInfo>({
+    const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
             location: "",
@@ -26,28 +26,36 @@ export default function ChargerListView() {
         },
         keyword: "",
     });
+    const searchInfoHandler: React.Dispatch<
+        React.SetStateAction<SearchInfo>
+    > = (updatedInfo) => {
+        setSearchInfo(updatedInfo);
+    };
+
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
     useEffect(() => {
-        if (seaerchInfo.address.location) {
-            console.log(`api 요청 : /chargers?location=${seaerchInfo.address.location}`);
+        if (searchInfo.address.location) {
+            console.log(
+                `api 요청 : /chargers?location=${searchInfo.address.location}`
+            );
             chargerApi
-                .getChargerlist(seaerchInfo.address.location)
+                .getChargerlist(searchInfo.address.location)
                 .then((res: ChargerStation[]) => {
-                    setChargerInfo(res.slice(0,30));
+                    setChargerInfo(res.slice(0, 30));
                 })
                 .catch((err: any) => {
                     console.log(err);
                 });
         }
-    }, [seaerchInfo]);
+    }, [searchInfo]);
 
-    console.log(chargerInfo)
+    console.log(chargerInfo);
     return (
         <S.ChargerContainer>
             <ChargerSearch
-                chargerInfo={seaerchInfo}
-                setChargerInfo={setSearchInfo}
+                searchInfo={searchInfo}
+                searchInfoHandler={searchInfoHandler}
                 viewtype="list"
             />
             <S.listContainer>
