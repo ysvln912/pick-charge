@@ -24,3 +24,10 @@ export const Title = styled.h3`
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `;
+
+export const NoInfo = styled.p`
+  padding-top: 24px;
+  text-align: center;
+  font-size: ${({ theme }) => theme.FONT_SIZE.md};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+`;
