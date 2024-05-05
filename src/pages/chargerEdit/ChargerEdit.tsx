@@ -1,11 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  IChargerInfo,
-  IErrors,
-  ISearchResult,
-} from "../registerCharger/RegisterCharger";
 import { useDebounce } from "@/hooks/useDebounce";
 import * as S from "./ChargerEdit.style";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
@@ -21,6 +16,9 @@ import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import StickButton from "@/components/common/stickyButton/StickyButton";
 import Textarea from "@/components/common/textarea/Textarea";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
+import { useNavigate } from "react-router-dom";
+import { initChargerInfo } from "@/constants/myCharger";
+import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
 
 export default function ChargerEdit() {
   // Todo: RegisterCharger 컴포넌트랑 중복 코드 줄이기
@@ -60,19 +58,8 @@ export default function ChargerEdit() {
     queryFn: () =>
       getChargerEdit(TEST_INFO.chargerId, TEST_INFO.userId, TEST_INFO.token),
   });
-
-  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
-    address: {
-      name: "",
-      location: "",
-    },
-    keyword: "",
-    detailed: "",
-    speed: "",
-    fare: "",
-  });
-  const [chargerType, setChargerType] = useState<string | null>(null);
-  const [content, setContent] = useState("");
+  const navigate = useNavigate();
+  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>(initChargerInfo);
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
@@ -96,9 +83,9 @@ export default function ChargerEdit() {
         detailed: "",
         speed: data.chargingSpeed,
         fare: data.personalPrice,
+        chargerType: data.chargerTypeList[0].type,
+        content: data.content,
       });
-      setChargerType(data.chargerTypeList[0].type);
-      setContent(data.content);
     }
   }, [data]);
 
@@ -134,7 +121,7 @@ export default function ChargerEdit() {
       }));
     }
     if (name === "speed") {
-      setChargerType(null);
+      setChargerInfo((prev) => ({ ...prev, chargerType: null }));
     }
     setChargerInfo((info) => ({ ...info, [name]: value }));
   };
@@ -147,12 +134,12 @@ export default function ChargerEdit() {
         chargerType: { ...prev.chargerType, isError: false },
       }));
     }
-    setChargerType(value);
+    setChargerInfo((prev) => ({ ...prev, chargerType: value }));
   };
 
   const updateContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.currentTarget;
-    setContent(value);
+    setChargerInfo((prev) => ({ ...prev, content: value }));
   };
 
   const updatePhoto = (photo: File) => {
@@ -173,9 +160,9 @@ export default function ChargerEdit() {
       chargerLocation: chargerInfo.address.location,
       chargerName: chargerInfo.address.name,
       chargingSpeed: chargerInfo.speed,
-      content: content,
+      content: chargerInfo.content,
       personalPrice: parseInt(chargerInfo.fare),
-      chargerTypeDtoList: [{ type: chargerType }],
+      chargerTypeDtoList: [{ type: chargerInfo.chargerType }],
     };
 
     formData.append("chargerUpdate", JSON.stringify(jsonData));
@@ -207,30 +194,39 @@ export default function ChargerEdit() {
     }
   };
 
-  const onSubmitValue = () => {
+  const onValidationValues = (): boolean => {
     if (chargerInfo.address.location === "") {
       setErrors((prev) => ({
         ...prev,
         address: { isError: true, errorMessage: "필수 입력 항목입니다." },
       }));
-      return;
+      return false;
     }
     if (chargerInfo.fare === "") {
       setErrors((prev) => ({
         ...prev,
         fare: { isError: true, errorMessage: "필수 입력 항목입니다." },
       }));
-      return;
+      return false;
     }
-    if (chargerType === null) {
+    if (chargerInfo.chargerType === null) {
       setErrors((prev) => ({
         ...prev,
         chargerType: { isError: true, errorMessage: "필수 입력 항목입니다." },
       }));
-      return;
+      return false;
     }
-    updateCharger();
+    return true;
   };
+
+  const onSubmitValue = () => {
+    const isPass = onValidationValues();
+    if (isPass) {
+      console.log(chargerInfo);
+      // updateCharger();
+    }
+  };
+
   return (
     <S.Container>
       <TopNavigationBar
@@ -305,7 +301,7 @@ export default function ChargerEdit() {
         <SelectCharger
           label
           require
-          value={chargerType}
+          value={chargerInfo.chargerType}
           onChange={updateChargerType}
           type={chargerInfo.speed === "급속" ? "fast" : "slow"}
           error={errors.chargerType.isError}
@@ -316,10 +312,10 @@ export default function ChargerEdit() {
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."
           name="content"
-          value={content ?? ""}
+          value={chargerInfo.content ?? ""}
           onChange={updateContent}
         >
-          {content}
+          {chargerInfo.content}
         </Textarea>
         <PhotoRegister
           photos={photos}
