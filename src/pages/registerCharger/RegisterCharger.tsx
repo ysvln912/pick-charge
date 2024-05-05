@@ -76,7 +76,7 @@ export default function RegisterCharger() {
     chargerType: { isError: false, errorMessage: "" },
   });
 
-  const testInputValue = () => {
+  const onSubmitValue = () => {
     if (chargerInfo.address.location === "") {
       setErrors((prev) => ({
         ...prev,
@@ -180,7 +180,6 @@ export default function RegisterCharger() {
     photos.forEach((photo) => {
       formData.append("imgUrl", photo);
     });
-
     return formData;
   }
 
@@ -302,7 +301,7 @@ export default function RegisterCharger() {
           deletePhoto={deletePhoto}
         />
       </S.Main>
-      <StickButton onClick={testInputValue} text="작성완료"></StickButton>
+      <StickButton onClick={onSubmitValue} text="작성완료"></StickButton>
     </S.Container>
   );
 }
