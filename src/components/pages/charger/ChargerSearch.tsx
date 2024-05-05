@@ -9,11 +9,12 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
 import Input from "@/components/common/input/input";
 import LeftIcon from "@/components/common/icons/LeftIcon";
+import { ViewStyle } from "@/types";
 
 interface ChargerSearchProps {
   chargerInfo: SearchInfo;
   setChargerInfo: React.Dispatch<React.SetStateAction<SearchInfo>>;
-  viewtype?: "map" | "list";
+  viewtype?: ViewStyle;
 }
 
 export default function ChargerSearch({
