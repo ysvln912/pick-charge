@@ -51,7 +51,7 @@ export default function ChargerMapView() {
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
             navigator.geolocation.getCurrentPosition(function (position) {
-                var lat = position.coords.latitude, // 위도
+                const lat = position.coords.latitude, // 위도
                     lon = position.coords.longitude; // 경도
 
                 setMapCenter({
@@ -67,8 +67,8 @@ export default function ChargerMapView() {
 
     useEffect(() => {
         if (searchInfo.address.location) {
-            var geocoder = new window.kakao.maps.services.Geocoder();
-            var coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            let coords: { lat: number; lon: number } = { lat: 0, lon: 0 };
 
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(
@@ -93,14 +93,14 @@ export default function ChargerMapView() {
     }, [searchInfo]);
 
     useEffect(() => {
-        var geocoder = new window.kakao.maps.services.Geocoder();
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
         geocoder.coord2Address(
             mapCenter.lon,
             mapCenter.lat,
             function (result: any, status: string) {
                 if (status === window.kakao.maps.services.Status.OK) {
-                    var detailAddr = !!result[0].road_address
+                    const detailAddr = !!result[0].road_address
                         ? result[0].road_address.address_name
                         : result[0].address.address_name;
 
