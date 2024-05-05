@@ -132,6 +132,9 @@ export default function RegisterCharger() {
         fare: { ...prev.fare, isError: false },
       }));
     }
+    if (name === "speed") {
+      setChargerType(null);
+    }
     setChargerInfo((info) => ({ ...info, [name]: value }));
   };
 
