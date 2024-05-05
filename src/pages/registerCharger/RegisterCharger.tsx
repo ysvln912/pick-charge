@@ -109,7 +109,7 @@ export default function RegisterCharger() {
     }));
     setErrors((prev) => ({
       ...prev,
-      address: { isError: false, errorMessage: "" },
+      address: { ...prev.address, isError: false },
     }));
     setShow(false);
   };
@@ -129,7 +129,7 @@ export default function RegisterCharger() {
     if (name === "fare" && value !== "") {
       setErrors((prev) => ({
         ...prev,
-        fare: { isError: false, errorMessage: "" },
+        fare: { ...prev.fare, isError: false },
       }));
     }
     setChargerInfo((info) => ({ ...info, [name]: value }));
@@ -140,7 +140,7 @@ export default function RegisterCharger() {
     if (value !== "") {
       setErrors((prev) => ({
         ...prev,
-        chargerType: { isError: false, errorMessage: "" },
+        chargerType: { ...prev.chargerType, isError: false },
       }));
     }
     setChargerType(value);
