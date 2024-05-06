@@ -141,7 +141,7 @@ export default function ChargerMapView() {
                 setMapCenter={setMapCenter}
                 // key={`${mapCenter.lat}-${mapCenter.lon}`}
                 key={chargerInfo
-                    .map((station) => station.chargerStationId)
+                    .map((station) => station.chargerGroupId)
                     .join("-")}
             />
         </div>

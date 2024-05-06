@@ -63,9 +63,9 @@ export default function ChargerListView() {
                 {chargerInfo.map((chargerStation) => {
                     return (
                         <div
-                            key={chargerStation.chargerStationId}
+                            key={chargerStation.chargerGroupId}
                             onClick={() => {
-                                setStationId(chargerStation.chargerStationId);
+                                setStationId(chargerStation.chargerGroupId);
                             }}>
                             <ChargerStationSummary
                                 chargerStation={chargerStation}

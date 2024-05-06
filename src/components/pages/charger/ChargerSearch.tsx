@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import * as S from "./ChargerSearch.style";
 import SearchInput from "@/components/common/searchInput/SearchInput";
 import SearchResultItem from "../registerCharger/searchResultItem/SearchResultItem";
-import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
+import  {ISearchResult}  from "@/types/myCharger";
 import { SearchInfo } from "@/pages/chargerMapView/ChargerMapView";
 import { useDebounce } from "@/hooks/useDebounce";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
