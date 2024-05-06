@@ -1,12 +1,14 @@
 import * as S from "./Login.style";
 
-import { Link, useNavigate } from "react-router-dom";
+// import { useAtom } from "jotai";
+// import { Link, useNavigate } from "react-router-dom";
 
 import logo from "@/assets/imgs/logo_big.png";
 import Button from "@/components/common/button/Button";
 import LabelInput from "@/components/common/labelInput/LabelInput";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 
+// import { userAtom } from "@/atoms/userAtom";
 import { useToast } from "@/hooks/useToast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 // import { useLogin } from "@/hooks/queries/user";
@@ -15,11 +17,11 @@ import TokenService from "@/utils/tokenService";
 import MESSAGE from "@/constants/message";
 
 export default function Login() {
+  // const [setUser] = useAtom(userAtom);
   const initialState = {
     email: "",
     password: "",
   };
-  const navigate = useNavigate();
   const { triggerToast } = useToast();
   const { formState, handleInputChange, error, handleSubmit } =
     useFormValidation(initialState);
@@ -33,9 +35,11 @@ export default function Login() {
     try {
       const response = await userApi.login(formState);
       console.log(response, "로그인 성공");
+      // const {id, nickName,username,email,profileImage , chargerType, address} = response;
+      // setUser(id,nickName,username,email,profileImage , chargerType, address );
+      TokenService.setToken(response.token);
       triggerToast(MESSAGE.LOGIN.SUCCESS, "success");
-      TokenService.setToken(response);
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       console.error(error);
     }
