@@ -2,7 +2,8 @@
 import * as S from "./ReviewEditContent.style";
 
 import { Dispatch, SetStateAction, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/useToast";
 
 import MESSAGE from "@/constants/message";
@@ -14,6 +15,8 @@ import StickButton from "@/components/common/stickyButton/StickyButton";
 import Textarea from "@/components/common/textarea/Textarea";
 import Rating from "@/components/pages/reviewWrite/rating/Rating";
 import { ReviewType } from "@/pages/reviewWrite/ReviewWrite";
+import { userAtom } from "@/atoms/userAtom";
+import { reviewAtom } from "@/atoms/reviewAtom";
 
 export interface ReviewEditContentProps {
   data: ReviewType;
@@ -24,6 +27,9 @@ export default function ReviewEditContent({
   data,
   setData,
 }: ReviewEditContentProps) {
+  const [review, setReview] = useAtom(reviewAtom);
+  const [user] = useAtom(userAtom);
+
   const [error, setError] = useState({
     chargerId: "",
     content: "",
@@ -43,7 +49,7 @@ export default function ReviewEditContent({
   const navigate = useNavigate();
   const { triggerToast } = useToast();
 
-  const { chargerId, content, rating, userId } = data;
+  const { chargerId, content, rating } = review;
 
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
@@ -53,7 +59,7 @@ export default function ReviewEditContent({
   };
 
   const handleUpdateValue = (value: string | number, name: string) => {
-    setData((prev) => ({ ...prev, [name]: value }));
+    setReview((prev) => ({ ...prev, [name]: value }));
   };
 
   const isFormValid = chargerId && content;
@@ -66,34 +72,24 @@ export default function ReviewEditContent({
       });
       return;
     }
-    const newData = { ...data, photos };
+    const newData = { ...review, photos, userId: user.id };
+    console.log({ newData }, "@@");
 
     triggerToast("리뷰가 저장되었어요.", "success");
-    // navigate(`/reviwew/${reviewId}`)
-    console.log({ newData });
+    // navigate(`/review/${reviewId}`)
   };
 
   return (
     <>
       <S.Container>
         <S.Box>
-          {/* <ChargerSearch
-            chargerInfo={chargerInfo}
-            setChargerInfo={setChargerInfo}
-          /> */}
-
-          <SearchChargerInput
-            error={error.chargerId}
-            onChange={(e) => handleUpdateValue(e.target.value, "chargerId")}
-          />
-          {/* <SearchInput
-            require
-            name="chargerId"
-            placeholder="주소를 입력해 주세요."
-            label="충전소"
-            error={error.chargerId}
-            onChange={(e) => handleUpdateValue(e.target.value, "content")}
-          /> */}
+          <Link to="/review/write/list">
+            <SearchChargerInput
+              error={error.chargerId}
+              value={review.chargerName}
+              onChange={(e) => handleUpdateValue(e.target.value, "chargerId")}
+            />
+          </Link>
         </S.Box>
         <S.Box>
           <Label>별점</Label>
