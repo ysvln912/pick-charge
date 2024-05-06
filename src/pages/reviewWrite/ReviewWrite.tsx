@@ -4,14 +4,17 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import IconButton from "@/components/common/iconButton/IconButton.tsx";
 import ReviewEditContent from "@/components/pages/reviewWrite/reviewEditContent/ReviewEditContent.tsx";
 export interface ReviewType {
+  chargerName: string;
   chargerId: number | null;
   rating: number;
   content: string;
-  userId: number | null;
+  userId?: number | null;
+  photos?: [];
 }
 
 export default function ReviewWrite() {
   const [data, setData] = useState<ReviewType>({
+    chargerName: "",
     chargerId: null,
     rating: 1,
     content: "",
