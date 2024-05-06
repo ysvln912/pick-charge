@@ -1,14 +1,24 @@
 import { api } from "./@config";
-import { UserType } from "@/types";
+import { UserInfoRequest } from "@/types";
 
 const userApi = {
-  signup(data: UserType) {
-    return api.post("/user/signUp", data).then((response) => response.data);
+  signup(data: UserInfoRequest) {
+    return api.post("/user/signup", data).then((response) => response.data);
   },
 
   login(data: { email: string; password: string }) {
-    return api.post("/user/login", data).then((response) => response.data);
+    return api.post("/user/signin", data).then((response) => response.data);
   },
 };
 
 export default userApi;
+
+// const userApi = {
+//   async signup(data: UserType): Promise<RESPONSE_TYPE> {
+//     return await api.post("/user/signUp", data).then((response: {data: RESPONSE_TYPE}) => response.data);
+//   },
+
+//   async login(data: { email: string; password: string }): Promise<RESPONSE_TYPE> {
+//     return await api.post("/user/login", data).then((response: {data: RESPONSE_TYPE}) => response.data);
+//   },
+// };

@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ChatCard.style";
 import DefaultProfile from "../defaultProfile/DefaultProfile";
@@ -20,7 +19,9 @@ export default function ChatCard({
 }: ChatCardProps) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/chat-list/${id}`);
+    navigate(`/chat-list/${id}`, {
+      state: { card: { id, image, name, createdAt } },
+    });
   };
   return (
     <S.Card onClick={onClick}>

@@ -1,12 +1,13 @@
 import * as S from "./ReviewItem.style";
 
+import getDateFormat from "@/utils/getDateFormat";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import LineIcon from "../icons/LineIcon";
 import RatingWithStar from "../ratingWithStar/RatingWithStar";
 
 export interface ReviewItemProps {
   onClick: () => void;
-  date: string;
+  date: Date | string;
   address: string;
   rating: string;
   review: string;
@@ -18,7 +19,7 @@ export default function ReviewItem(props: ReviewItemProps) {
   return (
     <S.Container onClick={onClick}>
       <S.Top>
-        <S.DateText>{date}</S.DateText>
+        <S.DateText>{getDateFormat(date)}</S.DateText>
         <S.DetailWrapper>
           <p>상세 보기</p>
           <ArrowRightIcon />

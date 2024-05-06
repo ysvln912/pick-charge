@@ -34,7 +34,7 @@ export const DetailWrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  ${flexAlignCenter}
+  ${flexSpaceBetweenCenter}
   gap: 1.5rem;
 `;
 export const Left = styled.div``;

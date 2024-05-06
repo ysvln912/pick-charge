@@ -1,21 +1,26 @@
 import * as S from "./Login.style";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import logo from "@/assets/imgs/logo_big.png";
 import Button from "@/components/common/button/Button";
 import LabelInput from "@/components/common/labelInput/LabelInput";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 
+import { useToast } from "@/hooks/useToast";
 import { useFormValidation } from "@/hooks/useFormValidation";
-import { useLogin } from "@/hooks/queries/user";
+// import { useLogin } from "@/hooks/queries/user";
+import userApi from "@/apis/user";
+import TokenService from "@/utils/tokenService";
+import MESSAGE from "@/constants/message";
 
 export default function Login() {
   const initialState = {
     email: "",
     password: "",
   };
-
+  const navigate = useNavigate();
+  const { triggerToast } = useToast();
   const { formState, handleInputChange, error, handleSubmit } =
     useFormValidation(initialState);
 
@@ -24,9 +29,16 @@ export default function Login() {
   const isFormValid =
     !Object.keys(error).length && formState.email && formState.password;
 
-  const test = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("로그인 성공!");
+  const handleLogin = async () => {
+    try {
+      const response = await userApi.login(formState);
+      console.log(response, "로그인 성공");
+      triggerToast(MESSAGE.LOGIN.SUCCESS, "success");
+      TokenService.setToken(response);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -38,7 +50,7 @@ export default function Login() {
         </S.LogoWrapper>
 
         {/* <S.Form onSubmit={handleSubmit(() => login(formState))}> */}
-        <S.Form onSubmit={test}>
+        <S.Form onSubmit={handleSubmit(handleLogin)}>
           <LabelInput
             name="email"
             label="이메일"

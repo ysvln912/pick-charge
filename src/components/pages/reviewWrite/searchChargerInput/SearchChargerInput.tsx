@@ -2,12 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./SearchChargerInput.style";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
+
+import { searchAddress } from "@/apis/kakaoSearchAddress";
 import SearchInput, {
   SearchInputProps,
 } from "@/components/common/searchInput/SearchInput";
-import SearchResultItem from "../../registerCharger/SearchResultItem";
-
+import SearchResultItem from "../../registerCharger/searchResultItem/SearchResultItem";
+import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
+import { useDebounce } from "@/hooks/useDebounce";
 interface SearchChargerInputProps extends SearchInputProps {
   error: string | boolean;
   onChange: (e: any) => void;
@@ -15,7 +18,6 @@ interface SearchChargerInputProps extends SearchInputProps {
 
 export default function SearchChargerInput({
   error = false,
-  onChange,
 }: SearchChargerInputProps) {
   const [show, setShow] = useState(false);
   const [chargerInfo, setChargerInfo] = useState({
@@ -23,6 +25,9 @@ export default function SearchChargerInput({
     address_name: "",
     keyword: "",
   });
+  const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
+
+  const debouncedKeyword = useDebounce(chargerInfo.keyword);
 
   // const handleUpdateSearchItem = (name: string, location: string) => {
   //   const address = { name, location };
@@ -32,7 +37,11 @@ export default function SearchChargerInput({
   //   // onChange && onChange(chargerId);
   // };
 
-  const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    searchAddress(debouncedKeyword, setSearchResults);
+  }, [debouncedKeyword]);
+
+  const handleUpdateInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
     if (name === "keyword") {
       setShow(true);
@@ -40,9 +49,17 @@ export default function SearchChargerInput({
     setChargerInfo((info) => ({ ...info, [name]: value }));
   };
 
-  console.log({ show, chargerInfo });
+  const updateSearchItem = (name: string, location: string) => {
+    setChargerInfo((info) => ({
+      ...info,
+      keyword: name,
+      address: { name, location },
+    }));
+    setShow(false);
+  };
+
   return (
-    <>
+    <S.Wrapper>
       <SearchInput
         require
         name="keyword"
@@ -52,7 +69,17 @@ export default function SearchChargerInput({
         error={error}
         value={chargerInfo.keyword}
       />
-      {/* {show && <SearchResultItem onClick={handleUpdateSearchItem} />} */}
-    </>
+      {show && searchResults.length > 0 && (
+        <S.SearchResultsBox>
+          {searchResults.map((result) => (
+            <SearchResultItem
+              key={result.id}
+              {...result}
+              onClick={updateSearchItem}
+            />
+          ))}
+        </S.SearchResultsBox>
+      )}
+    </S.Wrapper>
   );
 }

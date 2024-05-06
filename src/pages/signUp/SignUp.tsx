@@ -18,13 +18,12 @@ export default function SignUp() {
     signupSteps[0]
   );
 
-  // TODO : 페이지 상단에서 회원가입 data state 관리 => 4-28일까지
   const [data, setData] = useState<UserType>({
     email: "",
     code: "",
     password: "",
     passwordCheck: "",
-    name: "",
+    username: "",
     nickname: "",
     charger: "",
   });
@@ -41,12 +40,16 @@ export default function SignUp() {
         <Funnel>
           <Step name={signupSteps[0]}>
             <AccountForm
-              data={data}
+              setData={setData}
               onNext={() => handleClickNext(signupSteps[1])}
             />
           </Step>
           <Step name={signupSteps[1]}>
-            <UserInfoForm onNext={() => handleClickNext(signupSteps[2])} />
+            <UserInfoForm
+              setData={setData}
+              data={data}
+              onNext={() => handleClickNext(signupSteps[2])}
+            />
           </Step>
           <Step name={signupSteps[2]}>
             <Done />

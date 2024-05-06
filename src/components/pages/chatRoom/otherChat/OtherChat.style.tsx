@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { flexAlignCenter } from "@/styles/common";
 
 export const ChatBox = styled.div`
-  width: 80%;
+  width: 100%;
   margin-right: auto;
   display: flex;
   justify-content: flex-start;
@@ -11,20 +10,29 @@ export const ChatBox = styled.div`
 `;
 
 export const RowBox = styled.div`
-  ${flexAlignCenter};
+  display: flex;
+  align-items: center;
   gap: 8px;
+  max-width: 85%;
+`;
+
+export const ImgBox = styled.div`
+  align-self: flex-start;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  flex-shrink: 0;
 `;
 
 export const Img = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
+  width: 100%;
+  height: 100%;
 `;
 
 export const Text = styled.div`
-  padding: 8px;
+  padding: 12px;
   text-align: left;
   background-color: ${({ theme }) => theme.PALETTE.gray[100]};
   border-radius: 10px;
@@ -34,7 +42,9 @@ export const Text = styled.div`
 `;
 
 export const CreatedAt = styled.span`
+  width: 15%;
   font-size: ${({ theme }) => theme.FONT_SIZE.es};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ theme }) => theme.PALETTE.gray[300]};
+  text-align: left;
 `;
