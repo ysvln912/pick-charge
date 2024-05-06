@@ -25,7 +25,7 @@ export interface UserInfoResponse {
   email: string;
   nickname: string;
   chargerType: string | null;
-  address?: string;
-  phoneNumber?: string;
-  profileImage?: string;
+  address?: string | null;
+  phoneNumber?: string | null;
+  profileImage?: string | null;
 }
