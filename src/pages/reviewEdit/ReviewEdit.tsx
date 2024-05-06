@@ -10,34 +10,38 @@ import reviewApi from "@/apis/review";
 import { useValidParams } from "@/hooks/useValidParams";
 export interface ReviewType {
   chargerId: number | null;
-  rating: number;
+  chargerName: string;
+  rating: number | null;
   content: string;
   userId: number | null;
+  imgs: [];
 }
 
 export default function ReviewEdit() {
   const { id: reviewId } = useValidParams();
 
-  // const [data, setData] = useState<ReviewType>({
-  //   chargerName: "",
-  //   content: "",
-  //   rating: 0,
-  //   imgs: [],
-  // });
+  const [data, setData] = useState({
+    chargerId: null,
+    chargerName: "",
+    rating: null,
+    content: "",
+    userId: 1,
+    imgs: [],
+  });
 
-  // const getReviewData = async () => {
-  //   try {
-  //     const response = await reviewApi.getEditReview(reviewId);
-  //     setData(response);
-  //     console.log(response, "리뷰 수정페이지");
-  //   } catch (error) {
-  //     console.log("ERR", error);
-  //   }
-  // };
+  const getReviewData = async () => {
+    try {
+      const response = await reviewApi.getEditReview(reviewId);
+      setData(response);
+      console.log(response, "리뷰 수정페이지");
+    } catch (error) {
+      console.log("ERR", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getReviewData();
-  // }, []);
+  useEffect(() => {
+    getReviewData();
+  }, []);
 
   return (
     <>
