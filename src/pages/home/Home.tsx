@@ -78,6 +78,7 @@ export default function Home() {
                     <span>전기차 충전소</span>를 찾아볼까요?
                 </p>
                 <SearchInput
+                    readOnly={true}
                     placeholder="충전소 찾아보기"
                     onFocus={() => {
                         navigate("/charger/list");
@@ -132,8 +133,10 @@ export default function Home() {
                 </Link>
             </S.FavoritesCharger>
             <S.EmptyFavorite>
-                    자주가는 충전소를 등록해 보세요!
-                </S.EmptyFavorite>
+                <Link to="/login">
+                    로그인 후 자주가는 충전소를 등록해보세요!
+                </Link>
+            </S.EmptyFavorite>
             {/* {sampleData.length === 0 ? (
                 <S.EmptyFavorite>
                     자주가는 충전소를 등록해 보세요!

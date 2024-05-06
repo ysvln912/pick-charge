@@ -16,6 +16,7 @@ export interface SearchInputProps {
   name?: string;
   value?: string | null;
   color?: ColorType;
+  readOnly? : boolean;
 }
 
 export default function SearchInput({
@@ -29,6 +30,7 @@ export default function SearchInput({
   name,
   errorMessage,
   value,
+  readOnly=false,
 }: SearchInputProps) {
   return (
     <Input>
@@ -43,6 +45,7 @@ export default function SearchInput({
           onFocus={onFocus}
           name={name}
           value={value || ""}
+          readOnly={readOnly}
         />
       </Input.Base>
       <ErrorMessage visible={!!error}>{errorMessage || error}</ErrorMessage>
