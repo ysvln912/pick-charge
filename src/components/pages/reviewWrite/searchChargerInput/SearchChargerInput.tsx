@@ -9,7 +9,7 @@ import SearchInput, {
   SearchInputProps,
 } from "@/components/common/searchInput/SearchInput";
 import SearchResultItem from "../../registerCharger/searchResultItem/SearchResultItem";
-import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
+import { ISearchResult } from "@/types/myCharger";
 import { useDebounce } from "@/hooks/useDebounce";
 interface SearchChargerInputProps extends SearchInputProps {
   error: string | boolean;
