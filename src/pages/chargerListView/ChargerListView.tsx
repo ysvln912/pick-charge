@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as S from "./ChargerListView.style";
-import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import Button from "@/components/common/button/Button";
 import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 import { SearchInfo } from "../chargerMapView/ChargerMapView";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
-import chargerApi from "@/apis/charger";
 import { useToggle } from "@/hooks/useToggle";
 import ChargerStationSummary from "@/components/pages/charger/chargerStationSummary/ChargerStationSummary";
 import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
+import { useChargerList } from "@/hooks/queries/charger";
+
 
 export default function ChargerListView() {
     const navigate = useNavigate();
@@ -34,24 +34,17 @@ export default function ChargerListView() {
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    async function fetchChargerList() {
-        if (searchInfo.address.location) {
-            try {
-                const chargerList = await chargerApi.getChargerlist(
-                    searchInfo.address.location
-                );
-                setChargerInfo(chargerList.slice(0, 30));
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    }
+    const { data, isLoading, isError } = useChargerList(
+        searchInfo.address.location
+    );
+    
 
     useEffect(() => {
-        fetchChargerList();
-    }, [searchInfo]);
+        if (!isLoading && !isError) {
+            setChargerInfo(data);
+        }
+    }, [data, isLoading, isError]);
 
-    console.log(chargerInfo);
     return (
         <S.ChargerContainer>
             <ChargerSearch
@@ -65,7 +58,7 @@ export default function ChargerListView() {
                         <div
                             key={chargerStation.chargerGroupId}
                             onClick={() => {
-                                setStationId(chargerStation.chargerGroupId);
+                                setStationId(chargerStation.chargerGroupId - 1);
                             }}>
                             <ChargerStationSummary
                                 chargerStation={chargerStation}
