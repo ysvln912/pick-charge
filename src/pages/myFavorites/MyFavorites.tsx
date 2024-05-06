@@ -11,7 +11,7 @@ import { ChargerStation } from "@/types";
 
 const data: ChargerStation[] = [
     {
-        chargerStationId: 1,
+        chargerGroupId: 1,
         chargerLocation: "서울시 강남구",
         chargerName: "강남 충전소",
         chargers: [
