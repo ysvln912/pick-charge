@@ -9,10 +9,15 @@ import { SearchInfo } from "../chargerMapView/ChargerMapView";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
 import chargerApi from "@/apis/charger";
+import { useToggle } from "@/hooks/useToggle";
+import ChargerStationSummary from "@/components/pages/charger/chargerStationSummary/ChargerStationSummary";
+import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
 
 export default function ChargerListView() {
     const navigate = useNavigate();
-    const [seaerchInfo, setSearchInfo] = useState<SearchInfo>({
+    const [stationId, setStationId] = useState(-1);
+    const { open, close, isOpen } = useToggle(false);
+    const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
             location: "",
@@ -21,49 +26,61 @@ export default function ChargerListView() {
         },
         keyword: "",
     });
+    const searchInfoHandler: React.Dispatch<
+        React.SetStateAction<SearchInfo>
+    > = (updatedInfo) => {
+        setSearchInfo(updatedInfo);
+    };
+
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    useEffect(() => {
-        if (seaerchInfo.address.location) {
-            console.log(`api 요청 : ${seaerchInfo.address.location}`);
-            chargerApi
-                .getChargerlist(seaerchInfo.address.location)
-                .then((res: ChargerStation[]) => {
-                    setChargerInfo(res);
-                })
-                .catch((err: any) => {
-                    console.log(err);
-                });
+    async function fetchChargerList() {
+        if (searchInfo.address.location) {
+            try {
+                const chargerList = await chargerApi.getChargerlist(
+                    searchInfo.address.location
+                );
+                setChargerInfo(chargerList.slice(0, 30));
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }, [seaerchInfo]);
+    }
 
+    useEffect(() => {
+        fetchChargerList();
+    }, [searchInfo]);
+
+    console.log(chargerInfo);
     return (
         <S.ChargerContainer>
             <ChargerSearch
-                chargerInfo={seaerchInfo}
-                setChargerInfo={setSearchInfo}
+                searchInfo={searchInfo}
+                searchInfoHandler={searchInfoHandler}
                 viewtype="list"
             />
             <S.listContainer>
-                {chargerInfo.length > 1 &&
-                    chargerInfo.map((chargerStation) => {
-                        return chargerStation.chargers.map((charger) => {
-                            return (
-                                <ChargingInfo
-                                    key={charger.chargerId}
-                                    info={charger}
-                                    like={false}
-                                    tag={true}
-                                    border="bottom"
-                                    onClick={() => {
-                                        navigate(
-                                            `/charger/${charger.chargerId}`
-                                        );
-                                    }}
-                                />
-                            );
-                        });
-                    })}
+                {chargerInfo.map((chargerStation) => {
+                    return (
+                        <div
+                            key={chargerStation.chargerStationId}
+                            onClick={() => {
+                                setStationId(chargerStation.chargerStationId);
+                            }}>
+                            <ChargerStationSummary
+                                chargerStation={chargerStation}
+                                open={open}
+                            />
+                        </div>
+                    );
+                })}
+                {isOpen && chargerInfo[stationId] && (
+                    <ChargerListDetail
+                        chargers={chargerInfo[stationId].chargers}
+                        close={close}
+                        open={isOpen}
+                    />
+                )}
             </S.listContainer>
             <S.ButtonContainer>
                 <Button
