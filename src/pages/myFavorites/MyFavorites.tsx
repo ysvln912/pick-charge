@@ -11,7 +11,7 @@ import { ChargerStation } from "@/types";
 
 const data: ChargerStation[] = [
     {
-        chargerStationId: 1,
+        chargerGroupId: 1,
         chargerLocation: "서울시 강남구",
         chargerName: "강남 충전소",
         chargers: [
@@ -51,7 +51,7 @@ export default function MyFavorites() {
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
             navigator.geolocation.getCurrentPosition(function (position) {
-                var lat = position.coords.latitude, // 위도
+                const lat = position.coords.latitude, // 위도
                     lon = position.coords.longitude; // 경도
 
                 setMapCenter({

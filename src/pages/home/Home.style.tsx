@@ -60,6 +60,6 @@ export const FavoritesCharger = styled.div`
 export const EmptyFavorite = styled.div`
     color: ${({ theme }) => theme.PALETTE.gray[400]};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    padding : 4rem;
+    margin-top: 6rem;
     text-align : center;
 `;

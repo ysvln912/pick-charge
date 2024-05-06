@@ -8,7 +8,6 @@ import { reviewAtom } from "@/atoms/reviewAtom";
 import SearchInput, {
   SearchInputProps,
 } from "@/components/common/searchInput/SearchInput";
-
 interface SearchChargerInputProps extends SearchInputProps {
   error: string | boolean;
   onChange: (e: any) => void;

@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { flexColumn } from "@/styles/common";
+import { ViewStyle } from "@/types";
 
 const inputview = {
     map: css`
@@ -32,10 +33,10 @@ const resultview = {
     `,
 };
 
-export const SearchContainer = styled.div<{ viewstyle: "map" | "list" }>`
+export const SearchContainer = styled.div<{ viewstyle: ViewStyle}>`
     ${({ viewstyle }) => inputview[viewstyle]}
 `;
 
-export const SearchResultsBox = styled.div<{ viewstyle: "map" | "list" }>`
+export const SearchResultsBox = styled.div<{ viewstyle: ViewStyle }>`
     ${({ viewstyle }) => resultview[viewstyle]}
 `;

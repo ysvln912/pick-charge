@@ -1,3 +1,5 @@
+export type ViewStyle = "map" | "list";
+
 export interface ChargerType {
   id: number;
   type: string;
@@ -24,8 +26,9 @@ export interface Charger {
 }
 
 export interface ChargerStation {
-  chargerStationId: number;
+  chargerGroupId: number;
   chargerLocation: string;
   chargerName: string;
   chargers: Charger[];
 }
+

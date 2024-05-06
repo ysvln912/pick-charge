@@ -1,31 +1,13 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const MAP_TYPE = {
-    full: css`
-        top: 0;
-        height: 100vh;
-    `,
-    half: css`
-        top: 56px;
-        height: 50vh;
-    `,
-};
-
-export const MapContainer = styled.div<{ type: "full" | "half" }>`
-    position: absolute;
-    left: 0;
-    width: 390px;
-    z-index: 1;
-    ${({ type }) => MAP_TYPE[type]}
-`;
-
-export const ChargerStaitionDetail = styled.div`
-    position: absolute;
-    width: 390px;
-    bottom: 68px;
+export const SummaryContainer = styled.div`
+    // position: absolute;
+    // width: 390px;
+    // bottom: 68px;
     background-color: ${({ theme }) => theme.PALETTE.white};
-    z-index: 2;
+    // z-index: 2;
     padding: 1rem;
+    cursor:pointer;
 `;
 
 export const DetailTitle = styled.p`
