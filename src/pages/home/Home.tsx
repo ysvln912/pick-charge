@@ -78,6 +78,7 @@ export default function Home() {
                     <span>전기차 충전소</span>를 찾아볼까요?
                 </p>
                 <SearchInput
+                    readOnly={true}
                     placeholder="충전소 찾아보기"
                     onFocus={() => {
                         navigate("/charger/list");
