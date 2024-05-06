@@ -7,7 +7,6 @@ import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
-// import chargerApi from "@/apis/charger";
 import { useChargerList } from "@/hooks/queries/charger";
 
 export interface SearchInfo {
@@ -27,6 +26,7 @@ export interface MapCenter {
 
 export default function ChargerMapView() {
     const navigate = useNavigate();
+    const [filter, setFilter] = useState("");
     const [mapCenter, setMapCenter] = useState<MapCenter>({
         lat: 0,
         lon: 0,
@@ -49,6 +49,8 @@ export default function ChargerMapView() {
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
+    const { data, isLoading, isError } = useChargerList(filter);
+
     useEffect(() => {
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -66,6 +68,29 @@ export default function ChargerMapView() {
             console.log("geolocation을 사용할수 없어요..");
         }
     }, []);
+
+    useEffect(() => {
+        const geocoder = new window.kakao.maps.services.Geocoder();
+
+        geocoder.coord2Address(
+            mapCenter.lon,
+            mapCenter.lat,
+            async function (result: any, status: string) {
+                if (status === window.kakao.maps.services.Status.OK) {
+                    const detailAddr = !!result[0].road_address
+                        ? result[0].road_address.address_name
+                        : result[0].address.address_name;
+                    setFilter(detailAddr);
+                }
+            }
+        );
+    }, [mapCenter]);
+
+    useEffect(() => {
+        if (!isLoading && !isError) {
+            setChargerInfo(data);
+        }
+    }, [data, isLoading, isError]);
 
     useEffect(() => {
         if (searchInfo.address.location) {
@@ -94,31 +119,6 @@ export default function ChargerMapView() {
         }
     }, [searchInfo]);
 
-    useEffect(() => {
-        const geocoder = new window.kakao.maps.services.Geocoder();
-
-        geocoder.coord2Address(
-            mapCenter.lon,
-            mapCenter.lat,
-            async function (result: any, status: string) {
-                if (status === window.kakao.maps.services.Status.OK) {
-                    const detailAddr = !!result[0].road_address
-                        ? result[0].road_address.address_name
-                        : result[0].address.address_name;
-
-                    // try {
-                    //     const chargerList = await chargerApi.getChargerlist(
-                    //         detailAddr
-                    //     );
-                    //     setChargerInfo(chargerList.slice(0, 30));
-                    // } catch (error) {
-                    //     console.log(error);
-                    // }
-                }
-            }
-        );
-    }, [mapCenter]);
-
     return (
         <div>
             <ChargerSearch
@@ -140,10 +140,6 @@ export default function ChargerMapView() {
                 info={chargerInfo}
                 mapCenter={mapCenter}
                 setMapCenter={setMapCenter}
-                // key={`${mapCenter.lat}-${mapCenter.lon}`}
-                key={chargerInfo
-                    .map((station) => station.chargerGroupId)
-                    .join("-")}
             />
         </div>
     );

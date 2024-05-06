@@ -58,7 +58,8 @@ export default function ChargerMap({
             let latlng = map.getCenter();
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
-        info.forEach((chargerStation, i) => {
+
+        info?.forEach((chargerStation, i) => {
             const imageSrc =
                 chargerStation.chargers[0].chargerRole === "개인"
                     ? marker_individual
@@ -79,7 +80,6 @@ export default function ChargerMap({
                 title: chargerStation.chargerName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
-
             window.kakao.maps.event.addListener(marker, "click", () =>
                 markerClickHandler(i)
             );
@@ -87,7 +87,8 @@ export default function ChargerMap({
                 mapClickHandler()
             );
         });
-    }, []);
+        
+    }, [info]);
 
     return (
         <>
