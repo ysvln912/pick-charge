@@ -26,7 +26,7 @@ export interface Charger {
 }
 
 export interface ChargerStation {
-  chargerStationId: number;
+  chargerGroupId: number;
   chargerLocation: string;
   chargerName: string;
   chargers: Charger[];
