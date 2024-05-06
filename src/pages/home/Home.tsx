@@ -132,8 +132,10 @@ export default function Home() {
                 </Link>
             </S.FavoritesCharger>
             <S.EmptyFavorite>
-                    자주가는 충전소를 등록해 보세요!
-                </S.EmptyFavorite>
+                <Link to="/login">
+                    로그인 후 자주가는 충전소를 등록해보세요!
+                </Link>
+            </S.EmptyFavorite>
             {/* {sampleData.length === 0 ? (
                 <S.EmptyFavorite>
                     자주가는 충전소를 등록해 보세요!
