@@ -21,6 +21,8 @@ import ChargerReviewList from "@/pages/chargerReviewList/ChargerReviewList";
 import MyPage from "@/pages/myPage/MyPage.tsx";
 import MyInfo from "@/pages/myInfo/MyInfo.tsx";
 import NotFound from "@/pages/notFound/NotFound.tsx";
+import Private from "./private";
+import ReviewSearchChargerList from "@/components/pages/reviewWrite/searchChargerList/SearchChargerList";
 
 const router = createBrowserRouter([
   {
@@ -32,54 +34,106 @@ const router = createBrowserRouter([
       {
         path: "/charger/*",
         element: (
-          <Routes>
-            <Route path="/map" element={<ChargerMapView />} />
-            <Route path="/list" element={<ChargerListView />} />
-            <Route path="/:id" element={<ChargerDetail />} />
-            <Route path="/:id/edit" element={<ChargerEdit />} />
-            <Route path="/:id/reviews" element={<ChargerReviewList />} />
-          </Routes>
+          <>
+            <Routes>
+              <Route path="/map" element={<ChargerMapView />} />
+              <Route path="/list" element={<ChargerListView />} />
+              <Route path="/:id" element={<ChargerDetail />} />
+              <Route path="/:id/reviews" element={<ChargerReviewList />} />
+              <Route
+                path="/:id/edit"
+                element={
+                  <Private>
+                    <ChargerEdit />
+                  </Private>
+                }
+              />
+            </Routes>
+          </>
         ),
       },
       {
         path: "/register-charger",
-        element: <RegisterCharger />,
+        element: (
+          <Private>
+            <RegisterCharger />
+          </Private>
+        ),
       },
       {
         path: "/managing-charger",
-        element: <ManagingCharger />,
+        element: (
+          <Private>
+            <ManagingCharger />
+          </Private>
+        ),
       },
       // 채팅
       {
         path: "/chat-list/*",
         element: (
-          <Routes>
-            <Route path="" element={<ChatList />} />
-            <Route path="/:id" element={<ChatRoom />} />
-          </Routes>
+          <Private>
+            <Routes>
+              <Route path="" element={<ChatList />} />
+              <Route path="/:id" element={<ChatRoom />} />
+            </Routes>
+          </Private>
         ),
       },
       // 마이페이지
       {
         path: "/mypage/*",
         element: (
-          <Routes>
-            <Route path="" element={<MyPage />} />
-            <Route path="/favorites" element={<MyFavorites />} />
-            <Route path="/myinfo" element={<MyInfo />} />
-          </Routes>
+          <Private>
+            <Routes>
+              <Route path="" element={<MyPage />} />
+              <Route path="/favorites" element={<MyFavorites />} />
+              <Route path="/myinfo" element={<MyInfo />} />
+            </Routes>
+          </Private>
         ),
       },
       // 리뷰
       {
         path: "/review/*",
         element: (
-          <Routes>
-            <Route path="/write" element={<ReviewWrite />} />
-            <Route path="/manage" element={<ReviewManage />} />
-            <Route path="/:id" element={<ReviewDetail />} />
-            <Route path="/:id/edit" element={<ReviewEdit />} />
-          </Routes>
+          <>
+            <Routes>
+              <Route path="/:id" element={<ReviewDetail />} />
+              <Route
+                path="/:id/edit"
+                element={
+                  <Private>
+                    <ReviewEdit />
+                  </Private>
+                }
+              />
+              <Route
+                path="/manage"
+                element={
+                  <Private>
+                    <ReviewManage />
+                  </Private>
+                }
+              />
+              <Route
+                path="/write"
+                element={
+                  <Private>
+                    <ReviewWrite />
+                  </Private>
+                }
+              />
+              <Route
+                path="/write/list"
+                element={
+                  <Private>
+                    <ReviewSearchChargerList />
+                  </Private>
+                }
+              />
+            </Routes>
+          </>
         ),
       },
     ],
