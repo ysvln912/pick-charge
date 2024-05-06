@@ -4,9 +4,10 @@ export const SummaryContainer = styled.div`
     // position: absolute;
     // width: 390px;
     // bottom: 68px;
-    // background-color: ${({ theme }) => theme.PALETTE.white};
+    background-color: ${({ theme }) => theme.PALETTE.white};
     // z-index: 2;
-    // padding: 1rem;
+    padding: 1rem;
+    cursor:pointer;
 `;
 
 export const DetailTitle = styled.p`
