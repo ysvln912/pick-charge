@@ -17,20 +17,17 @@ import StickButton from "@/components/common/stickyButton/StickyButton";
 import Textarea from "@/components/common/textarea/Textarea";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import { useNavigate } from "react-router-dom";
-import { initChargerInfo } from "@/constants/myCharger";
-import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
+import { SAMPLE_USER_INFO, initChargerInfo } from "@/constants/myCharger";
+import {
+  IChargerInfo,
+  IErrors,
+  ISearchResult,
+  IchargerImage,
+} from "@/types/myCharger";
 
 export default function ChargerEdit() {
-  // Todo: RegisterCharger 컴포넌트랑 중복 코드 줄이기
-  // Todo: image 값 가져오기
   // Todo: 작성완료 시 충전소 상세 페이지로 이동
   // Todo: useLocation으로 유저 id, 충전기 id 값 받아오기
-  const TEST_INFO = {
-    chargerId: "259701",
-    userId: "102",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcm5hbWUiOiLsnoTsi5zsnKDsoIAiLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTcxNDg5NzU1MCwiZXhwIjoxNzE0OTU4MDMwfQ.IEKVxpifThjbxmdxyEXCq9Rr1csfcd-Rw9m39mvJdA4",
-  };
 
   const getChargerEdit = async (
     chargerId: string,
@@ -54,9 +51,17 @@ export default function ChargerEdit() {
   };
 
   const { data } = useQuery({
-    queryKey: ["chargerInfo", TEST_INFO.userId, TEST_INFO.chargerId],
+    queryKey: [
+      "chargerInfo",
+      SAMPLE_USER_INFO.userId,
+      SAMPLE_USER_INFO.chargerId,
+    ],
     queryFn: () =>
-      getChargerEdit(TEST_INFO.chargerId, TEST_INFO.userId, TEST_INFO.token),
+      getChargerEdit(
+        SAMPLE_USER_INFO.chargerId,
+        SAMPLE_USER_INFO.userId,
+        SAMPLE_USER_INFO.token
+      ),
   });
   const navigate = useNavigate();
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>(initChargerInfo);
@@ -70,7 +75,17 @@ export default function ChargerEdit() {
     chargerType: { isError: false, errorMessage: "" },
   });
 
-  console.log(data);
+  const conversionToFileData = async (chargerImageList: IchargerImage[]) => {
+    const filePromises = chargerImageList.map(async (file) => {
+      const res = await fetch(file.imageUrl);
+      const blob = await res.blob();
+      return new File([blob], `file_${file.id}`, {
+        type: blob.type,
+      });
+    });
+    const photoList = await Promise.all(filePromises);
+    setPhotos(photoList);
+  };
 
   useEffect(() => {
     if (data) {
@@ -86,6 +101,7 @@ export default function ChargerEdit() {
         chargerType: data.chargerTypeList[0].type,
         content: data.content,
       });
+      conversionToFileData(data.chargerImageList);
     }
   }, [data]);
 
@@ -174,9 +190,9 @@ export default function ChargerEdit() {
   }
 
   const updateCharger = async () => {
-    const url = `/api/chargers/${TEST_INFO.chargerId}/users/${TEST_INFO.userId}`;
+    const url = `/api/chargers/${SAMPLE_USER_INFO.chargerId}/users/${SAMPLE_USER_INFO.userId}`;
     const formData = createFormData();
-    const token = TEST_INFO.token;
+    const token = SAMPLE_USER_INFO.token;
 
     try {
       const res = await axios({
@@ -187,8 +203,7 @@ export default function ChargerEdit() {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(res.data);
+      return res.data ? true : false;
     } catch (error) {
       console.error("Error:", error);
     }
@@ -219,11 +234,15 @@ export default function ChargerEdit() {
     return true;
   };
 
-  const onSubmitValue = () => {
+  const onSubmitValue = async () => {
     const isPass = onValidationValues();
     if (isPass) {
-      console.log(chargerInfo);
-      // updateCharger();
+      const isSuccess = await updateCharger();
+      if (isSuccess) {
+        navigate(`/charger/${SAMPLE_USER_INFO.chargerId}`);
+      } else {
+        alert("충전소 수정이 실패했습니다!");
+      }
     }
   };
 

@@ -16,7 +16,7 @@ import FareInput from "@/components/pages/registerCharger/fareInput/FareInput";
 import StickButton from "@/components/common/stickyButton/StickyButton";
 import axios from "axios";
 import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
-import { initChargerInfo } from "@/constants/myCharger";
+import { SAMPLE_USER_INFO, initChargerInfo } from "@/constants/myCharger";
 
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>(initChargerInfo);
@@ -112,11 +112,10 @@ export default function RegisterCharger() {
     return formData;
   }
 
-  const createCharger = async () => {
-    const url = "/api/chargers/users/102";
+  const createCharger = async (userId: string, userToken: string) => {
+    const url = `/api/chargers/users/${userId}`;
     const formData = createFormData();
-    const token =
-      "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcm5hbWUiOiLsnoTsi5zsnKDsoIAiLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTcxNDgzNDU3NiwiZXhwIjoxNzE0ODk1MDU2fQ.Ru47DRXMJEcRXcVT9DLG41RJjfypf2wnEATlDwvLAmw";
+    const token = userToken;
 
     try {
       const res = await axios({
@@ -163,7 +162,7 @@ export default function RegisterCharger() {
     const isPass = onValidationValues();
     if (isPass) {
       console.log(chargerInfo);
-      // createCharger();
+      createCharger(SAMPLE_USER_INFO.userId, SAMPLE_USER_INFO.token);
     }
   };
 

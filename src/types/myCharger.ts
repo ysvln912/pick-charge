@@ -37,3 +37,10 @@ export interface IErrors {
   fare: IError;
   chargerType: IError;
 }
+
+export interface IchargerImage {
+  createDate: string;
+  id: number;
+  imageUrl: string;
+  lastModifiedDate: string;
+}

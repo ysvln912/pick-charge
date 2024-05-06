@@ -6,16 +6,10 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./ManagingCharger.style";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 
 export default function ManagingCharger() {
   const navigate = useNavigate();
-
-  // Todo: user 전역 데이터 가져오기
-  const TEST_USER = {
-    id: "102",
-    token:
-      "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcm5hbWUiOiLsnoTsi5zsnKDsoIAiLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTcxNDg5NzU1MCwiZXhwIjoxNzE0OTU4MDMwfQ.IEKVxpifThjbxmdxyEXCq9Rr1csfcd-Rw9m39mvJdA4",
-  };
 
   const getMyChargerlist = async (
     userId: string,
@@ -36,11 +30,13 @@ export default function ManagingCharger() {
       return [];
     }
   };
-
   const { data } = useQuery<Charger[], Error>({
-    queryKey: ["myChargerList", TEST_USER.id],
-    queryFn: () => getMyChargerlist(TEST_USER.id, TEST_USER.token),
+    queryKey: ["myChargerList", SAMPLE_USER_INFO.userId],
+    queryFn: () =>
+      getMyChargerlist(SAMPLE_USER_INFO.userId, SAMPLE_USER_INFO.token),
   });
+
+  console.log(data);
 
   return (
     <S.Container>
