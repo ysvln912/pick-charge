@@ -12,12 +12,11 @@ import ChargerStationSummary from "@/components/pages/charger/chargerStationSumm
 import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
 import { useChargerList } from "@/hooks/queries/charger";
 
-
 export default function ChargerListView() {
     const navigate = useNavigate();
     const [stationId, setStationId] = useState(-1);
     const { open, close, isOpen } = useToggle(false);
-    const [filter, setFilter] = useState('')
+    const [filter, setFilter] = useState("");
     const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
@@ -35,9 +34,8 @@ export default function ChargerListView() {
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    const { data, isLoading, isError } = useChargerList(filter
-    );
-    
+    const { data, isLoading, isError } = useChargerList(filter);
+
     useEffect(() => {
         if (!isLoading && !isError) {
             setChargerInfo(data);
@@ -45,10 +43,8 @@ export default function ChargerListView() {
     }, [data, isLoading, isError]);
 
     useEffect(() => {
-        setFilter(searchInfo.address.location)
-        
+        setFilter(searchInfo.address.location);
     }, [searchInfo]);
-
 
     return (
         <S.ChargerContainer>
@@ -66,6 +62,7 @@ export default function ChargerListView() {
                                 setStationId(chargerStation.chargerGroupId - 1);
                             }}>
                             <ChargerStationSummary
+                                viewstyle="list"
                                 chargerStation={chargerStation}
                                 open={open}
                             />

@@ -33,6 +33,7 @@ export default function ChargerMap({
     const { open, close, isOpen } = useToggle(false);
 
     function markerClickHandler(i: number) {
+        console.log(i);
         setStationOpen(true);
         setStationId(i - 1);
     }
@@ -59,7 +60,7 @@ export default function ChargerMap({
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
 
-        info?.forEach((chargerStation, i) => {
+        info?.forEach((chargerStation, index) => {
             const imageSrc =
                 chargerStation.chargers[0].chargerRole === "개인"
                     ? marker_individual
@@ -81,13 +82,12 @@ export default function ChargerMap({
                 image: markerImage, // 마커 이미지
             });
             window.kakao.maps.event.addListener(marker, "click", () =>
-                markerClickHandler(i)
+                markerClickHandler(index)
             );
             window.kakao.maps.event.addListener(map, "click", () =>
                 mapClickHandler()
             );
         });
-        
     }, [info]);
 
     return (
@@ -96,6 +96,7 @@ export default function ChargerMap({
             {isStationOpen && info[stationId] && (
                 <>
                     <ChargerStationSummary
+                        viewstyle="map"
                         chargerStation={info[stationId]}
                         open={open}
                     />
