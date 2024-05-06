@@ -13,7 +13,9 @@ const chargerApi = {
 
     async getChargerDetail(chargerId: number, userId: number) {
         try {
-            const response = await api.get(`/chargers/${chargerId}/users/${userId}`);
+            const response = await api.get(
+                `/chargers/${chargerId}/users/${userId}`
+            );
             return response.data;
         } catch (error) {
             console.log(error);
@@ -23,5 +25,3 @@ const chargerApi = {
 };
 
 export default chargerApi;
-
-
