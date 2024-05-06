@@ -17,6 +17,7 @@ export default function ChargerListView() {
     const navigate = useNavigate();
     const [stationId, setStationId] = useState(-1);
     const { open, close, isOpen } = useToggle(false);
+    const [filter, setFilter] = useState('')
     const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
@@ -34,16 +35,20 @@ export default function ChargerListView() {
 
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    const { data, isLoading, isError } = useChargerList(
-        searchInfo.address.location
+    const { data, isLoading, isError } = useChargerList(filter
     );
     
-
     useEffect(() => {
         if (!isLoading && !isError) {
             setChargerInfo(data);
         }
     }, [data, isLoading, isError]);
+
+    useEffect(() => {
+        setFilter(searchInfo.address.location)
+        
+    }, [searchInfo]);
+
 
     return (
         <S.ChargerContainer>
@@ -53,7 +58,7 @@ export default function ChargerListView() {
                 viewtype="list"
             />
             <S.listContainer>
-                {chargerInfo.map((chargerStation) => {
+                {chargerInfo?.map((chargerStation) => {
                     return (
                         <div
                             key={chargerStation.chargerGroupId}

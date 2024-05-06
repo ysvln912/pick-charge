@@ -7,7 +7,8 @@ import Button from "@/components/common/button/Button";
 import ListIcon from "@/components/common/icons/ListIcon";
 import ChargerSearch from "@/components/pages/charger/ChargerSearch";
 import { ChargerStation } from "@/types/charger";
-import chargerApi from "@/apis/charger";
+// import chargerApi from "@/apis/charger";
+import { useChargerList } from "@/hooks/queries/charger";
 
 export interface SearchInfo {
     address: {
@@ -105,14 +106,14 @@ export default function ChargerMapView() {
                         ? result[0].road_address.address_name
                         : result[0].address.address_name;
 
-                    try {
-                        const chargerList = await chargerApi.getChargerlist(
-                            detailAddr
-                        );
-                        setChargerInfo(chargerList.slice(0, 30));
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    // try {
+                    //     const chargerList = await chargerApi.getChargerlist(
+                    //         detailAddr
+                    //     );
+                    //     setChargerInfo(chargerList.slice(0, 30));
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
                 }
             }
         );
