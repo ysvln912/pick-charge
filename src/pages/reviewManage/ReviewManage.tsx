@@ -4,14 +4,22 @@ import * as S from "./ReviewManage.style";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ReviewResponseInfo } from "@/types/review";
+import { ReviewManagesRequestInfo } from "@/types/review";
 import reviewApi from "@/apis/review";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 
+const initialState: ReviewManagesRequestInfo = {
+  currentPage: 0,
+  pageSize: 10,
+  totalReviews: 0,
+  reviews: [],
+};
+
 export default function ReviewManage() {
-  const [reviews, setReviews] = useState<ReviewResponseInfo[]>([]);
+  const [reviews, setReviews] =
+    useState<ReviewManagesRequestInfo>(initialState);
   const navigate = useNavigate();
 
   const handleReviewItemClick = (reviewId: string) => {
@@ -20,9 +28,7 @@ export default function ReviewManage() {
 
   const getReviewData = async () => {
     try {
-      // 유저 id
-      const id = "1";
-      const response = await reviewApi.getUserReview(id);
+      const response = await reviewApi.getUserReview();
       setReviews(response);
       console.log(response, "리뷰 관리페이지");
     } catch (error) {
@@ -39,11 +45,11 @@ export default function ReviewManage() {
       <S.Container>
         <S.Title>
           {/* 전체 데이터 갯수 따로 */}
-          내가 작성한 <span>13</span>개의 리뷰
+          내가 작성한 <span>{reviews.totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {reviews.length ? (
-            reviews.map((el) => {
+          {reviews.reviews.length ? (
+            reviews.reviews.map((el) => {
               const {
                 reviewId,
                 createAt,
@@ -54,7 +60,7 @@ export default function ReviewManage() {
               } = el;
               return (
                 <ReviewItem
-                  onClick={() => handleReviewItemClick(reviewId)}
+                  onClick={() => handleReviewItemClick(String(reviewId))}
                   key={reviewId}
                   date={createAt}
                   address={chargerName}
