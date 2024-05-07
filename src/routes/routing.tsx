@@ -1,5 +1,6 @@
 import { createBrowserRouter, Routes, Route } from "react-router-dom";
 
+// import UserInfoProvider from "@/components/common/userInfoProvider/UserInfoProvider";
 import Layout from "@/components/common/layout/Layout.tsx";
 import SignUp from "@/pages/signUp/SignUp.tsx";
 import ReviewWrite from "@/pages/reviewWrite/ReviewWrite.tsx";
@@ -27,7 +28,11 @@ import ReviewSearchChargerList from "@/components/pages/reviewWrite/searchCharge
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      // <UserInfoProvider>
+      <Layout />
+      // </UserInfoProvider>
+    ),
     errorElement: <NotFound />,
     children: [
       { path: "/", element: <Home /> },
@@ -50,14 +55,6 @@ const router = createBrowserRouter([
               />
             </Routes>
           </>
-        ),
-      },
-      {
-        path: "/register-charger",
-        element: (
-          <Private>
-            <RegisterCharger />
-          </Private>
         ),
       },
       {
@@ -137,6 +134,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/register-charger",
+    element: (
+      <Private>
+        <RegisterCharger />
+      </Private>
+    ),
   },
   {
     path: "/signup",
