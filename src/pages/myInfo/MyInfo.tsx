@@ -37,7 +37,19 @@ export default function MyInfo() {
         resign_reason: "Moving to another city",
         resign: false,
     };
-    
+
+    const [nickname, setNickname] = useState<string>("");
+    const {
+        open: nicknameOpen,
+        close: nicknameClose,
+        isOpen: nicknameIsOpen,
+    } = useToggle(false);
+
+    const modifyNickname = ()=>{
+        nicknameClose();
+        console.log(`${nickname}으로 정보수정 api 요청 후 유저정보 다시 받아오기`)
+    }
+
     const [imgFile, setImgFile] = useState<string | undefined>("");
     const imgRef = useRef<HTMLInputElement>(null);
 
@@ -56,7 +68,7 @@ export default function MyInfo() {
     };
 
     useEffect(() => {
-        console.log(`api 요청`);
+        console.log(`api 요청 후 유저정보 다시 받아오기`);
     }, [imgFile]);
 
     return (
@@ -92,7 +104,7 @@ export default function MyInfo() {
                         name="nickname"
                         value={user.nickname}
                     />
-                    <Button size="sm" category="normal" >
+                    <Button size="sm" category="normal" onClick={nicknameOpen}>
                         수정하기
                     </Button>
                 </S.EditContainer>
@@ -102,7 +114,18 @@ export default function MyInfo() {
                 <LineIcon />
                 <p onClick={accountOpen}>계정탈퇴</p>
             </S.AccountOptionsDiv>
-            
+            {nicknameIsOpen && (
+                <ConfirmDialog
+                    title="닉네임수정"
+                    type="dialog"
+                    confirmButton="확인"
+                    confirmOnClick={modifyNickname}
+                    cancelButton="취소"
+                    cancelOnClick={nicknameClose}
+                    open={nicknameIsOpen}>
+                    <LabelInput label="닉네임수정" name="nickname" placeholder={user.nickname} value={nickname} onChange={(e) => setNickname(e.target.value)}/>
+                </ConfirmDialog>
+            )}
             {logoutIsOpen && (
                 <ConfirmDialog
                     title="로그아웃할까요?"
