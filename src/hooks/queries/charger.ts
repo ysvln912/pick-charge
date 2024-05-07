@@ -1,13 +1,13 @@
 import chargerApi from "@/apis/charger";
 import { useQuery } from "@tanstack/react-query";
 
-const useChargerList = ( filter:string) => {
+const useChargerList = ( location:string) => {
     const { data, ...rest } = useQuery({
-        queryKey: ["getChargerList",filter],
+        queryKey: ["getChargerList",location],
         queryFn: () => {
-            return chargerApi.getChargerlist(filter);
+            return chargerApi.getChargerlist(location);
         },
-        enabled: !!filter,
+        enabled: !!location,
     });
     return { data, ...rest };
 };
