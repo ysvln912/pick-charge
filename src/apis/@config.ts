@@ -8,9 +8,6 @@ export const api = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
   timeout: 3000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // 요청
