@@ -16,10 +16,21 @@ import FareInput from "@/components/pages/registerCharger/fareInput/FareInput";
 import StickButton from "@/components/common/stickyButton/StickyButton";
 import axios from "axios";
 import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
-import { SAMPLE_USER_INFO, initChargerInfo } from "@/constants/myCharger";
+import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 
 export default function RegisterCharger() {
-  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>(initChargerInfo);
+  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
+    address: {
+      name: "",
+      location: "",
+    },
+    keyword: "",
+    detailed: "",
+    speed: "급속",
+    fare: "",
+    chargerType: null,
+    content: "",
+  });
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
