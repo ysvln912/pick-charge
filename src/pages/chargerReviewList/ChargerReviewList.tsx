@@ -9,13 +9,20 @@ import IconButton from "@/components/common/iconButton/IconButton";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 import reviewApi from "@/apis/review";
 
-import { ReviewResponseInfo } from "@/types/review";
+import { ReviewResponseInfo, ReviewManagesRequestInfo } from "@/types/review";
+
 import { useValidParams } from "@/hooks/useValidParams";
 
-interface ChargerReviewListProps {}
+const initialState: ReviewManagesRequestInfo = {
+  currentPage: 0,
+  pageSize: 10,
+  totalReviews: 0,
+  reviews: [],
+};
 
 export default function ChargerReviewList() {
-  const [reviews, setReviews] = useState<ReviewResponseInfo[]>([]);
+  const [reviews, setReviews] =
+    useState<ReviewManagesRequestInfo>(initialState);
 
   const handleReviewItemClick = (reviewId: string) => {
     navigate(`/review/${reviewId}`);
@@ -29,7 +36,6 @@ export default function ChargerReviewList() {
     try {
       const response = await reviewApi.getChargerReview(chargerId);
       setReviews(response);
-      console.log(response, "충전소 리뷰 리스트페이지");
     } catch (error) {
       console.log("ERR", error);
     }
@@ -48,12 +54,11 @@ export default function ChargerReviewList() {
 
       <S.Container>
         <S.Title>
-          {/* 전체 데이터 갯수 따로 */}
-          <span>13</span>개의 리뷰
+          <span>{reviews.totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {reviews.length ? (
-            reviews.map((el) => {
+          {reviews.reviews.length ? (
+            reviews.reviews.map((el) => {
               const {
                 reviewId,
                 createAt,
@@ -64,7 +69,7 @@ export default function ChargerReviewList() {
               } = el;
               return (
                 <ReviewItem
-                  onClick={() => handleReviewItemClick(reviewId)}
+                  onClick={() => handleReviewItemClick(String(reviewId))}
                   key={reviewId}
                   date={createAt}
                   address={chargerName}
