@@ -15,6 +15,8 @@ const MESSAGE = {
     NICKNAME: "이미 사용 중인 닉네임 입니다.",
   },
   REVIEW: {
+    SUCCESS: "리뷰가 저장되었어요.",
+    FAILURE: "리뷰 저장에 실패했어요.",
     REQUIRE: "필수 입력 항목입니다.",
     DELETE: "삭제 되었어요.",
   },
