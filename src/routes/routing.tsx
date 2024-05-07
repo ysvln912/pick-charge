@@ -22,6 +22,7 @@ import ChargerReviewList from "@/pages/chargerReviewList/ChargerReviewList";
 import MyPage from "@/pages/myPage/MyPage.tsx";
 import MyInfo from "@/pages/myInfo/MyInfo.tsx";
 import NotFound from "@/pages/notFound/NotFound.tsx";
+import ErrorPage from "@/pages/Error/ErrorPage";
 import Private from "./private";
 import ReviewSearchChargerList from "@/components/pages/reviewWrite/searchChargerList/SearchChargerList";
 
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       <Layout />
       // </UserInfoProvider>
     ),
-    errorElement: <NotFound />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       {
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
