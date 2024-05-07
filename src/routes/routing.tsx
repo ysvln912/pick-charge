@@ -22,6 +22,7 @@ import ChargerReviewList from "@/pages/chargerReviewList/ChargerReviewList";
 import MyPage from "@/pages/myPage/MyPage.tsx";
 import MyInfo from "@/pages/myInfo/MyInfo.tsx";
 import NotFound from "@/pages/notFound/NotFound.tsx";
+import ErrorPage from "@/pages/Error/ErrorPage";
 import Private from "./private";
 import ReviewSearchChargerList from "@/components/pages/reviewWrite/searchChargerList/SearchChargerList";
 
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       <Layout />
       // </UserInfoProvider>
     ),
-    errorElement: <NotFound />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
                   </Private>
                 }
               />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </>
         ),
@@ -73,6 +75,7 @@ const router = createBrowserRouter([
             <Routes>
               <Route path="" element={<ChatList />} />
               <Route path="/:id" element={<ChatRoom />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Private>
         ),
@@ -86,6 +89,7 @@ const router = createBrowserRouter([
               <Route path="" element={<MyPage />} />
               <Route path="/favorites" element={<MyFavorites />} />
               <Route path="/myinfo" element={<MyInfo />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Private>
         ),
@@ -129,6 +133,7 @@ const router = createBrowserRouter([
                   </Private>
                 }
               />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </>
         ),
@@ -150,6 +155,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 
