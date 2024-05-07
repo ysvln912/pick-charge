@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "./SearchChargerList.style";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useAtom } from "jotai";
 import { reviewAtom } from "@/atoms/reviewAtom";
@@ -31,6 +32,10 @@ export default function SearchChargerList() {
     }
   };
 
+  useEffect(() => {
+    getChargerList();
+  }, [chargerInfo]);
+
   const updateSearchItem = (name: string, location: string) => {
     setChargerInfo((info) => ({
       ...info,
@@ -39,7 +44,6 @@ export default function SearchChargerList() {
       road_address_name: location,
     }));
     setShow(false);
-    getChargerList();
   };
 
   const handleGoBack = () => {
