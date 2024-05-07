@@ -17,7 +17,7 @@ import StickButton from "@/components/common/stickyButton/StickyButton";
 import Textarea from "@/components/common/textarea/Textarea";
 import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import { useNavigate } from "react-router-dom";
-import { SAMPLE_USER_INFO, initChargerInfo } from "@/constants/myCharger";
+import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 import {
   IChargerInfo,
   IErrors,
@@ -64,7 +64,18 @@ export default function ChargerEdit() {
       ),
   });
   const navigate = useNavigate();
-  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>(initChargerInfo);
+  const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
+    address: {
+      name: "",
+      location: "",
+    },
+    keyword: "",
+    detailed: "",
+    speed: "급속",
+    fare: "",
+    chargerType: null,
+    content: "",
+  });
   const [photos, setPhotos] = useState<File[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
