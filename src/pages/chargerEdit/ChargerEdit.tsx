@@ -24,6 +24,7 @@ import {
   ISearchResult,
   IchargerImage,
 } from "@/types/myCharger";
+import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 
 export default function ChargerEdit() {
   // Todo: 작성완료 시 충전소 상세 페이지로 이동
@@ -64,6 +65,7 @@ export default function ChargerEdit() {
       ),
   });
   const navigate = useNavigate();
+  const [isConfirm, setIsConfirm] = useState(false);
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
     address: {
       name: "",
@@ -264,6 +266,19 @@ export default function ChargerEdit() {
         text="충전소 수정"
       />
       <S.Main>
+        {isConfirm && (
+          <ConfirmDialog
+            title="충전소 등록을 취소하시겠습니까?"
+            confirmButton="네"
+            confirmOnClick={() => {
+              navigate(-1);
+            }}
+            cancelButton="아니요"
+            cancelOnClick={() => {
+              setIsConfirm(false);
+            }}
+          />
+        )}
         <S.ColumnBox>
           <S.Box>
             <SearchInput
