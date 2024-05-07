@@ -10,7 +10,6 @@ import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 
 export default function ManagingCharger() {
   const navigate = useNavigate();
-
   const getMyChargerlist = async (
     userId: string,
     token: string
@@ -41,7 +40,7 @@ export default function ManagingCharger() {
   return (
     <S.Container>
       <TopNavigationBar
-        leftBtn={<IconButton icon="arrowLeft" />}
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
         text="충전기 관리"
       />
       {data && data.length > 0 ? (
