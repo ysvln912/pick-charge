@@ -45,10 +45,12 @@ export default function MyInfo() {
         isOpen: nicknameIsOpen,
     } = useToggle(false);
 
-    const modifyNickname = ()=>{
+    const modifyNickname = () => {
         nicknameClose();
-        console.log(`${nickname}으로 정보수정 api 요청 후 유저정보 다시 받아오기`)
-    }
+        console.log(
+            `${nickname}으로 정보수정 api 요청 후 유저정보 다시 받아오기`
+        );
+    };
 
     const [imgFile, setImgFile] = useState<string | undefined>("");
     const imgRef = useRef<HTMLInputElement>(null);
@@ -95,19 +97,31 @@ export default function MyInfo() {
                     <S.NicknamePara>{user.nickname}</S.NicknamePara>
                     <S.EmailPara>{user.email}</S.EmailPara>
                 </S.ProfileInfoContainer>
-
-                <LabelInput label="이메일" name="email" value={user.email} />
-                <LabelInput label="이름" name="name" value={user.userName} />
-                <S.EditContainer>
+                <S.InputContainer>
                     <LabelInput
-                        label="닉네임"
-                        name="nickname"
-                        value={user.nickname}
+                        label="이메일"
+                        name="email"
+                        value={user.email}
                     />
-                    <Button size="sm" category="normal" onClick={nicknameOpen}>
-                        수정하기
-                    </Button>
-                </S.EditContainer>
+                    <LabelInput
+                        label="이름"
+                        name="name"
+                        value={user.userName}
+                    />
+                    <S.EditContainer>
+                        <LabelInput
+                            label="닉네임"
+                            name="nickname"
+                            value={user.nickname}
+                        />
+                        <Button
+                            size="sm"
+                            category="normal"
+                            onClick={nicknameOpen}>
+                            수정하기
+                        </Button>
+                    </S.EditContainer>
+                </S.InputContainer>
             </S.InfoContainer>
             <S.AccountOptionsDiv>
                 <p onClick={logoutOpen}>로그아웃</p>
@@ -123,7 +137,13 @@ export default function MyInfo() {
                     cancelButton="취소"
                     cancelOnClick={nicknameClose}
                     open={nicknameIsOpen}>
-                    <LabelInput label="닉네임수정" name="nickname" placeholder={user.nickname} value={nickname} onChange={(e) => setNickname(e.target.value)}/>
+                    <LabelInput
+                        label="닉네임수정"
+                        name="nickname"
+                        placeholder={user.nickname}
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                    />
                 </ConfirmDialog>
             )}
             {logoutIsOpen && (

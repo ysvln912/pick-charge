@@ -28,7 +28,7 @@ export const ProfileContainer = styled.div`
         bottom: 10px;
         right: 15px;
         background-color: transparent;
-        cursor : pointer;
+        cursor: pointer;
         svg {
             width: 35px;
             height: 35px;
@@ -56,10 +56,26 @@ export const EmailPara = styled.p`
     color: ${({ theme }) => theme.PALETTE.gray[300]};
 `;
 
+export const InputContainer = styled.div`
+    label {
+        margin: 0.3rem;
+        margin-top: 1.5rem;
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+        font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    }
+`;
+
 export const EditContainer = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    div {
+        width : 90%;
+    }
+    button {
+        align-self: end;
+        
+    }
+    
 `;
 
 export const AccountOptionsDiv = styled.div`
