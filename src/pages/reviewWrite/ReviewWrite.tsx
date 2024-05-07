@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import reviewApi from "@/apis/review";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar.tsx";
 import IconButton from "@/components/common/iconButton/IconButton.tsx";
 import ReviewEditContent from "@/components/pages/reviewWrite/reviewEditContent/ReviewEditContent.tsx";
@@ -8,21 +7,12 @@ export interface ReviewType {
   chargerId: number | null;
   rating: number;
   content: string;
-  userId?: number | null;
-  photos?: [];
+  userId?: number;
+  imgUrl?: File[];
+  userIdMatch?: boolean;
 }
 
 export default function ReviewWrite() {
-  const [data, setData] = useState<ReviewType>({
-    chargerName: "",
-    chargerId: null,
-    rating: 1,
-    content: "",
-    // 유저 id는 따로 전역 상태에서 가져오기
-    userId: null,
-  });
-  // 저장하는 api handler 함수
-
   return (
     <>
       <TopNavigationBar
@@ -30,7 +20,9 @@ export default function ReviewWrite() {
         leftBtn={<IconButton icon={"arrowLeft"} />}
       />
 
-      <ReviewEditContent data={data} setData={setData} />
+      <ReviewEditContent
+        submitReview={(formData) => reviewApi.postReview(formData)}
+      />
     </>
   );
 }
