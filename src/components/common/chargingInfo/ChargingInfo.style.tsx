@@ -17,6 +17,7 @@ export const ChargingContainer = styled.div<{ border: "full" | "bottom" }>`
     justify-content: space-between;
     padding: 0.7rem;
     margin: 0.8rem;
+    cursor : pointer;
     ${({ border }) => borderType[border]}
     & .iconDiv {
         margin: 0.5rem;

@@ -1,10 +1,31 @@
 export interface UserType {
-  name: string;
-  code?: string;
-  passwordCheck?: string;
-  nickname: string;
   email: string;
+  code: string;
+  passwordCheck: string;
   password: string;
-  charger: string;
-  passwordConfirm?: string;
+  username?: string;
+  nickname?: string;
+  charger?: string;
+}
+
+export interface UserInfoRequest {
+  username: string;
+  email: string;
+  nickname: string;
+  chargerType: string | null;
+  address?: string | null;
+  phoneNumber?: string | null;
+  profileImage?: string | null;
+}
+
+export interface UserInfoResponse {
+  id: number | null;
+  username: string;
+  email: string;
+  nickName: string;
+  chargerType: string | null;
+  address?: string | null;
+  phoneNumber?: string | null;
+  profileImage?: string | null;
+  roleId?: number;
 }

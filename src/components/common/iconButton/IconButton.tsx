@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 import * as S from "./IconButton.style";
 import ArrowLeftIcon from "../icons/ArrowLeftIcon";
 import ArrowDownIcon from "../icons/ArrowDownIcon";

@@ -1,12 +1,21 @@
 import styled, { css } from "styled-components";
 import { flexSpaceBetweenCenter } from "@/styles/common";
 
-export const SelectContainer = styled.div<{ disabled: boolean }>`
+export const SelectContainer = styled.div<{
+  disabled: boolean;
+  error: string | boolean;
+}>`
   cursor: pointer;
   width: 100%;
   padding: 0.875rem 1rem;
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
+
+  ${({ error, theme }) =>
+    error &&
+    css`
+      border: 1px solid ${theme.PALETTE.mainColor};
+    `}
 
   ${({ disabled, theme }) =>
     disabled &&

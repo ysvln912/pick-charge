@@ -1,22 +1,29 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-
 import userApi from "@/apis/user";
+import TokenService from "@/utils/tokenService";
+import MESSAGE from "@/constants/message";
+import { setCookie } from "@/utils/cookie";
+import { useToast } from "../useToast";
+import { UserInfoRequest } from "@/types";
 
-//  임시 작성!!!
 const useLogin = () => {
   const navigate = useNavigate();
+  const { triggerToast } = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: userApi.login,
-    onSuccess: () => {
-      alert("로그인 되었습니다!");
+    mutationFn: (data: { email: string; password: string }) =>
+      userApi.login(data),
+    onSuccess: (res) => {
+      TokenService.setToken(res.token);
+      setCookie("refreshToken", res.refreshToken);
+      triggerToast(MESSAGE.LOGIN.SUCCESS, "success");
       navigate("/");
     },
     onError: (error: AxiosError<string>) => {
       if (error.response?.data) {
-        alert(error.response.data);
+        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
       }
     },
   });
@@ -26,13 +33,17 @@ const useLogin = () => {
   };
 };
 
-const useSignUp = () => {
+const useSignUp = (func: () => void) => {
+  const { triggerToast } = useToast();
+
   const { mutate } = useMutation({
-    mutationFn: userApi.signup,
-    onSuccess: () => {},
+    mutationFn: (data: UserInfoRequest) => userApi.signup(data),
+    onSuccess: () => {
+      func();
+    },
     onError: (error: AxiosError<string>) => {
       if (error.response?.data) {
-        alert(error.response.data);
+        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
       }
     },
   });
@@ -42,4 +53,14 @@ const useSignUp = () => {
   };
 };
 
-export { useSignUp, useLogin };
+const useGetUserInfo = () => {
+  const { data, ...rest } = useQuery({
+    queryKey: ["getUserInfo"],
+    queryFn: () => {
+      return userApi.getUserInfo();
+    },
+  });
+  return { data, ...rest };
+};
+
+export { useSignUp, useLogin, useGetUserInfo };

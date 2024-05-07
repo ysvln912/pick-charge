@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./EmailVerificationInput.style";
 
-import {
-  MouseEvent,
-  useState,
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { MouseEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import Input from "@/components/common/input/input";
 import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
@@ -15,8 +9,6 @@ import Button from "@/components/common/button/Button";
 import Timer from "../timer/Timer";
 import { ColorType } from "@/types";
 
-// Q 질문 !!
-// => 컴포넌트를 조합해서 사용할 경우 사용하는 속성에 대한 interface 관리 방법이 궁금합니다.
 interface EmailVerificationInputProps {
   isVerified?: boolean;
   inputDisabled?: boolean;
@@ -71,6 +63,7 @@ export default function EmailVerificationInput({
         </Input.Base>
         <Button
           size="sm"
+          disabled={isVerified || disabled}
           category={isVerified ? "retry" : disabled ? "disable" : "normal"}
           onClick={onClick}
         >

@@ -1,4 +1,3 @@
-import React from "react";
 import DefaultProfile from "../../chatList/defaultProfile/DefaultProfile";
 import * as S from "./OtherChat.style";
 
@@ -16,12 +15,11 @@ export default function OtherChat({
   return (
     <S.ChatBox>
       <S.RowBox>
-        {profileImg && (
+        {profileImg ? (
           <S.ImgBox>
             <S.Img src={profileImg} />
           </S.ImgBox>
-        )}
-        {!profileImg && (
+        ) : (
           <S.ImgBox>
             <DefaultProfile size="md" />
           </S.ImgBox>

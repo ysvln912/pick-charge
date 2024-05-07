@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as S from "./UserInfoForm.style";
 
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, Dispatch, SetStateAction } from "react";
 
 import EmailVerificationInput from "@/components/pages/signup/emailVerificationInput/EmailVerificationInput ";
 import LabelInput from "@/components/common/labelInput/LabelInput";
@@ -10,6 +10,8 @@ import Button from "@/components/common/button/Button";
 import SelectCharger from "@/components/common/selectCharger/SelectCharger";
 import SignUpForm from "@/components/pages/signup/form/Form";
 
+import userApi from "@/apis/user";
+import { UserType } from "@/types";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useToast } from "@/hooks/useToast";
 import { useSignUp } from "@/hooks/queries/user";
@@ -17,69 +19,80 @@ import { useSignUp } from "@/hooks/queries/user";
 import MESSAGE from "@/constants/message";
 interface UserInfoFormProps {
   onNext: () => void;
+  setData: Dispatch<SetStateAction<UserType>>;
+  data: UserType;
 }
 
-export default function UserInfoForm({ onNext }: UserInfoFormProps) {
-  const [charger, setCharger] = useState<string | null>(null);
+export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
+  const [chargerType, setChargerType] = useState<string | null>(null);
   const [isNickNameVerified, setIsNickNameVerified] = useState(false);
   const initialState = {
-    name: "",
+    username: "",
     nickname: "",
   };
+  const defaultData = {
+    roleId: 1,
+    address: null,
+    phoneNumber: null,
+    profileImage: null,
+  };
 
-  // const { triggerToast } = useToast();
   const { formState, handleInputChange, error } =
     useFormValidation(initialState);
-  // const { signUp } = useSignUp();
+
+  const { triggerToast } = useToast();
+  const { signUp } = useSignUp(onNext);
 
   const handleChangeCharger = (e: MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
-    setCharger(value);
+    setChargerType(value);
   };
 
-  const isNameInvalid = !!error.name || !formState.name;
+  const isNameInvalid = !!error.name || !formState.username;
   const isFormValid =
     !Object.keys(error).length &&
-    formState.name &&
+    formState.username &&
     formState.nickname &&
     isNickNameVerified &&
-    charger;
+    chargerType;
 
   const handleCheckNickName = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isNameInvalid) {
-      // try {
-      // await authApi.checkNickname({ nickname: formState.nickname });
-      setIsNickNameVerified(true);
-      console.log("닉네임 중복확인 검사 성공");
-      // } catch (error) {
-      //  에러 메세지에 따라
-      // triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
-      // }
+      try {
+        const response = await userApi.checkUserNickName(formState.nickname);
+        if (response) return triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
+        console.log(response);
+        setIsNickNameVerified(true);
+      } catch (error) {
+        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
+      }
     }
   };
 
   const handleUserInfoFormSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isFormValid) {
-      // 폼 유효성 검사
-      // await signUp(formState);
-      console.log("회원가입성공");
-      onNext();
-    } else {
-      console.log("폼 검증 실패");
+      const { code, passwordCheck, ...rest } = data;
+      const submitData = {
+        ...rest,
+        ...formState,
+        ...defaultData,
+        chargerType,
+      };
+      signUp(submitData);
     }
   };
 
   return (
     <SignUpForm>
       <LabelInput
-        name="name"
+        name="username"
         label="이름"
-        error={error.name}
+        error={error.username}
         placeholder="이름은 변경할 수 없어요."
-        onChange={handleInputChange("name")}
-        value={formState.name}
+        onChange={handleInputChange("username")}
+        value={formState.username}
       />
       <EmailVerificationInput
         name="nickname"
@@ -89,10 +102,11 @@ export default function UserInfoForm({ onNext }: UserInfoFormProps) {
         btnText={isNickNameVerified ? "사용 가능" : "중복 확인"}
         onChange={handleInputChange("nickname")}
         onClick={handleCheckNickName}
+        inputDisabled={isNickNameVerified}
+        disabled={isNickNameVerified}
         value={formState.nickname}
-        isVerified={isNickNameVerified}
       />
-      <SelectCharger value={charger} label onChange={handleChangeCharger} />
+      <SelectCharger value={chargerType} label onChange={handleChangeCharger} />
       <S.ButtonWrapper>
         <Button
           type={"submit"}

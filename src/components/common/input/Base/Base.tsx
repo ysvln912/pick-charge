@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as S from "./Base.style";
-import { HTMLAttributes, forwardRef, Ref, ReactNode, useState } from "react";
+import { forwardRef, Ref, ReactNode, useState } from "react";
 import { SizeType, ShapeType, ColorType } from "@/types";
 
-export interface InputBaseStyleProps extends HTMLAttributes<HTMLDivElement> {
+export interface InputBaseStyleProps {
   $error?: boolean;
   $isFocus?: boolean;
   size?: SizeType;
@@ -20,7 +20,7 @@ export interface InputBaseProps extends InputBaseStyleProps {
 function InputBase(props: InputBaseProps, ref: Ref<HTMLInputElement>) {
   const {
     children,
-    error,
+    error = false,
     disabled,
     size = "full",
     shape = "default",
@@ -45,7 +45,7 @@ function InputBase(props: InputBaseProps, ref: Ref<HTMLInputElement>) {
         color={color}
         disabled={disabled}
         $isFocus={isFocus}
-        $error={error}
+        $error={!!error}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...props}

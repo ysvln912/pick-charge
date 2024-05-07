@@ -6,29 +6,31 @@ import DeleteIcon from "@/components/common/icons/DeleteIcon";
 import BottomSheet from "@/components/common/bottomSheet/BottomSheet";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 
+import MESSAGE from "@/constants/message";
 import { useToggle } from "@/hooks/useToggle";
 import { useToast } from "@/hooks/useToast";
+import reviewApi from "@/apis/review";
 export interface ReviewBottomSheetProps {
   close: () => void;
   open: boolean;
-  chargerId: number;
-  reviewId: number;
+  reviewId: string;
 }
 
 export default function ReviewBottomSheet({
   close,
   open,
-  chargerId,
   reviewId,
 }: ReviewBottomSheetProps) {
   const navigate = useNavigate();
   const { triggerToast } = useToast();
-
-  const handleDelete = () => {
+  const handleGoBack = () => {
+    window.history.back();
+  };
+  const handleDelete = async () => {
     try {
-      // 삭제 api
-      triggerToast("삭제되었어요.", "success");
-      navigate(`/charger/${chargerId}`);
+      await reviewApi.deleteReview(reviewId);
+      triggerToast(MESSAGE.REVIEW.DELETE, "success");
+      handleGoBack();
     } catch (err) {
       console.log(err);
     }

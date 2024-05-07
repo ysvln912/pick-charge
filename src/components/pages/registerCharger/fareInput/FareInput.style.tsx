@@ -1,32 +1,11 @@
-import { ChangeEvent } from "react";
 import styled from "styled-components";
 import { flexAlignCenter } from "@/styles/common";
 
-interface FareInputProps {
-  value?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-
-export default function FareInput({ value, onChange }: FareInputProps) {
-  return (
-    <Container>
-      <Input
-        type="text"
-        id="fare"
-        name="fare"
-        value={value ?? ""}
-        onChange={onChange}
-      />
-      <Label htmlFor="fare">원/kWh</Label>
-    </Container>
-  );
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   ${flexAlignCenter};
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 100px;
   height: 25px;
   border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
@@ -44,7 +23,7 @@ const Input = styled.input`
   }
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   font-size: ${({ theme }) => theme.FONT_SIZE.xs};
   margin: 0 8px 0 4px;
 `;

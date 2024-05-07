@@ -1,5 +1,3 @@
-import React from "react";
-
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";

@@ -19,15 +19,10 @@ export default function Login() {
   const { formState, handleInputChange, error, handleSubmit } =
     useFormValidation(initialState);
 
-  // const { login } = useLogin();
-
   const isFormValid =
     !Object.keys(error).length && formState.email && formState.password;
 
-  const test = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("로그인 성공!");
-  };
+  const { login } = useLogin();
 
   return (
     <>
@@ -37,8 +32,7 @@ export default function Login() {
           <img src={logo} alt="피카충전 로고" />
         </S.LogoWrapper>
 
-        {/* <S.Form onSubmit={handleSubmit(() => login(formState))}> */}
-        <S.Form onSubmit={test}>
+        <S.Form onSubmit={handleSubmit(() => login(formState))}>
           <LabelInput
             name="email"
             label="이메일"
@@ -71,8 +65,6 @@ export default function Login() {
             </Link>
           </p>
         </S.TextWrapper>
-
-        {/* 카카오 및 구글 로그인은 이후 기능 가능하면 퍼블리싱 추가 예정 */}
       </S.Container>
     </>
   );
