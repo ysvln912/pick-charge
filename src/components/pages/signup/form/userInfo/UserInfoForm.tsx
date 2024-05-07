@@ -58,14 +58,14 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
   const handleCheckNickName = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isNameInvalid) {
-      // try {
-      // await authApi.checkNickname({ nickname: formState.nickname });
-      setIsNickNameVerified(true);
-      console.log("닉네임 중복확인 검사 성공");
-      // } catch (error) {
-      //  에러 메세지에 따라
-      // triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
-      // }
+      try {
+        const response = await userApi.checkUserNickName(formState.nickname);
+        if (response) return triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
+        console.log(response);
+        setIsNickNameVerified(true);
+      } catch (error) {
+        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
+      }
     }
   };
 
@@ -111,8 +111,9 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
         btnText={isNickNameVerified ? "사용 가능" : "중복 확인"}
         onChange={handleInputChange("nickname")}
         onClick={handleCheckNickName}
+        inputDisabled={isNickNameVerified}
+        disabled={isNickNameVerified}
         value={formState.nickname}
-        isVerified={isNickNameVerified}
       />
       <SelectCharger value={chargerType} label onChange={handleChangeCharger} />
       <S.ButtonWrapper>

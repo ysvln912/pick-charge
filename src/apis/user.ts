@@ -5,9 +5,16 @@ const userApi = {
   signup(data: UserInfoRequest) {
     return api.post("/user/signup", data).then((response) => response.data);
   },
-
+  checkUserNickName(data: string) {
+    return api
+      .get(`/user/check/nickname/${data}`)
+      .then((response) => response.data);
+  },
   login(data: { email: string; password: string }) {
     return api.post("/user/signin", data).then((response) => response.data);
+  },
+  getUserInfo() {
+    return api.get("/user/info").then((response) => response.data);
   },
 };
 
