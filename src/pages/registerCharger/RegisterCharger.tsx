@@ -17,6 +17,8 @@ import StickButton from "@/components/common/stickyButton/StickyButton";
 import axios from "axios";
 import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
 import { SAMPLE_USER_INFO } from "@/constants/myCharger";
+import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
@@ -40,6 +42,8 @@ export default function RegisterCharger() {
     fare: { isError: false, errorMessage: "" },
     chargerType: { isError: false, errorMessage: "" },
   });
+  const [isConfirm, setIsConfirm] = useState(false);
+  const navigate = useNavigate();
 
   const updateSearchItem = (name: string, location: string) => {
     setChargerInfo((prev) => ({
@@ -184,10 +188,25 @@ export default function RegisterCharger() {
   return (
     <S.Container>
       <TopNavigationBar
-        leftBtn={<IconButton icon="arrowLeft" />}
+        leftBtn={
+          <IconButton icon="arrowLeft" onClick={() => setIsConfirm(true)} />
+        }
         text="충전소 등록"
       />
       <S.Main>
+        {isConfirm && (
+          <ConfirmDialog
+            title="충전소 등록을 취소하시겠습니까?"
+            confirmButton="네"
+            confirmOnClick={() => {
+              navigate(-1);
+            }}
+            cancelButton="아니요"
+            cancelOnClick={() => {
+              setIsConfirm(false);
+            }}
+          />
+        )}
         <S.ColumnBox>
           <S.Box>
             <SearchInput
@@ -261,7 +280,6 @@ export default function RegisterCharger() {
           error={errors.chargerType.isError}
           errorMessage={errors.chargerType.errorMessage}
         />
-        <StickButton text="충전기 추가하기" />
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."
