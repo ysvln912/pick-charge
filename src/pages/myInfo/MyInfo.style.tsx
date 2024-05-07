@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const UserInfoContainer = styled.div`
     width: 390px;
-    height : 844px;
+    height: 844px;
     margin-top: 56px;
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
@@ -15,7 +15,28 @@ export const InfoContainer = styled.div`
 `;
 
 export const ProfileContainer = styled.div`
-    text-align: center;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    label {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        background-color: transparent;
+        cursor : pointer;
+        svg {
+            width: 35px;
+            height: 35px;
+        }
+    }
+    input[type="file"] {
+        display: none;
+    }
 `;
 
 export const ProfileInfoContainer = styled.div`
@@ -43,7 +64,7 @@ export const EditContainer = styled.div`
 
 export const AccountOptionsDiv = styled.div`
     position: absolute;
-    width : 390px;
+    width: 390px;
     height: 130px;
     padding: 1.5rem;
     bottom: 68px;

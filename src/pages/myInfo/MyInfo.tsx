@@ -1,3 +1,5 @@
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
@@ -8,6 +10,7 @@ import LineIcon from "@/components/common/icons/LineIcon";
 import { useToggle } from "@/hooks/useToggle";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import Textarea from "@/components/common/textarea/Textarea";
+import CameraIcon from "@/components/common/icons/CameraIcon";
 
 export default function MyInfo() {
     const {
@@ -34,13 +37,47 @@ export default function MyInfo() {
         resign_reason: "Moving to another city",
         resign: false,
     };
+    
+    const [imgFile, setImgFile] = useState<string | undefined>("");
+    const imgRef = useRef<HTMLInputElement>(null);
+
+    // 이미지 업로드 input의 onChange
+    const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                if (reader.result) {
+                    setImgFile(reader.result.toString());
+                }
+            };
+        }
+    };
+
+    useEffect(() => {
+        console.log(`api 요청`);
+    }, [imgFile]);
 
     return (
         <S.UserInfoContainer>
             <TopNavigationBar text="내 정보 관리" leftBtn={<ArrowLeftIcon />} />
             <S.InfoContainer>
                 <S.ProfileContainer>
-                    <img src={profile} alt="프로필 이미지" />
+                    <img
+                        src={imgFile ? imgFile : profile}
+                        alt="프로필 이미지"
+                    />
+                    <label htmlFor="profileImg">
+                        <CameraIcon />
+                    </label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="profileImg"
+                        onChange={saveImgFile}
+                        ref={imgRef}
+                    />
                 </S.ProfileContainer>
                 <S.ProfileInfoContainer>
                     <S.NicknamePara>{user.nickname}</S.NicknamePara>
@@ -55,7 +92,7 @@ export default function MyInfo() {
                         name="nickname"
                         value={user.nickname}
                     />
-                    <Button size="sm" category="normal">
+                    <Button size="sm" category="normal" >
                         수정하기
                     </Button>
                 </S.EditContainer>
@@ -65,6 +102,7 @@ export default function MyInfo() {
                 <LineIcon />
                 <p onClick={accountOpen}>계정탈퇴</p>
             </S.AccountOptionsDiv>
+            
             {logoutIsOpen && (
                 <ConfirmDialog
                     title="로그아웃할까요?"
