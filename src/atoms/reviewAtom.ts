@@ -6,5 +6,5 @@ export const reviewAtom = atom<ReviewType>({
   chargerName: "",
   rating: 1,
   content: "",
-  photos: [],
+  userIdMatch: true,
 });

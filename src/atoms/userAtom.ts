@@ -6,7 +6,7 @@ export const userAtom = atom<UserInfoResponse>({
   roleId: 1,
   username: "",
   email: "",
-  nickname: "",
+  nickName: "",
   chargerType: null,
   address: "",
   phoneNumber: "",
