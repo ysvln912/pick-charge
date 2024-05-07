@@ -18,6 +18,9 @@ export default function ChargerListView() {
     const { open, close, isOpen } = useToggle(false);
     const [location, setLocation] = useState("");
     const [showRec, setShowRec] = useState(false);
+    const [queries, setQueries] = useState(
+        JSON.parse(localStorage.getItem("queries") || "[]")
+    );
     const [mapCenter, setMapCenter] = useState<MapCenter>({
         lat: 0,
         lon: 0,
@@ -52,6 +55,25 @@ export default function ChargerListView() {
         setLocation(searchInfo.address.location);
     }, [searchInfo]);
 
+    useEffect(() => {
+        if (searchInfo.address.location) {
+            const newQuery = {
+                id: Date.now(),
+                location: searchInfo.address.location,
+                name: searchInfo.address.name,
+            };
+            const curQueries = queries.filter((word: any) => {
+                return newQuery.name !== word.name;
+            });
+            setQueries([newQuery, ...curQueries]);
+        }
+    }, [location]);
+
+    useEffect(() => {
+        //array 타입을 string형태로 바꾸기 위해 json.stringfy를 사용한다.
+        localStorage.setItem("queries", JSON.stringify(queries));
+    }, [queries]);
+    
     useEffect(() => {
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -95,12 +117,60 @@ export default function ChargerListView() {
                 searchInfoHandler={searchInfoHandler}
                 viewtype="list"
             />
+
             <S.listContainer>
                 {showRec ? (
                     <div>
-                        <div>최근 검색 기록</div>
+                        <S.HistoryContainer>
+                            <S.HistoryTitle>
+                                <p>최근 검색어</p>
+                                <button
+                                    onClick={() => {
+                                        setQueries([]);
+                                    }}>
+                                    전체 삭제
+                                </button>
+                            </S.HistoryTitle>
+                            <S.SearchHistory>
+                                {queries.length === 0 ? (
+                                    <>최근 검색된 기록이 없습니다.</>
+                                ) : (
+                                    queries.map((query: any) => {
+                                        return (
+                                            <S.HistoryItem key={query.id}>
+                                                <S.HistoryKeyword
+                                                    onClick={() => {
+                                                        console.log(
+                                                            query.location
+                                                        );
+                                                    }}>
+                                                    {query.name}
+                                                </S.HistoryKeyword>
+                                                <S.RemoveButton
+                                                    onClick={() => {
+                                                        const nextQueries =
+                                                            queries.filter(
+                                                                (
+                                                                    thisQuery: any
+                                                                ) => {
+                                                                    return (
+                                                                        thisQuery.id !=
+                                                                        query.id
+                                                                    );
+                                                                }
+                                                            );
+                                                        setQueries(nextQueries);
+                                                    }}>
+                                                    X
+                                                </S.RemoveButton>
+                                            </S.HistoryItem>
+                                        );
+                                    })
+                                )}
+                            </S.SearchHistory>
+                        </S.HistoryContainer>
                         <div>내 근처 충전소</div>
-                        {chargerInfo?.slice(0,5).map((chargerStation) => {
+                        {chargerInfo?.slice(0, 5).map((chargerStation) => {
                             return (
                                 <div
                                     key={chargerStation.chargerGroupId}
