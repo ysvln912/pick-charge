@@ -73,24 +73,28 @@ export default function ChargerDetail() {
             <S.ChargerInfo>
                 <S.Title>충전기 정보</S.Title>
                 <table>
-                    <tr>
-                        <th>상태</th>
-                        <th>종류</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <ChargerStatus status={data.chargerStatus} />
-                        </td>
-                        <td>
-                            {/* {data.chargerTypeList.map((chargerType) => {
-                                return (
-                                    <span key={chargerType.id}>
-                                        {chargerType.type}
-                                    </span>
-                                );
-                            })} */}
-                        </td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>상태</th>
+                            <th>종류</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ChargerStatus status={data.chargerStatus} />
+                            </td>
+                            <td>
+                                {/* {data.chargerTypeList.map((chargerType) => {
+                                    return (
+                                        <span key={chargerType.id}>
+                                            {chargerType.type}
+                                        </span>
+                                    );
+                                })} */}
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </S.ChargerInfo>
             <S.ChargerPrice>
