@@ -1,16 +1,3 @@
-export const initChargerInfo = {
-  address: {
-    name: "",
-    location: "",
-  },
-  keyword: "",
-  detailed: "",
-  speed: "급속",
-  fare: "",
-  chargerType: null,
-  content: "",
-};
-
 export const SAMPLE_USER_INFO = {
   chargerId: "259682",
   userId: "102",

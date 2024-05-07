@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from "axios";
+import { getCookie } from "@/utils/cookie";
 import TokenService from "@/utils/tokenService";
+import userApi from "./user";
 
 const apiBaseUrl = "/api";
 
@@ -8,9 +10,6 @@ export const api = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
   timeout: 3000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // 요청
@@ -33,9 +32,25 @@ api.interceptors.response.use(
     return response;
   },
 
-  (error: AxiosError) => {
-    if (error?.response?.status === 401) {
+  async (error: AxiosError) => {
+    const { response, config } = error;
+
+    if (response?.status === 401 && config) {
       TokenService.removeToken();
+      const refreshToken = getCookie("refreshToken");
+      if (refreshToken) {
+        try {
+          const response = await userApi.postCreateAccessByRefresh();
+          TokenService.setToken(response.token);
+          api.defaults.headers.common.Authorization = `Bearer ${response.token}`;
+          if (config?.headers) {
+            config.headers.Authorization = `Bearer ${response.token}`;
+          }
+          return api(config);
+        } catch (err) {
+          window.location.href = "/login";
+        }
+      }
     }
 
     return Promise.reject(error);

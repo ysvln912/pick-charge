@@ -29,13 +29,13 @@ export default function ReviewDetail() {
     createAt: new Date(),
     nickname: "",
     profileImage: "",
+    userIdMatch: false,
   });
 
   const getReviewData = async () => {
     try {
       const response = await reviewApi.getDetailReview(id);
       setReview(response);
-      console.log(response, "리뷰 상세페이지");
     } catch (error) {
       console.log("ERR", error);
     }
@@ -56,7 +56,9 @@ export default function ReviewDetail() {
     chargerName,
     rating,
     imageUrls,
+    userIdMatch,
   } = review;
+
   return (
     <>
       <TopNavigationBar leftBtn={<IconButton icon={"arrowLeft"} />} />
@@ -75,10 +77,11 @@ export default function ReviewDetail() {
               <S.DateText>{getDateFormat(createAt)}</S.DateText>
             </S.ProfileBox>
           </S.ProfileWrapper>
-
-          <S.MoreIconWrapper>
-            <IconButton icon={"more"} onClick={open} />
-          </S.MoreIconWrapper>
+          {userIdMatch && (
+            <S.MoreIconWrapper>
+              <IconButton icon={"more"} onClick={open} />
+            </S.MoreIconWrapper>
+          )}
         </S.Top>
 
         <S.Content>
