@@ -10,7 +10,7 @@ import {
 import { searchAddress } from "@/apis/kakaoSearchAddress";
 
 import SearchResultItem from "@/components/pages/registerCharger/searchResultItem/SearchResultItem";
-import { ISearchResult } from "@/pages/registerCharger/RegisterCharger";
+import { ISearchResult } from "@/types/myCharger";
 import { useDebounce } from "@/hooks/useDebounce";
 import Input from "@/components/common/input/input";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
