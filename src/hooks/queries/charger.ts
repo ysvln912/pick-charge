@@ -12,5 +12,16 @@ const useChargerList = ( filter:string) => {
     return { data, ...rest };
 };
 
+const useChargerDetail = (id : number, userId : number)=>{
+    const { data, ...rest } = useQuery({
+        queryKey: ["getChargerDetail",id],
+        queryFn: () => {
+            return chargerApi.getChargerDetail(id, userId);
+        },
 
-export { useChargerList}
+    });
+    return { data, ...rest };
+}
+
+
+export { useChargerList, useChargerDetail}
