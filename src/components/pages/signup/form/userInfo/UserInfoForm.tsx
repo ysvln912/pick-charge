@@ -39,8 +39,9 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
 
   const { formState, handleInputChange, error } =
     useFormValidation(initialState);
+
   const { triggerToast } = useToast();
-  // const { signUp } = useSignUp();
+  const { signUp } = useSignUp(onNext);
 
   const handleChangeCharger = (e: MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
@@ -79,17 +80,7 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
         ...defaultData,
         chargerType,
       };
-
-      try {
-        const response = await userApi.signup(submitData);
-        console.log("회원가입데이터", { submitData });
-        console.log(response, "회원가입 성공");
-        onNext();
-      } catch (error) {
-        console.log(submitData);
-        triggerToast(MESSAGE.ERROR.DEFAULT, "error");
-        console.error(error);
-      }
+      signUp(submitData);
     }
   };
 
