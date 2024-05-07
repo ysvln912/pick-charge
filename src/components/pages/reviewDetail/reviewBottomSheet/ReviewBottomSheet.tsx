@@ -23,15 +23,14 @@ export default function ReviewBottomSheet({
 }: ReviewBottomSheetProps) {
   const navigate = useNavigate();
   const { triggerToast } = useToast();
-
-  const handleDelete = () => {
+  const handleGoBack = () => {
+    window.history.back();
+  };
+  const handleDelete = async () => {
     try {
-      // 삭제 api
-      // 유저 아이디 전역에서 가져오기
-      const userId = "11";
-      const response = reviewApi.deleteReview(reviewId, userId);
-      console.log("삭제 응답", response);
+      await reviewApi.deleteReview(reviewId);
       triggerToast(MESSAGE.REVIEW.DELETE, "success");
+      handleGoBack();
     } catch (err) {
       console.log(err);
     }
