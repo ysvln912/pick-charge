@@ -54,7 +54,6 @@ const router = createBrowserRouter([
                   </Private>
                 }
               />
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </>
         ),
@@ -75,7 +74,6 @@ const router = createBrowserRouter([
             <Routes>
               <Route path="" element={<ChatList />} />
               <Route path="/:id" element={<ChatRoom />} />
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </Private>
         ),
@@ -89,7 +87,6 @@ const router = createBrowserRouter([
               <Route path="" element={<MyPage />} />
               <Route path="/favorites" element={<MyFavorites />} />
               <Route path="/myinfo" element={<MyInfo />} />
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </Private>
         ),
@@ -133,7 +130,6 @@ const router = createBrowserRouter([
                   </Private>
                 }
               />
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </>
         ),
