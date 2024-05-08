@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./ReviewManage.style";
 
+import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import IconButton from "@/components/common/iconButton/IconButton";
@@ -15,11 +17,28 @@ import Loading from "@/components/common/loading/Loading";
 export default function ReviewManage() {
   const navigate = useNavigate();
 
+  const observer = useRef<IntersectionObserver | null>(null);
+  const { data, isLoading, fetchNextPage, hasNextPage } = useGetUserReview();
+
+  // console.log(data?.pages[0].reviews.length == true);
+
+  const lastReviewElementRef = useCallback(
+    (node: any) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasNextPage, fetchNextPage]
+  );
+
   const handleReviewItemClick = (reviewId: string) => {
     navigate(`/review/${reviewId}`);
   };
-
-  const { data, isLoading } = useGetUserReview();
 
   if (isLoading) return <Loading />;
 
@@ -31,11 +50,20 @@ export default function ReviewManage() {
       />
       <S.Container>
         <S.Title>
-          내가 작성한 <span>{data.totalReviews}</span>개의 리뷰
+          내가 작성한 <span>{data?.pages[0].totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {data?.reviews.length ? (
-            data.reviews.map((el: ReviewResponseInfo) => {
+          {data?.pages[0].reviews.length == 0 && (
+            <S.EmptyText>
+              <p>아직 리뷰가 없어요!</p>
+              <span>충전소에 대한 경험을 공유해 주세요.</span>
+            </S.EmptyText>
+          )}
+          {data?.pages.map((page, pageIndex) => {
+            const isLastPage = pageIndex === data.pages.length - 1;
+            return page.reviews.map((el, reviewIndex) => {
+              const isLastReview =
+                isLastPage && reviewIndex === page.reviews.length - 1;
               const {
                 reviewId,
                 createAt,
@@ -45,25 +73,20 @@ export default function ReviewManage() {
                 imageUrls,
               } = el;
               return (
-                <ReviewItem
-                  onClick={() => handleReviewItemClick(String(reviewId))}
-                  key={reviewId}
-                  date={createAt}
-                  address={chargerName}
-                  rating={String(rating)}
-                  review={content}
-                  img={imageUrls[0]}
-                />
+                <S.Wrapper ref={isLastReview ? lastReviewElementRef : null}>
+                  <ReviewItem
+                    onClick={() => handleReviewItemClick(String(reviewId))}
+                    key={reviewId}
+                    date={createAt}
+                    address={chargerName}
+                    rating={String(rating)}
+                    review={content}
+                    img={imageUrls[0]}
+                  />
+                </S.Wrapper>
               );
-            })
-          ) : (
-            <>
-              <S.EmptyText>
-                <p>아직 리뷰가 없어요!</p>
-                <span>충전소에 대한 경험을 공유해 주세요.</span>
-              </S.EmptyText>
-            </>
-          )}
+            });
+          })}
         </S.Content>
       </S.Container>
     </>

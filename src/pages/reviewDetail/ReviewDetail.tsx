@@ -16,8 +16,10 @@ import ReviewBottomSheet from "@/components/pages/reviewDetail/reviewBottomSheet
 
 import { useGetReviewDetail } from "@/hooks/queries/reviews";
 import Loading from "@/components/common/loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 export default function ReviewDetail() {
+  const navigate = useNavigate();
   const { id } = useValidParams();
   const { open, close, isOpen } = useToggle(false);
   const { data, isLoading } = useGetReviewDetail(id);
@@ -38,7 +40,9 @@ export default function ReviewDetail() {
 
   return (
     <>
-      <TopNavigationBar leftBtn={<IconButton icon={"arrowLeft"} />} />
+      <TopNavigationBar
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
+      />
 
       <RightIcon />
       <S.Container>
