@@ -40,6 +40,11 @@ export interface ReviewImage {
   lastModifiedDate: string;
 }
 
+export interface ImageFile {
+  id: string;
+  imageUrl: string;
+}
+
 export interface UserReviewResponse {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reviews: any[];
@@ -49,6 +54,7 @@ export interface UserReviewResponse {
 }
 
 export interface GetUserReviewParams {
+  chargerId?: string;
   page: number;
   size: number;
   sort: string;

@@ -14,9 +14,6 @@ const reviewApi = {
       .patch(`/review/${reviewId}`, data)
       .then((response) => response.data);
   },
-  // getUserReview() {
-  //   return api.get(`/review/users/info`).then((response) => response.data);
-  // },
   getUserReview({ page, size, sort }: GetUserReviewParams) {
     return api
       .get(`/review/users/info`, {
@@ -26,7 +23,6 @@ const reviewApi = {
         (response: AxiosResponse<ReviewManagesRequestInfo>) => response.data
       );
   },
-
   getEditReview(reviewId: string) {
     return api
       .get(`/review/update/${reviewId}`)
@@ -37,10 +33,14 @@ const reviewApi = {
       .get(`/review/detail/${reviewId}`)
       .then((response) => response.data);
   },
-  getChargerReview(reviewId: string) {
+  getChargerReview({ chargerId, page, size, sort }: GetUserReviewParams) {
     return api
-      .get(`/review/charger/${reviewId}`)
-      .then((response) => response.data);
+      .get(`/review/charger/${chargerId}`, {
+        params: { page, size, sort },
+      })
+      .then(
+        (response: AxiosResponse<ReviewManagesRequestInfo>) => response.data
+      );
   },
 };
 

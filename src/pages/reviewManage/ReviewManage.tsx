@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./ReviewManage.style";
 
 import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import IconButton from "@/components/common/iconButton/IconButton";
-import { ReviewResponseInfo } from "@/types/review";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 
 import { useGetUserReview } from "@/hooks/queries/reviews";
@@ -19,8 +16,6 @@ export default function ReviewManage() {
 
   const observer = useRef<IntersectionObserver | null>(null);
   const { data, isLoading, fetchNextPage, hasNextPage } = useGetUserReview();
-
-  // console.log(data?.pages[0].reviews.length == true);
 
   const lastReviewElementRef = useCallback(
     (node: any) => {
