@@ -23,14 +23,12 @@ export default function ReviewBottomSheet({
 }: ReviewBottomSheetProps) {
   const navigate = useNavigate();
   const { triggerToast } = useToast();
-  const handleGoBack = () => {
-    window.history.back();
-  };
+
   const handleDelete = async () => {
     try {
       await reviewApi.deleteReview(reviewId);
       triggerToast(MESSAGE.REVIEW.DELETE, "success");
-      handleGoBack();
+      navigate(-2);
     } catch (err) {
       console.log(err);
     }
@@ -64,6 +62,7 @@ export default function ReviewBottomSheet({
         <ConfirmDialog
           title="삭제할까요?"
           type="confirm"
+          open={true}
           confirmOnClick={handleDelete}
           confirmButton="확인"
           cancelButton="취소"
