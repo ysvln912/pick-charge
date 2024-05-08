@@ -1,40 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as S from "./SearchChargerList.style";
 
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import { useAtom } from "jotai";
+
 import { reviewAtom } from "@/atoms/reviewAtom";
 
+import { useChargerList } from "@/hooks/queries/charger";
 import ChargingInfo from "@/components/common/chargingInfo/ChargingInfo";
 import SearchChargerListInput from "./input/SearchChargerListInput";
 import { ChargerStation } from "@/types/charger";
-import chargerApi from "@/apis/charger";
+import Loading from "@/components/common/loading/Loading";
 
 export default function SearchChargerList() {
   const [, setReview] = useAtom(reviewAtom);
-  const [chargerList, setChargerList] = useState<ChargerStation[]>([]);
   const [show, setShow] = useState(false);
   const [chargerInfo, setChargerInfo] = useState({
     road_address_name: "",
     address_name: "",
     keyword: "",
   });
-
-  const getChargerList = async () => {
-    try {
-      const response = await chargerApi.getChargerlist(
-        chargerInfo.road_address_name
-      );
-      setChargerList(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getChargerList();
-  }, [chargerInfo]);
+  const { data: chargerList, isLoading } = useChargerList(
+    chargerInfo.road_address_name
+  );
 
   const updateSearchItem = (name: string, location: string) => {
     setChargerInfo((info) => ({
@@ -68,24 +56,28 @@ export default function SearchChargerList() {
         setShow={setShow}
         onChange={updateSearchItem}
       />
-      <S.List>
-        {chargerList?.map((chargerStation: ChargerStation) => {
-          return chargerStation.chargers.map((charger) => {
-            return (
-              <ChargingInfo
-                key={charger.chargerId}
-                info={charger}
-                like={false}
-                tag={true}
-                border="bottom"
-                onClick={() =>
-                  handleChargerClick(charger.chargerId, charger.chargerName)
-                }
-              />
-            );
-          });
-        })}
-      </S.List>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <S.List>
+          {chargerList?.map((chargerStation: ChargerStation) => {
+            return chargerStation.chargers.map((charger) => {
+              return (
+                <ChargingInfo
+                  key={charger.chargerId}
+                  info={charger}
+                  like={false}
+                  tag={true}
+                  border="bottom"
+                  onClick={() =>
+                    handleChargerClick(charger.chargerId, charger.chargerName)
+                  }
+                />
+              );
+            });
+          })}
+        </S.List>
+      )}
     </>
   );
 }
