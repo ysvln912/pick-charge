@@ -8,6 +8,7 @@ import {
   SetStateAction,
 } from "react";
 import { searchAddress } from "@/apis/kakaoSearchAddress";
+import { useNavigate } from "react-router-dom";
 
 import SearchResultItem from "@/components/pages/registerCharger/searchResultItem/SearchResultItem";
 import { ISearchResult } from "@/types/myCharger";
@@ -36,6 +37,7 @@ export default function SearchChargerListInput({
   onChange,
 }: SearchChargerListInputProps) {
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
+  const navigate = useNavigate();
   const debouncedKeyword = useDebounce(chargerInfo.keyword);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ export default function SearchChargerListInput({
     <>
       <S.Input>
         <S.Wrapper>
-          <Input.Left>
+          <Input.Left onClick={() => navigate(-1)}>
             <ArrowLeftIcon />
           </Input.Left>
           <Input.Center

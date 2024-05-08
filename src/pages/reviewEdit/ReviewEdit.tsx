@@ -38,7 +38,7 @@ export default function ReviewEdit() {
     <>
       <TopNavigationBar
         text="리뷰 수정하기"
-        leftBtn={<IconButton icon={"arrowLeft"} />}
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
       />
       <ReviewEditContent
         submitType="chargerName"

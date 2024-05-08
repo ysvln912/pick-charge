@@ -54,11 +54,13 @@ const useSignUp = (func: () => void) => {
 };
 
 const useGetUserInfo = () => {
+  const token = TokenService.getToken();
   const { data, ...rest } = useQuery({
     queryKey: ["getUserInfo"],
     queryFn: () => {
       return userApi.getUserInfo();
     },
+    enabled: !!token,
   });
   return { data, ...rest };
 };

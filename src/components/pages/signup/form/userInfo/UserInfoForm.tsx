@@ -31,10 +31,8 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
     nickname: "",
   };
   const defaultData = {
-    roleId: 1,
-    address: null,
-    phoneNumber: null,
-    profileImage: null,
+    address: "",
+    phoneNumber: "",
   };
 
   const { formState, handleInputChange, error } =

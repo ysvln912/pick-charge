@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./ReviewDetail.style";
 
-import { useEffect, useState } from "react";
-
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import LineIcon from "@/components/common/icons/LineIcon";
 import RatingWithStar from "@/components/common/ratingWithStar/RatingWithStar";
@@ -14,38 +12,19 @@ import { useToggle } from "@/hooks/useToggle";
 import { useValidParams } from "@/hooks/useValidParams";
 import getDateFormat from "@/utils/getDateFormat";
 
-import { ReviewResponseInfo } from "@/types/review";
 import ReviewBottomSheet from "@/components/pages/reviewDetail/reviewBottomSheet/ReviewBottomSheet";
-import reviewApi from "@/apis/review";
+
+import { useGetReviewDetail } from "@/hooks/queries/reviews";
+import Loading from "@/components/common/loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 export default function ReviewDetail() {
+  const navigate = useNavigate();
   const { id } = useValidParams();
-  const [review, setReview] = useState<ReviewResponseInfo>({
-    reviewId: id,
-    chargerName: "",
-    content: "",
-    rating: 0,
-    imageUrls: [],
-    createAt: new Date(),
-    nickname: "",
-    profileImage: "",
-    userIdMatch: false,
-  });
-
-  const getReviewData = async () => {
-    try {
-      const response = await reviewApi.getDetailReview(id);
-      setReview(response);
-    } catch (error) {
-      console.log("ERR", error);
-    }
-  };
-
-  useEffect(() => {
-    getReviewData();
-  }, []);
-
   const { open, close, isOpen } = useToggle(false);
+  const { data, isLoading } = useGetReviewDetail(id);
+
+  if (isLoading) return <Loading />;
 
   const {
     reviewId,
@@ -57,11 +36,14 @@ export default function ReviewDetail() {
     rating,
     imageUrls,
     userIdMatch,
-  } = review;
+  } = data;
 
   return (
     <>
-      <TopNavigationBar leftBtn={<IconButton icon={"arrowLeft"} />} />
+      <TopNavigationBar
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
+      />
+
       <RightIcon />
       <S.Container>
         <S.Top>
