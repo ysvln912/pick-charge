@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useAtom } from "jotai";
 
 import { userAtom } from "@/atoms/userAtom";
 import { useGetUserInfo } from "@/hooks/queries/user";
-import TokenService from "@/utils/tokenService";
 
 const useCheckUserInfo = () => {
   const [user, setUser] = useAtom(userAtom);
-  const location = useLocation();
 
   const { data } = useGetUserInfo();
   useEffect(() => {
@@ -36,7 +33,7 @@ const useCheckUserInfo = () => {
         profileImage,
       });
     }
-  }, [location.pathname, data]);
+  }, [data]);
 
   return { user, setUser };
 };
