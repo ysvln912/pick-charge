@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import reviewApi from "@/apis/review";
+import { GetUserReviewParams } from "@/types/review";
 
 const useGetChargerReview = (chargerId: string) => {
   const { data, ...rest } = useQuery({
@@ -12,15 +13,15 @@ const useGetChargerReview = (chargerId: string) => {
   return { data, ...rest };
 };
 
-const useGetUserReview = () => {
-  const { data, ...rest } = useQuery({
-    queryKey: ["getUserReview"],
-    queryFn: () => {
-      return reviewApi.getUserReview();
-    },
-  });
-  return { data, ...rest };
-};
+// const useGetUserReview = ({ page, size, sort }: GetUserReviewParams) => {
+//   const { data, ...rest } = useQuery({
+//     queryKey: ["getUserReview"],
+//     queryFn: () => {
+//       return reviewApi.getUserReview({ page, size, sort });
+//     },
+//   });
+//   return { data, ...rest };
+// };
 
 const useGetReviewDetail = (reviewId: string) => {
   const { data, ...rest } = useQuery({
@@ -29,6 +30,22 @@ const useGetReviewDetail = (reviewId: string) => {
       return reviewApi.getDetailReview(reviewId);
     },
   });
+  return { data, ...rest };
+};
+
+const useGetUserReview = () => {
+  const { data, ...rest } = useInfiniteQuery({
+    queryKey: ["reviews"],
+    queryFn: ({ pageParam = 0 }) =>
+      reviewApi.getUserReview({ page: pageParam, size: 5, sort: "DESC" }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      const nextPage = lastPage.currentPage + 1;
+      const maxPage = Math.ceil(lastPage.totalReviews / lastPage.pageSize);
+      return nextPage <= maxPage ? nextPage : undefined;
+    },
+  });
+
   return { data, ...rest };
 };
 
