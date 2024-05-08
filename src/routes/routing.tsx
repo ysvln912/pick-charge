@@ -14,8 +14,6 @@ import Home from "@/pages/home/Home.tsx";
 import ChatList from "@/pages/chatList/ChatList.tsx";
 import RegisterCharger from "@/pages/registerCharger/RegisterCharger.tsx";
 import ManagingCharger from "@/pages/managingCharger/ManagingCharger.tsx";
-import ChargerMapView from "@/pages/chargerMapView/ChargerMapView";
-import ChargerListView from "@/pages/chargerListView/ChargerListView";
 import ChargerDetail from "@/pages/chargerDetail/ChargerDetail";
 import ChargerEdit from "@/pages/chargerEdit/ChargerEdit";
 import ChargerReviewList from "@/pages/chargerReviewList/ChargerReviewList";
@@ -25,6 +23,7 @@ import NotFound from "@/pages/notFound/NotFound.tsx";
 import ErrorPage from "@/pages/Error/ErrorPage";
 import Private from "./private";
 import ReviewSearchChargerList from "@/components/pages/reviewWrite/searchChargerList/SearchChargerList";
+import Charger from "@/pages/charger/Charger";
 
 const router = createBrowserRouter([
   {
@@ -42,9 +41,8 @@ const router = createBrowserRouter([
         element: (
           <>
             <Routes>
-              <Route path="/map" element={<ChargerMapView />} />
-              <Route path="/list" element={<ChargerListView />} />
-              <Route path="/:id" element={<ChargerDetail />} />
+              <Route path="/:viewType" element={<Charger />} />
+              <Route path="/detail/:id" element={<ChargerDetail />} />
               <Route path="/:id/reviews" element={<ChargerReviewList />} />
               <Route
                 path="/:id/edit"

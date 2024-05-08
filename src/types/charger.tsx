@@ -23,6 +23,7 @@ export interface Charger {
   chargerImageList?: any[];
   reviewList?: any[];
   favorite?: boolean;
+  myChargerCheck? : boolean;
 }
 
 export interface ChargerStation {
