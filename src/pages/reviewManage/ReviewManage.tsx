@@ -1,55 +1,41 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./ReviewManage.style";
 
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ReviewManagesRequestInfo } from "@/types/review";
-import reviewApi from "@/apis/review";
+import IconButton from "@/components/common/iconButton/IconButton";
+import { ReviewResponseInfo } from "@/types/review";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
 
-const initialState: ReviewManagesRequestInfo = {
-  currentPage: 0,
-  pageSize: 10,
-  totalReviews: 0,
-  reviews: [],
-};
+import { useGetUserReview } from "@/hooks/queries/reviews";
+import Loading from "@/components/common/loading/Loading";
 
 export default function ReviewManage() {
-  const [reviews, setReviews] =
-    useState<ReviewManagesRequestInfo>(initialState);
   const navigate = useNavigate();
 
   const handleReviewItemClick = (reviewId: string) => {
     navigate(`/review/${reviewId}`);
   };
 
-  const getReviewData = async () => {
-    try {
-      const response = await reviewApi.getUserReview();
-      setReviews(response);
-      console.log(response, "리뷰 관리페이지");
-    } catch (error) {
-      console.log("ERR", error);
-    }
-  };
+  const { data, isLoading } = useGetUserReview();
 
-  useEffect(() => {
-    getReviewData();
-  }, []);
+  if (isLoading) return <Loading />;
+
   return (
     <>
-      <TopNavigationBar leftBtn={<ArrowLeftIcon />} text={"리뷰 관리"} />
+      <TopNavigationBar
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
+        text={"리뷰 관리"}
+      />
       <S.Container>
         <S.Title>
-          {/* 전체 데이터 갯수 따로 */}
-          내가 작성한 <span>{reviews.totalReviews}</span>개의 리뷰
+          내가 작성한 <span>{data.totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {reviews.reviews.length ? (
-            reviews.reviews.map((el) => {
+          {data?.reviews.length ? (
+            data.reviews.map((el: ReviewResponseInfo) => {
               const {
                 reviewId,
                 createAt,

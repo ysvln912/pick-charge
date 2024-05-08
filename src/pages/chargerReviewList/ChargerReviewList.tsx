@@ -1,29 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as S from "./ChargerReviewList.style";
 
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
 import IconButton from "@/components/common/iconButton/IconButton";
 import ReviewItem from "@/components/common/reviewItem/ReviewItem";
-import reviewApi from "@/apis/review";
-
-import { ReviewResponseInfo, ReviewManagesRequestInfo } from "@/types/review";
+import { useGetChargerReview } from "@/hooks/queries/reviews";
+import { ReviewResponseInfo } from "@/types/review";
 
 import { useValidParams } from "@/hooks/useValidParams";
-
-const initialState: ReviewManagesRequestInfo = {
-  currentPage: 0,
-  pageSize: 10,
-  totalReviews: 0,
-  reviews: [],
-};
+import Loading from "@/components/common/loading/Loading";
 
 export default function ChargerReviewList() {
-  const [reviews, setReviews] =
-    useState<ReviewManagesRequestInfo>(initialState);
-
   const handleReviewItemClick = (reviewId: string) => {
     navigate(`/review/${reviewId}`);
   };
@@ -32,33 +21,23 @@ export default function ChargerReviewList() {
 
   const navigate = useNavigate();
 
-  const getReviewData = async () => {
-    try {
-      const response = await reviewApi.getChargerReview(chargerId);
-      setReviews(response);
-    } catch (error) {
-      console.log("ERR", error);
-    }
-  };
-
-  useEffect(() => {
-    getReviewData();
-  }, []);
+  const { data, isLoading } = useGetChargerReview(chargerId);
+  if (isLoading) return <Loading />;
 
   return (
     <>
       <TopNavigationBar
-        text="충전소 이름 들어가는 곳"
-        leftBtn={<IconButton icon={"arrowLeft"} />}
+        text={data?.reviews[0]?.chargerName}
+        leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
       />
 
       <S.Container>
         <S.Title>
-          <span>{reviews.totalReviews}</span>개의 리뷰
+          <span>{data?.totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {reviews.reviews.length ? (
-            reviews.reviews.map((el) => {
+          {data.reviews[0]?.reviewId !== null ? (
+            data.reviews.map((el: ReviewResponseInfo) => {
               const {
                 reviewId,
                 createAt,
