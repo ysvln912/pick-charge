@@ -27,16 +27,14 @@ import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import myChargerApi from "@/apis/myCharger";
 
 export default function ChargerEdit() {
-  // Todo: 작성완료 시 충전소 상세 페이지로 이동
-  // Todo: useLocation으로 유저 id, 충전기 id 값 받아오기
-
+  const currentUrl = window.location.href;
+  const parts = currentUrl.split("/");
+  const idIndex = parts.indexOf("edit") - 1;
+  const chargerId = parts[idIndex];
+  // Todo: 전역 User id 값 가져오기
   const { data } = useQuery({
-    queryKey: [
-      "chargerInfo",
-      SAMPLE_USER_INFO.userId,
-      SAMPLE_USER_INFO.chargerId,
-    ],
-    queryFn: () => myChargerApi.getEditMyCharger(SAMPLE_USER_INFO.chargerId),
+    queryKey: ["chargerInfo", SAMPLE_USER_INFO.userId, chargerId],
+    queryFn: () => myChargerApi.getEditMyCharger(chargerId),
   });
   const navigate = useNavigate();
   const [isConfirm, setIsConfirm] = useState(false);
@@ -206,7 +204,7 @@ export default function ChargerEdit() {
     if (isPass) {
       const data = createFormData();
       myChargerApi
-        .patchMyCharger(data, SAMPLE_USER_INFO.chargerId)
+        .patchMyCharger(data, chargerId)
         .then((res) => navigate(`/charger/detail/${res.chargerId}`))
         .catch(() => alert("충전소 수정이 실패하였습니다."));
     }
@@ -223,7 +221,7 @@ export default function ChargerEdit() {
       <S.Main>
         <ConfirmDialog
           open={isConfirm}
-          title="충전소 등록을 취소하시겠습니까?"
+          title="충전소 수정을 취소하시겠습니까?"
           confirmButton="네"
           confirmOnClick={() => {
             navigate(-1);
