@@ -36,7 +36,7 @@ export default function Login() {
           <LabelInput
             name="email"
             label="이메일"
-            placeholder="example@picka.site"
+            placeholder="example@pikacharger.store"
             value={formState.email}
             onChange={handleInputChange("email")}
             error={error.email}
