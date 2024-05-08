@@ -27,7 +27,7 @@ export default function ChargerListDetail({
                 {chargers.map((charger) => {
                     return (
                         <Link
-                            to={`/charger/${charger.chargerId}`}
+                            to={`/charger/detail/${charger.chargerId}`}
                             key={charger.chargerId}>
                             <S.DetailRole>
                                 <ChargingRoleCard role={charger.chargerRole} />

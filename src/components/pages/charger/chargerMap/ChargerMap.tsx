@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import * as S from "./ChargerMap.style";
 import { ChargerStation } from "@/types/charger";
-import { MapCenter } from "@/pages/chargerMapView/ChargerMapView";
+import { MapCenter } from "@/pages/charger/Charger";
 import marker_individual from "@/assets/imgs/marker_individual.png";
 import marker_public from "@/assets/imgs/marker_public.png";
 import ChargerListDetail from "../ChargerListDetail";
