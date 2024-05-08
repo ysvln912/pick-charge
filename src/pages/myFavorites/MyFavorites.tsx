@@ -8,44 +8,55 @@ import IconButton from "@/components/common/iconButton/IconButton";
 import ChargerMap from "@/components/pages/charger/chargerMap/ChargerMap";
 import { MapCenter } from "../chargerMapView/ChargerMapView";
 import { ChargerStation } from "@/types";
+import { useFavoritesCharger } from "@/hooks/queries/charger";
 
-const data: ChargerStation[] = [
-    {
-        chargerGroupId: 1,
-        chargerLocation: "서울시 강남구",
-        chargerName: "강남 충전소",
-        chargers: [
-            {
-                chargerId: 101,
-                chargerLocation: "서울시 강남구",
-                chargerName: "강남 충전기 A",
-                latitude: 37.123456,
-                longitude: 127.123456,
-                chargerTypeList: [
-                    { id: 1, type: "DC 차데모" },
-                    { id: 2, type: "AC 완속" }
-                ],
-                chargerRole: "public",
-                avgRate: 4.5,
-                chargerStatus: "available",
-                chargingSpeed: "fast",
-                content: "충전기 A 설명입니다.",
-                memberPrice: 10000,
-                nonmemberPrice: 15000,
-                personalPrice: 12000,
-                chargerImageList: [],
-                reviewList: [],
-                favorite: true
-            },
-        ]
-    },
-];
+// const data: ChargerStation[] = [
+//     {
+//         chargerGroupId: 1,
+//         chargerLocation: "서울시 강남구",
+//         chargerName: "강남 충전소",
+//         chargers: [
+//             {
+//                 chargerId: 101,
+//                 chargerLocation: "서울시 강남구",
+//                 chargerName: "강남 충전기 A",
+//                 latitude: 37.123456,
+//                 longitude: 127.123456,
+//                 chargerTypeList: [
+//                     { id: 1, type: "DC 차데모" },
+//                     { id: 2, type: "AC 완속" }
+//                 ],
+//                 chargerRole: "public",
+//                 avgRate: 4.5,
+//                 chargerStatus: "available",
+//                 chargingSpeed: "fast",
+//                 content: "충전기 A 설명입니다.",
+//                 memberPrice: 10000,
+//                 nonmemberPrice: 15000,
+//                 personalPrice: 12000,
+//                 chargerImageList: [],
+//                 reviewList: [],
+//                 favorite: true
+//             },
+//         ]
+//     },
+// ];
 
 export default function MyFavorites() {
     const [mapCenter, setMapCenter] = useState<MapCenter>({
         lat: 0,
         lon: 0,
     });
+    const [hargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
+
+    const {data, isError, isLoading} = useFavoritesCharger(1);
+
+    useEffect(() => {
+        if (!isLoading && !isError) {
+            setChargerInfo(data);
+        }
+    }, [data, isLoading, isError]);
+
 
     useEffect(() => {
         if (navigator.geolocation) {
