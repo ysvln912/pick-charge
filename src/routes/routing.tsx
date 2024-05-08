@@ -44,14 +44,6 @@ const router = createBrowserRouter([
               <Route path="/:viewType" element={<Charger />} />
               <Route path="/detail/:id" element={<ChargerDetail />} />
               <Route path="/:id/reviews" element={<ChargerReviewList />} />
-              <Route
-                path="/:id/edit"
-                element={
-                  <Private>
-                    <ChargerEdit />
-                  </Private>
-                }
-              />
             </Routes>
           </>
         ),
@@ -133,6 +125,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "charger/:id/edit",
+    element: (
+      <Private>
+        <ChargerEdit />
+      </Private>
+    ),
   },
   {
     path: "/register-charger",
