@@ -4,7 +4,7 @@ const chargerApi = {
     async getChargerList(location: string) {
         try {
             const response = await api.get(
-                `/api/chargers?location=${location}`
+                `/chargers?location=${location}`
             );
             return response.data;
         } catch (error) {
@@ -16,7 +16,7 @@ const chargerApi = {
     async getChargerDetail(chargerId: number, userId: number) {
         try {
             const response = await api.get(
-                `/api/chargers/${chargerId}/users/${userId}`
+                `/chargers/${chargerId}`
             );
             return response.data;
         } catch (error) {
@@ -27,7 +27,7 @@ const chargerApi = {
 
     async getFavoritesCharger(userId: number) {
         try {
-            const response = await api.get(`api/favorites/users/${userId}`);
+            const response = await api.get(`/favorites`);
             return response.data;
         } catch (error) {
             console.log(error);

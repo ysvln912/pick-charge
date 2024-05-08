@@ -42,7 +42,7 @@ const router = createBrowserRouter([
           <>
             <Routes>
               <Route path="/:viewType" element={<Charger />} />
-              <Route path="/:id" element={<ChargerDetail />} />
+              <Route path="/detail/:id" element={<ChargerDetail />} />
               <Route path="/:id/reviews" element={<ChargerReviewList />} />
               <Route
                 path="/:id/edit"
