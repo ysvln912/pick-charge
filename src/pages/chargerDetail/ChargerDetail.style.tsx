@@ -114,7 +114,9 @@ export const StationContent = styled.div`
     }
 `;
 
-export const ChargerReview = styled(StyledDiv)`
+export const ChargerReview = styled.div`
+    padding: 1rem;
+    background-color: ${({ theme }) => theme.PALETTE.white};
     height: 240px;
     .reviewTitle {
         display: flex;

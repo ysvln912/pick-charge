@@ -27,7 +27,17 @@ export default function ChargerDetail() {
     const [charger, setCharger] = useState<Charger>();
 
     useEffect(() => {
-        const newData = { ...data, chargerRole: "개인", content : "내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다." , chargerImageList : ["https://www.istockphoto.com/photo/car-rental-business-transportation-service-gm1688124066-537244903?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8","https://www.istockphoto.com/photo/cars-for-sale-stock-lot-row-gm1478431022-506701439?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8"],myChargerCheck : false};
+        const newData = {
+            ...data,
+            chargerRole: "공공",
+            content:
+                "내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다.",
+            chargerImageList: [
+                "https://www.istockphoto.com/photo/car-rental-business-transportation-service-gm1688124066-537244903?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8",
+                "https://www.istockphoto.com/photo/cars-for-sale-stock-lot-row-gm1478431022-506701439?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8",
+            ],
+            myChargerCheck: false,
+        };
         if (!isLoading && !isError) {
             setCharger(newData);
         }
@@ -38,11 +48,19 @@ export default function ChargerDetail() {
     }
 
     function handleEmptyLike() {
-        console.log(`즐겨찾기 추가 api요청`);
+        if (charger) {
+            const newCharger: Charger = { ...charger, favorite: true };
+            setCharger(newCharger);
+            console.log(`즐겨찾기 추가 api요청`);
+        }
     }
 
     function handleLike() {
-        console.log(`즐겨찾기 삭제 api요청`);
+        if (charger) {
+            const newCharger: Charger = { ...charger, favorite: false };
+            setCharger(newCharger);
+            console.log(`즐겨찾기 삭제 api요청`);
+        }
     }
 
     function MoreIconButton() {
@@ -55,19 +73,16 @@ export default function ChargerDetail() {
     function LikeButton() {
         return <IconButton icon="like" onClick={handleLike} />;
     }
-    console.log(charger)
+    console.log(charger);
 
     return (
         <S.ChargerContainer>
             <TopNavigationBar
-                leftBtn={<IconButton icon="arrowDown" />}
+                leftBtn={<IconButton icon="arrowDown" onClick={()=>{navigate(-1)}} />}
                 text={charger?.chargerName}
                 rightBtn={
-                    (
-                        charger?.myChargerCheck && <MoreIconButton />
-                    ) || (
-                        charger?.favorite ? <LikeButton /> : <EmptyLikeButton />
-                    )
+                    (charger?.myChargerCheck && <MoreIconButton />) ||
+                    (charger?.favorite ? <LikeButton /> : <EmptyLikeButton />)
                 }
             />
             <S.ChargerOverview>
@@ -143,19 +158,22 @@ export default function ChargerDetail() {
                     </div>
                 </S.PriceInfo>
             </S.ChargerPrice>
-            <S.StationInfo>
+
             {charger?.chargerRole === "공공" ? (
                 <></>
             ) : (
-                <div>
+                <S.StationInfo>
                     <S.Title>충전소 정보</S.Title>
                     <S.StationContent>
-                    <PhotoSlider imgs={charger?.chargerImageList || []} category="charging"/>
-                    <p>{charger?.content}</p>
+                        <PhotoSlider
+                            imgs={charger?.chargerImageList || []}
+                            category="charging"
+                        />
+                        <p>{charger?.content}</p>
                     </S.StationContent>
-                </div>
+                </S.StationInfo>
             )}
-            </S.StationInfo>
+
             <S.ChargerReview>
                 <div className="reviewTitle">
                     <S.Title>충전소 리뷰 </S.Title>
