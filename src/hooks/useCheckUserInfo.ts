@@ -6,13 +6,13 @@ import { useAtom } from "jotai";
 
 import { userAtom } from "@/atoms/userAtom";
 import { useGetUserInfo } from "@/hooks/queries/user";
+import TokenService from "@/utils/tokenService";
 
 const useCheckUserInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const location = useLocation();
 
   const { data } = useGetUserInfo();
-
   useEffect(() => {
     if (data) {
       const {
