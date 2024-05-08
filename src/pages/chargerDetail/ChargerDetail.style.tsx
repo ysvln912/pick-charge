@@ -7,13 +7,13 @@ import {
 
 const StyledDiv = styled.div`
     padding: 1rem;
-    margin: 0.5rem 0;
+    margin-bottom: 0.5rem;
     background-color: ${({ theme }) => theme.PALETTE.white};
 `;
 
 export const ChargerContainer = styled.div`
     width: 390px;
-    height: 100%;
+    overflow-y: auto;
     margin-top: 56px;
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
@@ -86,8 +86,11 @@ export const PriceInfo = styled.div`
             margin: 0.7rem;
         }
     }
-    .price-quantity {
+    .charging-speed {
         width: 40%;
+        font-size: ${({ theme }) => theme.FONT_SIZE.md};
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+        color: ${({ theme }) => theme.PALETTE.black};
     }
     .price-member {
         color: ${({ theme }) => theme.PALETTE.mainColor};
@@ -100,8 +103,20 @@ export const PriceInfo = styled.div`
         font-size: ${({ theme }) => theme.FONT_SIZE.sm};
     }
 `;
+export const StationInfo = styled(StyledDiv)``;
 
-export const ChargerReview = styled(StyledDiv)`
+export const StationContent = styled.div`
+    div {
+        margin: 0 auto;
+    }
+    p {
+        margin: 1rem;
+    }
+`;
+
+export const ChargerReview = styled.div`
+    padding: 1rem;
+    background-color: ${({ theme }) => theme.PALETTE.white};
     height: 240px;
     .reviewTitle {
         display: flex;
