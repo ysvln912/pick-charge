@@ -1,32 +1,47 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAtom } from "jotai";
 
 import TokenService from "@/utils/tokenService";
-import MESSAGE from "@/constants/message";
-import { useToast } from "@/hooks/useToast";
-import { userAtom } from "@/atoms/userAtom";
+import { useToggle } from "@/hooks/useToggle";
+import PrivateConfirm from "@/components/common/privateConfirm/PrivateConfirm";
 
 interface Props {
   children: ReactNode;
 }
 
 export default function Private({ children }: Props) {
-  const [user] = useAtom(userAtom);
-  const { triggerToast } = useToast();
+  const { open, close, isOpen } = useToggle(false);
   const navigate = useNavigate();
   const location = useLocation();
   const token = TokenService.getToken();
 
   useEffect(() => {
     if (!token) {
-      // if (!token || !user.id) {
-      triggerToast(MESSAGE.LOGIN.REQUIRED);
-      navigate("/login");
+      open();
       return;
     }
   }, [location.pathname]);
 
-  return <Fragment>{children}</Fragment>;
+  const handleCancel = () => {
+    close();
+    navigate("/");
+  };
+
+  const handleGoLogin = () => {
+    navigate("/login");
+    close();
+  };
+
+  return (
+    <Fragment>
+      {isOpen && (
+        <PrivateConfirm
+          confirmHandler={handleGoLogin}
+          cancelHandler={handleCancel}
+        />
+      )}
+      {children}
+    </Fragment>
+  );
 }
