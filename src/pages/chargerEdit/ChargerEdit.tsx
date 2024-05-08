@@ -266,19 +266,18 @@ export default function ChargerEdit() {
         text="충전소 수정"
       />
       <S.Main>
-        {isConfirm && (
-          <ConfirmDialog
-            title="충전소 등록을 취소하시겠습니까?"
-            confirmButton="네"
-            confirmOnClick={() => {
-              navigate(-1);
-            }}
-            cancelButton="아니요"
-            cancelOnClick={() => {
-              setIsConfirm(false);
-            }}
-          />
-        )}
+        <ConfirmDialog
+          open={isConfirm}
+          title="충전소 등록을 취소하시겠습니까?"
+          confirmButton="네"
+          confirmOnClick={() => {
+            navigate(-1);
+          }}
+          cancelButton="아니요"
+          cancelOnClick={() => {
+            setIsConfirm(false);
+          }}
+        />
         <S.ColumnBox>
           <S.Box>
             <SearchInput
@@ -368,7 +367,7 @@ export default function ChargerEdit() {
           deletePhoto={deletePhoto}
         />
       </S.Main>
-      <StickButton onClick={onSubmitValue} text="작성완료"></StickButton>
+      <StickButton onClick={onSubmitValue} text="작성완료" position="write" />
     </S.Container>
   );
 }

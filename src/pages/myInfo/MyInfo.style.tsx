@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const UserInfoContainer = styled.div`
     width: 390px;
-    height: 100vh;
+    height: 844px;
     margin-top: 56px;
     background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 `;
@@ -10,12 +10,33 @@ export const UserInfoContainer = styled.div`
 export const InfoContainer = styled.div`
     padding: 1.5rem;
     margin: 0.5rem 0;
-    height: 75vh;
     background-color: ${({ theme }) => theme.PALETTE.white};
+    height: 640px;
 `;
 
 export const ProfileContainer = styled.div`
-    text-align: center;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    label {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        background-color: transparent;
+        cursor: pointer;
+        svg {
+            width: 35px;
+            height: 35px;
+        }
+    }
+    input[type="file"] {
+        display: none;
+    }
 `;
 
 export const ProfileInfoContainer = styled.div`
@@ -35,21 +56,40 @@ export const EmailPara = styled.p`
     color: ${({ theme }) => theme.PALETTE.gray[300]};
 `;
 
+export const InputContainer = styled.div`
+    label {
+        margin: 0.3rem;
+        margin-top: 1.5rem;
+        font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+        font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    }
+`;
+
 export const EditContainer = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    div {
+        width : 90%;
+    }
+    button {
+        align-self: end;
+        
+    }
+    
 `;
 
 export const AccountOptionsDiv = styled.div`
-    margin: 0.5rem 0;
+    position: absolute;
+    width: 390px;
+    height: 130px;
     padding: 1.5rem;
-    height: 25vh;
+    bottom: 68px;
     background-color: ${({ theme }) => theme.PALETTE.white};
-    display : flex;
+    display: flex;
     justify-content: flex-start;
     p {
         color: ${({ theme }) => theme.PALETTE.gray[200]};
+        cursor: pointer;
     }
     svg {
         margin: 0 1rem;
@@ -57,6 +97,6 @@ export const AccountOptionsDiv = styled.div`
         height: 20px;
     }
     path {
-        stroke : ${({ theme }) => theme.PALETTE.gray[300]};
+        stroke: ${({ theme }) => theme.PALETTE.gray[300]};
     }
 `;
