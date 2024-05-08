@@ -33,7 +33,7 @@ export default function ManagingCharger() {
                 like={false}
                 tag={false}
                 border="bottom"
-                onClick={() => navigate(`/charger/${data.chargerId}`)}
+                onClick={() => navigate(`/charger/detail/${data.chargerId}`)}
               />
             );
           })}

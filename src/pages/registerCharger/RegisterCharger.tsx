@@ -157,7 +157,7 @@ export default function RegisterCharger() {
       const data = createFormData();
       myChargerApi
         .postMyCharger(data)
-        .then((res) => navigate(`/charger/${res.chargerId}`))
+        .then((res) => navigate(`/charger/detail/${res.chargerId}`))
         .catch(() => alert("충전소 등록이 실패하였습니다."));
     }
   };

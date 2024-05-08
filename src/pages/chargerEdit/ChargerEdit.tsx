@@ -207,7 +207,7 @@ export default function ChargerEdit() {
       const data = createFormData();
       myChargerApi
         .patchMyCharger(data, SAMPLE_USER_INFO.chargerId)
-        .then((res) => navigate(`/charger/${res.chargerId}`))
+        .then((res) => navigate(`/charger/detail/${res.chargerId}`))
         .catch(() => alert("충전소 수정이 실패하였습니다."));
     }
   };
