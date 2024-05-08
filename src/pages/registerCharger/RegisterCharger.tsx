@@ -14,11 +14,10 @@ import React, { useEffect, useState } from "react";
 import * as S from "./RegisterCharger.style";
 import FareInput from "@/components/pages/registerCharger/fareInput/FareInput";
 import StickButton from "@/components/common/stickyButton/StickyButton";
-import axios from "axios";
 import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
-import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
+import myChargerApi from "@/apis/myCharger";
 
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
@@ -127,27 +126,6 @@ export default function RegisterCharger() {
     return formData;
   }
 
-  const createCharger = async (userId: string, userToken: string) => {
-    const url = `/api/chargers/users/${userId}`;
-    const formData = createFormData();
-    const token = userToken;
-
-    try {
-      const res = await axios({
-        method: "post",
-        url: url,
-        data: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log(res.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   const onValidationValues = (): boolean => {
     if (chargerInfo.address.location === "") {
       setErrors((prev) => ({
@@ -176,8 +154,11 @@ export default function RegisterCharger() {
   const onSubmitValue = () => {
     const isPass = onValidationValues();
     if (isPass) {
-      console.log(chargerInfo);
-      createCharger(SAMPLE_USER_INFO.userId, SAMPLE_USER_INFO.token);
+      const data = createFormData();
+      myChargerApi
+        .postMyCharger(data)
+        .then((res) => navigate(`/charger/${res.chargerId}`))
+        .catch(() => alert("충전소 등록이 실패하였습니다."));
     }
   };
 

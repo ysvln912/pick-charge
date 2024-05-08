@@ -4,35 +4,15 @@ import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigation
 import { Charger } from "@/types";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ManagingCharger.style";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { SAMPLE_USER_INFO } from "@/constants/myCharger";
+import myChargerApi from "@/apis/myCharger";
 
 export default function ManagingCharger() {
   const navigate = useNavigate();
-  const getMyChargerlist = async (
-    userId: string,
-    token: string
-  ): Promise<Charger[]> => {
-    const url = `/api/chargers/users/${userId}`;
-    try {
-      const res = await axios({
-        method: "get",
-        url: url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (error) {
-      console.error("Error:", error);
-      return [];
-    }
-  };
   const { data } = useQuery<Charger[], Error>({
     queryKey: ["myChargerList", SAMPLE_USER_INFO.userId],
-    queryFn: () =>
-      getMyChargerlist(SAMPLE_USER_INFO.userId, SAMPLE_USER_INFO.token),
+    queryFn: myChargerApi.getMyCharger,
   });
 
   console.log(data);
