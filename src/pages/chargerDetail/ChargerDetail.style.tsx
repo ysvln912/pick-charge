@@ -108,6 +108,7 @@ export const PriceInfo = styled.div`
 export const StationInfo = styled(StyledDiv)``;
 
 export const StationContent = styled.div`
+  margin-top: 1rem;
   div {
     margin: 0 auto;
   }
