@@ -229,7 +229,7 @@ export default function ChargerDetail() {
                     <S.ButtomList>
                         <S.ButtomItem
                             onClick={() => {
-                                navigate(`/charger/${1}/edit`);
+                                navigate(`/charger/${chargerId}/edit`);
                             }}>
                             <EditIcon />
                             수정하기
