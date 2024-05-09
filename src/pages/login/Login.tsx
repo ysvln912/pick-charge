@@ -28,10 +28,11 @@ export default function Login() {
     <>
       <TopNavigationBar text="로그인" />
       <S.Container>
-        <S.LogoWrapper>
-          <img src={logo} alt="피카충전 로고" />
-        </S.LogoWrapper>
-
+        <Link to="/">
+          <S.LogoWrapper>
+            <img src={logo} alt="피카충전 로고" />
+          </S.LogoWrapper>
+        </Link>
         <S.Form onSubmit={handleSubmit(() => login(formState))}>
           <LabelInput
             name="email"

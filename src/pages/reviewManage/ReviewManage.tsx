@@ -68,7 +68,10 @@ export default function ReviewManage() {
                 imageUrls,
               } = el;
               return (
-                <S.Wrapper ref={isLastReview ? lastReviewElementRef : null}>
+                <S.Wrapper
+                  ref={isLastReview ? lastReviewElementRef : null}
+                  key={reviewId + 1}
+                >
                   <ReviewItem
                     onClick={() => handleReviewItemClick(String(reviewId))}
                     key={reviewId}

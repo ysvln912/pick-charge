@@ -14,9 +14,7 @@ const inputview = {
     top: 0;
     width: 390px;
     div div {
-      border: none;
       border-radius: 0;
-      border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
     }
   `,
 };

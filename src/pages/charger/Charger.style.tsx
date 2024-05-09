@@ -32,7 +32,7 @@ export const ChargerContainer = styled.div`
 `;
 
 export const listViewContainer = styled.div`
-  margin-top: 45px;
+  margin: 45px 0 110px;
 `;
 
 export const ButtonContainer = styled.div<{ viewType: ViewStyle }>`

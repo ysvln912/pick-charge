@@ -15,6 +15,7 @@ import PhotoRegister from "@/components/common/photoRegister/PhotoRegister";
 import StickButton from "@/components/common/stickyButton/StickyButton";
 import Textarea from "@/components/common/textarea/Textarea";
 import Rating from "@/components/pages/reviewWrite/rating/Rating";
+import { isAxiosError } from "axios";
 
 interface ReviewData {
   content: string;
@@ -129,9 +130,15 @@ export default function ReviewEditContent({
       setPhotos([]);
 
       triggerToast(MESSAGE.REVIEW.SUCCESS, "success");
-      navigate(`/review/${response}`);
-    } catch (error) {
-      triggerToast(MESSAGE.REVIEW.FAILURE, "error");
+      navigate(`/review/${response}`, { replace: true });
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response?.status == 413) {
+          triggerToast(MESSAGE.ERROR.FILE_SIZE, "error");
+          return;
+        }
+        triggerToast(MESSAGE.REVIEW.FAILURE, "error");
+      }
     }
   };
 
