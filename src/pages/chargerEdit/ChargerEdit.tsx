@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import * as S from "./ChargerEdit.style";
@@ -25,44 +24,17 @@ import {
   IchargerImage,
 } from "@/types/myCharger";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
+import myChargerApi from "@/apis/myCharger";
 
 export default function ChargerEdit() {
-  // Todo: 작성완료 시 충전소 상세 페이지로 이동
-  // Todo: useLocation으로 유저 id, 충전기 id 값 받아오기
-
-  const getChargerEdit = async (
-    chargerId: string,
-    userId: string,
-    token: string
-  ) => {
-    const url = `/api/chargers/${chargerId}/users/${userId}/edit-from`;
-    try {
-      const res = await axios({
-        method: "get",
-        url: url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
-    } catch (error) {
-      console.error("Error:", error);
-      return {};
-    }
-  };
-
+  const currentUrl = window.location.href;
+  const parts = currentUrl.split("/");
+  const idIndex = parts.indexOf("edit") - 1;
+  const chargerId = parts[idIndex];
+  // Todo: 전역 User id 값 가져오기
   const { data } = useQuery({
-    queryKey: [
-      "chargerInfo",
-      SAMPLE_USER_INFO.userId,
-      SAMPLE_USER_INFO.chargerId,
-    ],
-    queryFn: () =>
-      getChargerEdit(
-        SAMPLE_USER_INFO.chargerId,
-        SAMPLE_USER_INFO.userId,
-        SAMPLE_USER_INFO.token
-      ),
+    queryKey: ["chargerInfo", SAMPLE_USER_INFO.userId, chargerId],
+    queryFn: () => myChargerApi.getEditMyCharger(chargerId),
   });
   const navigate = useNavigate();
   const [isConfirm, setIsConfirm] = useState(false);
@@ -202,26 +174,6 @@ export default function ChargerEdit() {
     return formData;
   }
 
-  const updateCharger = async () => {
-    const url = `/api/chargers/${SAMPLE_USER_INFO.chargerId}/users/${SAMPLE_USER_INFO.userId}`;
-    const formData = createFormData();
-    const token = SAMPLE_USER_INFO.token;
-
-    try {
-      const res = await axios({
-        method: "patch",
-        url: url,
-        data: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data ? true : false;
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   const onValidationValues = (): boolean => {
     if (chargerInfo.address.location === "") {
       setErrors((prev) => ({
@@ -250,25 +202,26 @@ export default function ChargerEdit() {
   const onSubmitValue = async () => {
     const isPass = onValidationValues();
     if (isPass) {
-      const isSuccess = await updateCharger();
-      if (isSuccess) {
-        navigate(`/charger/${SAMPLE_USER_INFO.chargerId}`);
-      } else {
-        alert("충전소 수정이 실패했습니다!");
-      }
+      const data = createFormData();
+      myChargerApi
+        .patchMyCharger(data, chargerId)
+        .then((res) => navigate(`/charger/detail/${res.chargerId}`))
+        .catch(() => alert("충전소 수정이 실패하였습니다."));
     }
   };
 
   return (
     <S.Container>
       <TopNavigationBar
-        leftBtn={<IconButton icon="arrowLeft" />}
+        leftBtn={
+          <IconButton icon="arrowLeft" onClick={() => setIsConfirm(true)} />
+        }
         text="충전소 수정"
       />
       <S.Main>
         <ConfirmDialog
           open={isConfirm}
-          title="충전소 등록을 취소하시겠습니까?"
+          title="충전소 수정을 취소하시겠습니까?"
           confirmButton="네"
           confirmOnClick={() => {
             navigate(-1);
@@ -351,7 +304,6 @@ export default function ChargerEdit() {
           error={errors.chargerType.isError}
           errorMessage={errors.chargerType.errorMessage}
         />
-        <StickButton text="충전기 추가하기" />
         <Textarea
           label="내용"
           placeholder="이용에 대한 상세한 정보 (비용,이용 시간 등)를 작성해 주세요."

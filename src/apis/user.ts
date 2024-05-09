@@ -3,31 +3,29 @@ import { UserInfoRequest } from "@/types";
 
 const userApi = {
   signup(data: UserInfoRequest) {
-    return api.post("/api/user/signup", data).then((response) => response.data);
+    return api.post("/user/signup", data).then((response) => response.data);
   },
   checkUserNickName(data: string) {
     return api
-      .get(`/api/user/check/nickname/${data}`)
+      .get(`/user/check/nickname/${data}`)
       .then((response) => response.data);
   },
   login(data: { email: string; password: string }) {
-    return api.post("/api/user/signin", data).then((response) => response.data);
+    return api.post("/user/signin", data).then((response) => response.data);
   },
   postCreateAccessByRefresh() {
     return api
-      .post("/api/user/createAccessByRefresh")
+      .post("/user/createAccessByRefresh")
       .then((response) => response.data);
   },
   getUserInfo() {
-    return api.get("/api/user/info").then((response) => response.data);
+    return api.get("/user/info").then((response) => response.data);
   },
   sendMail(data: { email: string }) {
-    return api.post("/api/mailSend", data).then((response) => response.data);
+    return api.post("/mailSend", data).then((response) => response.data);
   },
   checkAuthMail(data: { email: string; authNum: string }) {
-    return api
-      .post("/api/mailauthCheck", data)
-      .then((response) => response.data);
+    return api.post("/mailauthCheck", data).then((response) => response.data);
   },
 };
 

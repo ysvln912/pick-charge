@@ -41,7 +41,6 @@ export default function ReviewEditContent({
     chargerName: "",
     content: "",
   });
-
   const [photos, setPhotos] = useState<File[]>([]);
 
   const navigate = useNavigate();
@@ -84,8 +83,7 @@ export default function ReviewEditContent({
     setReview((prev) => ({ ...prev, [name]: value }));
   };
 
-  const isFormValid = submitType && content;
-
+  const isFormValid = submitType && content && content.length <= 500;
   const handleSubmit = async () => {
     if (!isFormValid) {
       setError({
@@ -150,6 +148,7 @@ export default function ReviewEditContent({
         </S.Box>
         <S.Box>
           <Textarea
+            maxLength={500}
             require
             name="content"
             label="내용"
@@ -160,7 +159,7 @@ export default function ReviewEditContent({
           />
         </S.Box>
         <PhotoRegister
-          photos={review.imgUrl || []}
+          photos={photos}
           updatePhoto={updatePhoto}
           deletePhoto={deletePhoto}
         />

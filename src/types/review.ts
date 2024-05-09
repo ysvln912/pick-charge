@@ -39,3 +39,23 @@ export interface ReviewImage {
   imgUrl: string[];
   lastModifiedDate: string;
 }
+
+export interface ImageFile {
+  id: string;
+  imageUrl: string;
+}
+
+export interface UserReviewResponse {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  reviews: any[];
+  totalReviews: number;
+  currentPage: number;
+  pageSize: number;
+}
+
+export interface GetUserReviewParams {
+  chargerId?: string;
+  page: number;
+  size: number;
+  sort: string;
+}

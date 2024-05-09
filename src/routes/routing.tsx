@@ -1,6 +1,5 @@
 import { createBrowserRouter, Routes, Route } from "react-router-dom";
 
-// import UserInfoProvider from "@/components/common/userInfoProvider/UserInfoProvider";
 import Layout from "@/components/common/layout/Layout.tsx";
 import SignUp from "@/pages/signUp/SignUp.tsx";
 import ReviewWrite from "@/pages/reviewWrite/ReviewWrite.tsx";
@@ -28,11 +27,7 @@ import Charger from "@/pages/charger/Charger";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      // <UserInfoProvider>
-      <Layout />
-      // </UserInfoProvider>
-    ),
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
@@ -44,14 +39,6 @@ const router = createBrowserRouter([
               <Route path="/:viewType" element={<Charger />} />
               <Route path="/detail/:id" element={<ChargerDetail />} />
               <Route path="/:id/reviews" element={<ChargerReviewList />} />
-              <Route
-                path="/:id/edit"
-                element={
-                  <Private>
-                    <ChargerEdit />
-                  </Private>
-                }
-              />
             </Routes>
           </>
         ),
@@ -133,6 +120,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "charger/:id/edit",
+    element: (
+      <Private>
+        <ChargerEdit />
+      </Private>
+    ),
   },
   {
     path: "/register-charger",
