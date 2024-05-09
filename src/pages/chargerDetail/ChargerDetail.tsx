@@ -198,7 +198,7 @@ export default function ChargerDetail() {
                 </div>
 
                 {charger?.reviewList && charger?.reviewList.length !== 0 ? (
-                    charger?.reviewList.map((review) => {
+                    charger?.reviewList.slice(0,3).map((review) => {
                         return (
                             <ReviewItem
                                 key={review.id}
