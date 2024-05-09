@@ -13,7 +13,7 @@ const useChargerList = (location: string) => {
     return { data, ...rest };
 };
 
-const useChargerDetail = (id: number, userId: number) => {
+const useChargerDetail = (id: number) => {
     const { data, ...rest } = useQuery({
         queryKey: ["getChargerDetail", id],
         queryFn: () => {
@@ -23,19 +23,19 @@ const useChargerDetail = (id: number, userId: number) => {
     return { data, ...rest };
 };
 
-const useFavoritesCharger = () => {
+const useFavoritesCharger = (filter : boolean) => {
     const { data, ...rest } = useQuery({
         queryKey: ["useFavoritesCharger"],
         queryFn: () => {
             return chargerApi.getFavoritesCharger();
         },
+        enabled : filter,
+        
     });
     return { data, ...rest };
 };
 
-const useCreateFavorite = () => {
-
-};
+const useCreateFavorite = () => {};
 
 export {
     useChargerList,
