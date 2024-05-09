@@ -8,6 +8,7 @@ import marker_public from "@/assets/imgs/marker_public.png";
 import ChargerListDetail from "../ChargerListDetail";
 import { useToggle } from "@/hooks/useToggle";
 import ChargerStationSummary from "../chargerStationSummary/ChargerStationSummary";
+import { useNavigate } from "react-router-dom";
 
 declare global {
     interface Window {
@@ -31,11 +32,16 @@ export default function ChargerMap({
     const [isStationOpen, setStationOpen] = useState(false);
     const [stationId, setStationId] = useState(0);
     const { open, close, isOpen } = useToggle(false);
+    const navigate = useNavigate();
 
     function markerClickHandler(i: number) {
-        console.log(`마커클릭 i ${i}`);
-        setStationOpen(true);
-        setStationId(i);
+        
+        if (type === "full") {
+            setStationOpen(true);
+            setStationId(i);
+        } else {
+            navigate(`/charger/detail/${info[i].chargers[0].chargerId}`)
+        }
     }
 
     function mapClickHandler() {
@@ -89,8 +95,6 @@ export default function ChargerMap({
             );
         });
     }, [info]);
-
-    console.log(info)
 
     return (
         <>
