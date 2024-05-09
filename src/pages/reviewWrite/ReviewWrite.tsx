@@ -9,7 +9,7 @@ export interface ReviewType {
   rating: number;
   content: string;
   userId?: number;
-  imgUrl?: File[];
+  imgUrl?: string[];
   userIdMatch?: boolean;
 }
 
@@ -22,7 +22,6 @@ export default function ReviewWrite() {
         text="리뷰 작성하기"
         leftBtn={<IconButton icon="arrowLeft" onClick={() => navigate(-1)} />}
       />
-
       <ReviewEditContent
         submitReview={(formData) => reviewApi.postReview(formData)}
       />
