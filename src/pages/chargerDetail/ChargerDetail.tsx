@@ -18,12 +18,17 @@ import StickButton from "@/components/common/stickyButton/StickyButton";
 import { useChargerDetail } from "@/hooks/queries/charger";
 import PhotoSlider from "@/components/common/photoSlider/PhotoSlider";
 import chargerApi from "@/apis/charger";
+import useCheckUserInfo from "@/hooks/useCheckUserInfo";
+import { Confirm } from "@/components/common/confirmDialog/ConfirmDialog.style";
+import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 
 export default function ChargerDetail() {
     const navigate = useNavigate();
     const { open, close, isOpen } = useToggle(false);
+    const { open : loginOpen , close :loginClose, isOpen:loginIsOpen } = useToggle(false);
     const { id } = useParams();
     const chargerId = Number(id);
+    const { user } = useCheckUserInfo();
     const { data, isLoading, isError } = useChargerDetail(chargerId);
     const [charger, setCharger] = useState<Charger>();
     const [isPublic, setIsPublic] = useState(true);
@@ -81,7 +86,6 @@ export default function ChargerDetail() {
     function LikeButton() {
         return <IconButton icon="like" onClick={handleLike} />;
     }
-
     return (
         <S.ChargerContainer>
             <TopNavigationBar
@@ -221,13 +225,12 @@ export default function ChargerDetail() {
                 <StickButton
                     text="문의하기"
                     onClick={() => {
-                        console.log("채팅으로이동");
+                        navigate(`/chat-list/`)
                     }}
                 />
             ) : (
                 <></>
             )}
-
             {isOpen && (
                 <BottomSheet open={isOpen} close={close}>
                     <S.ButtomList>
