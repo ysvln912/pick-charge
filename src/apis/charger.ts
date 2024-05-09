@@ -25,6 +25,18 @@ const chargerApi = {
         }
     },
 
+    async deleteCharger(chargerId: number){
+        try {
+            const response = await api.delete(
+                `/chargers/${chargerId}`
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
     async getFavoritesCharger() {
         try {
             const response = await api.get(`/favorites`);
