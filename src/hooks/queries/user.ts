@@ -4,9 +4,9 @@ import { AxiosError } from "axios";
 import userApi from "@/apis/user";
 import TokenService from "@/utils/tokenService";
 import MESSAGE from "@/constants/message";
-import { setCookie } from "@/utils/cookie";
 import { useToast } from "../useToast";
 import { UserInfoRequest } from "@/types";
+import { setCookie } from "@/utils/cookie";
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const useLogin = () => {
       userApi.login(data),
     onSuccess: (res) => {
       TokenService.setToken(res.token);
-      setCookie("refreshToken", res.refreshToken);
+      setCookie("refreshToken", res.refreshToken, 7);
       triggerToast(MESSAGE.LOGIN.SUCCESS, "success");
       navigate("/");
     },
