@@ -15,8 +15,9 @@ import BottomSheet from "@/components/common/bottomSheet/BottomSheet";
 import EditIcon from "@/components/common/icons/EditIcon";
 import DeleteIcon from "@/components/common/icons/DeleteIcon";
 import StickButton from "@/components/common/stickyButton/StickyButton";
-import { useChargerDetail } from "@/hooks/queries/charger";
+import { useChargerDetail, useCreateFavorite } from "@/hooks/queries/charger";
 import PhotoSlider from "@/components/common/photoSlider/PhotoSlider";
+import chargerApi from "@/apis/charger";
 
 export default function ChargerDetail() {
     const navigate = useNavigate();
@@ -27,40 +28,35 @@ export default function ChargerDetail() {
     const [charger, setCharger] = useState<Charger>();
 
     useEffect(() => {
-        const newData = {
-            ...data,
-            chargerRole: "공공",
-            content:
-                "내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다. 내용이 들어가는 자리입니다.",
-            chargerImageList: [
-                "https://www.istockphoto.com/photo/car-rental-business-transportation-service-gm1688124066-537244903?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8",
-                "https://www.istockphoto.com/photo/cars-for-sale-stock-lot-row-gm1478431022-506701439?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fko%2Fimages%2Fsearch%2F%25EC%25B0%25A8%2F&utm_term=%EC%B0%A8",
-            ],
-            myChargerCheck: false,
-        };
         if (!isLoading && !isError) {
-            setCharger(newData);
+            setCharger(data);
         }
     }, [data, isLoading, isError]);
 
-    function handleDelete() {
-        console.log(`충전소 삭제 api요청`);
+    function handleLike() {
+        if (charger) {
+            chargerApi.deleteFavorite(chargerId).then((res) => {
+                if (res.status === 200) {
+                    const newCharger: Charger = { ...charger, favorite: false };
+                    setCharger(newCharger);
+                }
+            });
+        }
     }
 
     function handleEmptyLike() {
         if (charger) {
-            const newCharger: Charger = { ...charger, favorite: true };
-            setCharger(newCharger);
-            console.log(`즐겨찾기 추가 api요청`);
+            chargerApi.createFavorite(chargerId).then((res) => {
+                if (res.status === 201) {
+                    const newCharger: Charger = { ...charger, favorite: true };
+                    setCharger(newCharger);
+                }
+            });
         }
     }
 
-    function handleLike() {
-        if (charger) {
-            const newCharger: Charger = { ...charger, favorite: false };
-            setCharger(newCharger);
-            console.log(`즐겨찾기 삭제 api요청`);
-        }
+    function handleDelete() {
+        console.log(`충전소 삭제 api요청`);
     }
 
     function MoreIconButton() {
@@ -73,12 +69,19 @@ export default function ChargerDetail() {
     function LikeButton() {
         return <IconButton icon="like" onClick={handleLike} />;
     }
-    console.log(charger);
+
 
     return (
         <S.ChargerContainer>
             <TopNavigationBar
-                leftBtn={<IconButton icon="arrowDown" onClick={()=>{navigate(-1)}} />}
+                leftBtn={
+                    <IconButton
+                        icon="arrowDown"
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    />
+                }
                 text={charger?.chargerName}
                 rightBtn={
                     (charger?.myChargerCheck && <MoreIconButton />) ||
