@@ -12,7 +12,7 @@ import { useToggle } from "@/hooks/useToggle";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import Textarea from "@/components/common/textarea/Textarea";
 import CameraIcon from "@/components/common/icons/CameraIcon";
-import mypageApi from "@/apis/mypage";
+import mypageApi, { NewUserInfo } from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 
 export default function MyInfo() {
@@ -30,21 +30,20 @@ export default function MyInfo() {
     const { user } = useCheckUserInfo();
 
     const [nickname, setNickname] = useState<string>("");
+    const [imgFile, setImgFile] = useState<string | null>("");
+    const imgRef = useRef<HTMLInputElement>(null);
     const {
         open: nicknameOpen,
         close: nicknameClose,
         isOpen: nicknameIsOpen,
     } = useToggle(false);
-
-    const modifyNickname = () => {
-        nicknameClose();
-        console.log(
-            `${nickname}으로 정보수정 api 요청 후 유저정보 다시 받아오기`
-        );
-    };
-
-    const [imgFile, setImgFile] = useState<string | undefined>("");
-    const imgRef = useRef<HTMLInputElement>(null);
+    const [newData, setNewData] = useState<NewUserInfo>({
+        file: user.profileImage || "",
+        userUpdateDto: {
+            nickname: user.nickName,
+            profileImage: user.profileImage || "",
+        },
+    });
 
     // 이미지 업로드 input의 onChange
     const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,16 +58,48 @@ export default function MyInfo() {
             };
         }
     };
+    console.log(user);
+
+    const modifyNickname = () => {
+        nicknameClose();
+        setNewData((prevData) => ({
+            ...prevData,
+            userUpdateDto: {
+                ...prevData.userUpdateDto,
+                nickname: nickname,
+            },
+        }));
+    };
 
     useEffect(() => {
-        console.log(`api 요청 후 유저정보 다시 받아오기`);
+        setNewData((prevData) => ({
+            ...prevData,
+            file: imgFile || "", 
+            userUpdateDto: {
+              ...prevData.userUpdateDto,
+              profileImage: imgFile || "", 
+            }
+          }));
     }, [imgFile]);
+
+    useEffect(()=>{
+        mypageApi.editUserInfo(newData).then((res)=>{
+            console.log(res)
+        })
+    },[newData])
 
     const logoutHandler = async () => {
         await mypageApi.logout().then((res) => {
             logoutClose();
             navigate("/");
         });
+    };
+
+     const accountHandler = async () => {
+        await mypageApi.deleteUser().then((res)=>{
+            accountClose();
+            console.log(res)
+        })
     };
 
     return (
@@ -163,9 +194,7 @@ export default function MyInfo() {
                     title="탈퇴하기"
                     type="dialog"
                     confirmButton="완료"
-                    confirmOnClick={() => {
-                        console.log("완료");
-                    }}
+                    confirmOnClick={accountHandler}
                     cancelButton="다시 생각해 볼게요"
                     cancelOnClick={accountClose}
                     open={accountIsOpen}>
