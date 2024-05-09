@@ -13,7 +13,7 @@ const chargerApi = {
         }
     },
 
-    async getChargerDetail(chargerId: number, userId: number) {
+    async getChargerDetail(chargerId: number) {
         try {
             const response = await api.get(
                 `/chargers/${chargerId}`
@@ -25,7 +25,7 @@ const chargerApi = {
         }
     },
 
-    async getFavoritesCharger(userId: number) {
+    async getFavoritesCharger() {
         try {
             const response = await api.get(`/favorites`);
             return response.data;
@@ -34,6 +34,27 @@ const chargerApi = {
             throw error;
         }
     },
+
+    async createFavorite(chargerId : number){
+        try {
+            const response = await api.post(`/favorites`,{
+                "chargerId": chargerId
+              });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+    async deleteFavorite(chargerId : number){
+        try {
+            const response = await api.delete(`/favorites/chargers/${chargerId}`);
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 };
 
 export default chargerApi;
