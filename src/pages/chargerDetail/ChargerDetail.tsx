@@ -27,14 +27,13 @@ export default function ChargerDetail() {
     const { data, isLoading, isError } = useChargerDetail(chargerId);
     const [charger, setCharger] = useState<Charger>();
     const [isPublic, setIsPublic] = useState(true);
-    const [imageList, setImageList ] = useState<string[]>([])
-   
+    const [imageList, setImageList] = useState<string[]>([]);
 
     useEffect(() => {
         if (!isLoading && !isError) {
             data.chargerImageList.forEach((img: any) => {
-                const newImageList = imageList.concat(img.imageUrl)
-                setImageList(newImageList)
+                const newImageList = imageList.concat(img.imageUrl);
+                setImageList(newImageList);
             });
 
             setCharger(data);
@@ -179,10 +178,9 @@ export default function ChargerDetail() {
                 <S.StationInfo>
                     <S.Title>충전소 정보</S.Title>
                     <S.StationContent>
-                        <PhotoSlider
-                            imgs={imageList || []}
-                            category="charging"
-                        />
+                        {imageList.length !== 0 && (
+                            <PhotoSlider imgs={imageList} category="charging" />
+                        )}
                         <p>{charger?.content}</p>
                     </S.StationContent>
                 </S.StationInfo>
@@ -198,7 +196,7 @@ export default function ChargerDetail() {
                 </div>
 
                 {charger?.reviewList && charger?.reviewList.length !== 0 ? (
-                    charger?.reviewList.slice(0,3).map((review) => {
+                    charger?.reviewList.slice(0, 3).map((review) => {
                         return (
                             <ReviewItem
                                 key={review.id}
