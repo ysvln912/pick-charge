@@ -5,17 +5,18 @@ import { Charger } from "@/types";
 import { useNavigate } from "react-router-dom";
 import * as S from "./ManagingCharger.style";
 import { useQuery } from "@tanstack/react-query";
-import { SAMPLE_USER_INFO } from "@/constants/myCharger";
 import myChargerApi from "@/apis/myCharger";
+import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 
 export default function ManagingCharger() {
   const navigate = useNavigate();
+  const {
+    user: { id },
+  } = useCheckUserInfo();
   const { data } = useQuery<Charger[], Error>({
-    queryKey: ["myChargerList", SAMPLE_USER_INFO.userId],
+    queryKey: ["myChargerList", id],
     queryFn: myChargerApi.getMyCharger,
   });
-
-  console.log(data);
 
   return (
     <S.Container>

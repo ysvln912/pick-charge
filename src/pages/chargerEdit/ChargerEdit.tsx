@@ -74,13 +74,16 @@ export default function ChargerEdit() {
 
   useEffect(() => {
     if (data) {
+      const arr = data.chargerName.split("/");
+      const name = arr[0];
+      const detail = arr[1];
       setChargerInfo({
         address: {
-          name: data.chargerName,
+          name: name,
           location: data.chargerLocation,
         },
-        keyword: data.chargerName,
-        detailed: "",
+        keyword: name,
+        detailed: detail,
         speed: data.chargingSpeed,
         fare: data.personalPrice,
         chargerType: data.chargerTypeList[0].type,
@@ -159,7 +162,7 @@ export default function ChargerEdit() {
 
     const jsonData = {
       chargerLocation: chargerInfo.address.location,
-      chargerName: chargerInfo.address.name,
+      chargerName: `${chargerInfo.address.name}/${chargerInfo.detailed}`,
       chargingSpeed: chargerInfo.speed,
       content: chargerInfo.content,
       personalPrice: parseInt(chargerInfo.fare),

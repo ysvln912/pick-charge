@@ -26,10 +26,23 @@ export default function ChargerDetail() {
     const chargerId = Number(id);
     const { data, isLoading, isError } = useChargerDetail(chargerId, 1);
     const [charger, setCharger] = useState<Charger>();
+    const [isPublic, setIsPublic] = useState(true);
 
     useEffect(() => {
         if (!isLoading && !isError) {
-            setCharger(data);
+            if (data.chargerRole === "개인") {
+                const [newChargerLocation, newChargerName] =
+                    data.chargerLocation.split("/");
+                const newData = {
+                    ...data,
+                    chargerName: newChargerName,
+                    chargerLocation: `${newChargerLocation} ${data.chargerName}`,
+                };
+                setCharger(newData);
+                setIsPublic(false)
+            } else {
+                setCharger(data);
+            }
         }
     }, [data, isLoading, isError]);
 
@@ -56,7 +69,9 @@ export default function ChargerDetail() {
     }
 
     function handleDelete() {
-        console.log(`충전소 삭제 api요청`);
+        chargerApi.deleteCharger(chargerId).then(() => {
+            navigate("/managing-charger");
+        });
     }
 
     function MoreIconButton() {
@@ -69,8 +84,6 @@ export default function ChargerDetail() {
     function LikeButton() {
         return <IconButton icon="like" onClick={handleLike} />;
     }
-
-
     return (
         <S.ChargerContainer>
             <TopNavigationBar
@@ -89,7 +102,6 @@ export default function ChargerDetail() {
                 }
             />
             <S.ChargerOverview>
-                <S.ChargerCompany>회사명</S.ChargerCompany>
                 <S.ChargerStatus>
                     <ChargingRoleCard role={charger?.chargerRole || ""} />
                     <RatingWithStar rating={charger?.avgRate} />
@@ -133,7 +145,7 @@ export default function ChargerDetail() {
                         {charger?.chargingSpeed}
                     </div>
                     <div className="price-member row">
-                        {charger?.chargerRole === "공공" ? (
+                        {isPublic ? (
                             <>
                                 <div>회원가</div>
                                 <div>비회원가</div>
@@ -143,7 +155,7 @@ export default function ChargerDetail() {
                         )}
                     </div>
                     <div className="price-rate row">
-                        {charger?.chargerRole === "공공" ? (
+                        {isPublic ? (
                             <>
                                 <div>
                                     <span>{charger?.memberPrice}원</span> /kWh
@@ -162,7 +174,7 @@ export default function ChargerDetail() {
                 </S.PriceInfo>
             </S.ChargerPrice>
 
-            {charger?.chargerRole === "공공" ? (
+            {isPublic ? (
                 <></>
             ) : (
                 <S.StationInfo>
@@ -208,7 +220,7 @@ export default function ChargerDetail() {
                     </S.EmptyReview>
                 )}
             </S.ChargerReview>
-            {charger?.chargerRole === "개인" ? (
+            {!charger?.myChargerCheck && !isPublic ? (
                 <StickButton
                     text="문의하기"
                     onClick={() => {
