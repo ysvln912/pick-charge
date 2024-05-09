@@ -129,7 +129,7 @@ export default function ReviewEditContent({
       setPhotos([]);
 
       triggerToast(MESSAGE.REVIEW.SUCCESS, "success");
-      navigate(`/review/${response}`);
+      navigate(`/review/${response}`, { replace: true });
     } catch (error) {
       triggerToast(MESSAGE.REVIEW.FAILURE, "error");
     }
