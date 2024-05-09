@@ -25,7 +25,7 @@ export default function MyFavorites() {
     });
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
 
-    const { data, isError, isLoading } = useFavoritesCharger();
+    const { data, isError, isLoading } = useFavoritesCharger(true);
 
     useEffect(() => {
         if (!isLoading && !isError) {

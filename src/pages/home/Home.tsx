@@ -20,7 +20,7 @@ export default function Home() {
     const { user } = useCheckUserInfo();
     const [chargerInfo, setChargerInfo] = useState<ChargerStation[]>([]);
     const { data, isError, isLoading } = useFavoritesCharger(!!user.id);
-    console.log(!!user.id);
+
     useEffect(() => {
         if (!isLoading && !isError) {
             setChargerInfo(data);
