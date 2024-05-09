@@ -2,10 +2,9 @@ import { api } from "./@config";
 import logout from "@/utils/logout";
 
 export interface NewUserInfo {
-    file: string;
+    file?: string;
     userUpdateDto: {
         nickname: string;
-        profileImage: string;
     };
 }
 
