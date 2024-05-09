@@ -14,6 +14,7 @@ import Textarea from "@/components/common/textarea/Textarea";
 import CameraIcon from "@/components/common/icons/CameraIcon";
 import mypageApi, { NewUserInfo } from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
+import { useLogout } from "@/hooks/queries/mypage";
 
 export default function MyInfo() {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function MyInfo() {
         isOpen: accountIsOpen,
     } = useToggle(false);
     const { user } = useCheckUserInfo();
+    const { logout } = useLogout();
 
     const [nickname, setNickname] = useState<string>("");
     const [imgFile, setImgFile] = useState<string | null>("");
@@ -58,10 +60,8 @@ export default function MyInfo() {
             };
         }
     };
-    console.log(user);
 
     const modifyNickname = () => {
-        nicknameClose();
         setNewData((prevData) => ({
             ...prevData,
             userUpdateDto: {
@@ -74,32 +74,32 @@ export default function MyInfo() {
     useEffect(() => {
         setNewData((prevData) => ({
             ...prevData,
-            file: imgFile || "", 
+            file: imgFile || "",
             userUpdateDto: {
-              ...prevData.userUpdateDto,
-              profileImage: imgFile || "", 
-            }
-          }));
+                ...prevData.userUpdateDto,
+                profileImage: imgFile || "",
+            },
+        }));
     }, [imgFile]);
 
-    useEffect(()=>{
-        mypageApi.editUserInfo(newData).then((res)=>{
-            console.log(res)
-        })
-    },[newData])
+    useEffect(() => {
+        // mypageApi.editUserInfo(newData).then((res) => {
+        //     nicknameClose();
+        //     setNickname("");
+        //     console.log(res);
+        // });
+    }, [newData]);
 
-    const logoutHandler = async () => {
-        await mypageApi.logout().then((res) => {
-            logoutClose();
-            navigate("/");
-        });
+    const logoutHandler = () => {
+        logout();
+        logoutClose();
     };
 
-     const accountHandler = async () => {
-        await mypageApi.deleteUser().then((res)=>{
+    const accountHandler = async () => {
+        await mypageApi.deleteUser().then((res) => {
             accountClose();
-            console.log(res)
-        })
+            console.log(res);
+        });
     };
 
     return (

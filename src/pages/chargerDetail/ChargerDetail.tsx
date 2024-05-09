@@ -15,33 +15,35 @@ import BottomSheet from "@/components/common/bottomSheet/BottomSheet";
 import EditIcon from "@/components/common/icons/EditIcon";
 import DeleteIcon from "@/components/common/icons/DeleteIcon";
 import StickButton from "@/components/common/stickyButton/StickyButton";
-import { useChargerDetail, useCreateFavorite } from "@/hooks/queries/charger";
+import { useChargerDetail } from "@/hooks/queries/charger";
 import PhotoSlider from "@/components/common/photoSlider/PhotoSlider";
 import chargerApi from "@/apis/charger";
+import useCheckUserInfo from "@/hooks/useCheckUserInfo";
+import { Confirm } from "@/components/common/confirmDialog/ConfirmDialog.style";
+import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 
 export default function ChargerDetail() {
     const navigate = useNavigate();
     const { open, close, isOpen } = useToggle(false);
+    const { open : loginOpen , close :loginClose, isOpen:loginIsOpen } = useToggle(false);
     const { id } = useParams();
     const chargerId = Number(id);
-    const { data, isLoading, isError } = useChargerDetail(chargerId, 1);
+    const { user } = useCheckUserInfo();
+    const { data, isLoading, isError } = useChargerDetail(chargerId);
     const [charger, setCharger] = useState<Charger>();
     const [isPublic, setIsPublic] = useState(true);
+    const [imageList, setImageList] = useState<string[]>([]);
 
     useEffect(() => {
         if (!isLoading && !isError) {
+            data.chargerImageList.forEach((img: any) => {
+                const newImageList = imageList.concat(img.imageUrl);
+                setImageList(newImageList);
+            });
+
+            setCharger(data);
             if (data.chargerRole === "개인") {
-                const [newChargerLocation, newChargerName] =
-                    data.chargerLocation.split("/");
-                const newData = {
-                    ...data,
-                    chargerName: newChargerName,
-                    chargerLocation: `${newChargerLocation} ${data.chargerName}`,
-                };
-                setCharger(newData);
-                setIsPublic(false)
-            } else {
-                setCharger(data);
+                setIsPublic(false);
             }
         }
     }, [data, isLoading, isError]);
@@ -180,10 +182,9 @@ export default function ChargerDetail() {
                 <S.StationInfo>
                     <S.Title>충전소 정보</S.Title>
                     <S.StationContent>
-                        <PhotoSlider
-                            imgs={charger?.chargerImageList || []}
-                            category="charging"
-                        />
+                        {imageList.length !== 0 && (
+                            <PhotoSlider imgs={imageList} category="charging" />
+                        )}
                         <p>{charger?.content}</p>
                     </S.StationContent>
                 </S.StationInfo>
@@ -199,7 +200,7 @@ export default function ChargerDetail() {
                 </div>
 
                 {charger?.reviewList && charger?.reviewList.length !== 0 ? (
-                    charger?.reviewList.map((review) => {
+                    charger?.reviewList.slice(0, 3).map((review) => {
                         return (
                             <ReviewItem
                                 key={review.id}
@@ -224,19 +225,18 @@ export default function ChargerDetail() {
                 <StickButton
                     text="문의하기"
                     onClick={() => {
-                        console.log("채팅으로이동");
+                        navigate(`/chat-list/`)
                     }}
                 />
             ) : (
                 <></>
             )}
-
             {isOpen && (
                 <BottomSheet open={isOpen} close={close}>
                     <S.ButtomList>
                         <S.ButtomItem
                             onClick={() => {
-                                navigate(`/charger/${1}/edit`);
+                                navigate(`/charger/${chargerId}/edit`);
                             }}>
                             <EditIcon />
                             수정하기

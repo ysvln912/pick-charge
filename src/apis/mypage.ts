@@ -13,17 +13,20 @@ const mypageApi = {
     async logout() {
         try {
             const response = await api.post(`/user/logout`);
-            logout();
             return response;
         } catch (error) {
             console.log(error);
             throw error;
         }
     },
-
-    async editUserInfo(newUserInfo : NewUserInfo) {
+    async editUserInfo(newUserInfo: NewUserInfo) {
+        console.log(newUserInfo)
         try {
-            const response = await api.patch(`/user/updateUser`,newUserInfo);
+            const response = await api.patch(`/user/updateUser`, newUserInfo, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             return response;
         } catch (error) {
             console.log(error);
@@ -33,13 +36,13 @@ const mypageApi = {
 
     async deleteUser() {
         try {
-            const response = await api.delete('/user')
+            const response = await api.delete("/user");
             return response;
         } catch (error) {
             console.log(error);
             throw error;
         }
-    }
+    },
 };
 
 export default mypageApi;
