@@ -29,18 +29,18 @@ export default function ChargerMap({
     setMapCenter,
 }: ChargerProps) {
     const [isStationOpen, setStationOpen] = useState(false);
-    const [stationId, setStationId] = useState(-1);
+    const [stationId, setStationId] = useState(0);
     const { open, close, isOpen } = useToggle(false);
 
     function markerClickHandler(i: number) {
-        console.log(i);
+        console.log(`마커클릭 i ${i}`);
         setStationOpen(true);
-        setStationId(i - 1);
+        setStationId(i);
     }
 
     function mapClickHandler() {
         setStationOpen(false);
-        setStationId(-1);
+        setStationId(0);
     }
 
     useEffect(() => {
@@ -89,6 +89,8 @@ export default function ChargerMap({
             );
         });
     }, [info]);
+
+    console.log(info)
 
     return (
         <>
