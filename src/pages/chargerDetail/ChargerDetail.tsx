@@ -24,7 +24,7 @@ export default function ChargerDetail() {
     const { open, close, isOpen } = useToggle(false);
     const { id } = useParams();
     const chargerId = Number(id);
-    const { data, isLoading, isError } = useChargerDetail(chargerId, 1);
+    const { data, isLoading, isError } = useChargerDetail(chargerId);
     const [charger, setCharger] = useState<Charger>();
     const [isPublic, setIsPublic] = useState(true);
 
@@ -75,6 +75,8 @@ export default function ChargerDetail() {
     function LikeButton() {
         return <IconButton icon="like" onClick={handleLike} />;
     }
+
+    console.log(charger?.myChargerCheck)
     return (
         <S.ChargerContainer>
             <TopNavigationBar
