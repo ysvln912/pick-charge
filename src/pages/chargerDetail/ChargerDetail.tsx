@@ -30,18 +30,9 @@ export default function ChargerDetail() {
 
     useEffect(() => {
         if (!isLoading && !isError) {
-            if (data.chargerRole === "개인") {
-                const [newChargerLocation, newChargerName] =
-                    data.chargerLocation.split("/");
-                const newData = {
-                    ...data,
-                    chargerName: newChargerName,
-                    chargerLocation: `${newChargerLocation} ${data.chargerName}`,
-                };
-                setCharger(newData);
+            setCharger(data);
+            if(data.chargerRole==="개인"){
                 setIsPublic(false)
-            } else {
-                setCharger(data);
             }
         }
     }, [data, isLoading, isError]);
