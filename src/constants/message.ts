@@ -18,6 +18,7 @@ const MESSAGE = {
     FAILURE: "리뷰 저장에 실패했어요.",
     REQUIRE: "필수 입력 항목입니다.",
     DELETE: "삭제 되었어요.",
+    CANCEL: "리뷰 작성을 취소할까요?",
   },
   LOGIN: {
     SUCCESS: "로그인 되었어요",
