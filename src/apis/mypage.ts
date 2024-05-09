@@ -13,14 +13,12 @@ const mypageApi = {
     async logout() {
         try {
             const response = await api.post(`/user/logout`);
-            logout();
             return response;
         } catch (error) {
             console.log(error);
             throw error;
         }
     },
-
     async editUserInfo(newUserInfo: NewUserInfo) {
         console.log(newUserInfo)
         try {
