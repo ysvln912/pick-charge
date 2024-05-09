@@ -65,4 +65,41 @@ const useGetUserInfo = () => {
   return { data, ...rest };
 };
 
-export { useSignUp, useLogin, useGetUserInfo };
+const useSendMail = () => {
+  const { triggerToast } = useToast();
+  const { mutate, ...rest } = useMutation({
+    mutationFn: (data: { email: string }) => userApi.sendMail(data),
+    onSuccess: () => {},
+    onError: (error: AxiosError<string>) => {
+      if (error) {
+        triggerToast(MESSAGE.SIGNUP.EMAIL, "error");
+      }
+    },
+  });
+
+  return {
+    sendMail: mutate,
+    ...rest,
+  };
+};
+
+const useCheckCode = () => {
+  const { triggerToast } = useToast();
+  const { mutate, ...rest } = useMutation({
+    mutationFn: (data: { email: string; authNum: string }) =>
+      userApi.checkAuthMail(data),
+    onSuccess: () => {},
+    onError: (error: AxiosError) => {
+      if (error) {
+        triggerToast(MESSAGE.SIGNUP.CODE, "error");
+      }
+    },
+  });
+
+  return {
+    checkCode: mutate,
+    ...rest,
+  };
+};
+
+export { useSignUp, useLogin, useGetUserInfo, useSendMail, useCheckCode };

@@ -60,7 +60,6 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
       try {
         const response = await userApi.checkUserNickName(formState.nickname);
         if (response) return triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
-        // console.log(response);
         setIsNickNameVerified(true);
       } catch (error) {
         triggerToast(MESSAGE.ERROR.DEFAULT, "error");

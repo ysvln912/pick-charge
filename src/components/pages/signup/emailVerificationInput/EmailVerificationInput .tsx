@@ -8,8 +8,10 @@ import ErrorMessage from "@/components/common/errorMessage/ErrorMessage";
 import Button from "@/components/common/button/Button";
 import Timer from "../timer/Timer";
 import { ColorType } from "@/types";
+import EmailLoading from "./emailLoading/EmailLoading";
 
 interface EmailVerificationInputProps {
+  isLoading?: boolean;
   isVerified?: boolean;
   inputDisabled?: boolean;
   error?: string;
@@ -29,6 +31,7 @@ interface EmailVerificationInputProps {
 const TIMERMINUTES = 3;
 
 export default function EmailVerificationInput({
+  isLoading = false,
   isVerified = false,
   disabled = false,
   label,
@@ -58,6 +61,11 @@ export default function EmailVerificationInput({
           {timer && (
             <Input.Right>
               <Timer minutes={TIMERMINUTES} setIsTimeOver={setIsTimeOver} />
+            </Input.Right>
+          )}
+          {isLoading && (
+            <Input.Right>
+              <EmailLoading />
             </Input.Right>
           )}
         </Input.Base>
