@@ -52,7 +52,7 @@ export default function ChargerReviewList() {
           <span>{data?.pages[0].totalReviews}</span>개의 리뷰
         </S.Title>
         <S.Content>
-          {data?.pages[0].reviews.length == 0 && (
+          {data?.pages[0].totalReviews == 0 && (
             <S.EmptyText>
               <p>아직 리뷰가 없어요!</p>
               <span>충전소에 대한 경험을 공유해 주세요.</span>

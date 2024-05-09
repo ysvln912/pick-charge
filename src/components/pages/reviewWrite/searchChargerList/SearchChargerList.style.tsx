@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { flexAlignCenter } from "@/styles/common";
 
 export const Input = styled.div``;
 
 export const List = styled.div`
-  padding-bottom: 4rem;
+  padding: 0.8rem 24px 4.5rem;
+  overflow: auto;
 `;

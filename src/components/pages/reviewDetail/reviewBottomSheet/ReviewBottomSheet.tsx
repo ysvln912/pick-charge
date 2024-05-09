@@ -28,8 +28,8 @@ export default function ReviewBottomSheet({
     try {
       await reviewApi.deleteReview(reviewId);
       triggerToast(MESSAGE.REVIEW.DELETE, "success");
-      confirmClose();
       navigate(-2);
+      confirmClose();
     } catch (err) {
       triggerToast(MESSAGE.ERROR.DEFAULT, "error");
     }
