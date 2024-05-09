@@ -182,7 +182,7 @@ export default function ReviewEditContent({
           deletePhoto={deletePhoto}
         />
       </S.Container>
-      <StickButton text="작성완료" onClick={handleSubmit} />
+      <StickButton position="write" text="작성완료" onClick={handleSubmit} />
     </>
   );
 }
