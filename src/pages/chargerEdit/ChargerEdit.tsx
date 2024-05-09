@@ -25,6 +25,8 @@ import {
 } from "@/types/myCharger";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import myChargerApi from "@/apis/myCharger";
+import MESSAGE from "@/constants/message";
+import { useToast } from "@/hooks/useToast";
 
 export default function ChargerEdit() {
   const currentUrl = window.location.href;
@@ -59,6 +61,7 @@ export default function ChargerEdit() {
     fare: { isError: false, errorMessage: "" },
     chargerType: { isError: false, errorMessage: "" },
   });
+  const { triggerToast } = useToast();
 
   const conversionToFileData = async (chargerImageList: IchargerImage[]) => {
     const filePromises = chargerImageList.map(async (file) => {
@@ -209,7 +212,13 @@ export default function ChargerEdit() {
       myChargerApi
         .patchMyCharger(data, chargerId)
         .then((res) => navigate(`/charger/detail/${res.chargerId}`))
-        .catch(() => alert("충전소 수정이 실패하였습니다."));
+        .catch((error) => {
+          if (error.response.status === 413) {
+            triggerToast(MESSAGE.ERROR.FILE_SIZE, "error");
+            return;
+          }
+          alert("충전소 등록이 실패하였습니다.");
+        });
     }
   };
 
