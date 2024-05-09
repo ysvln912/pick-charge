@@ -1,5 +1,4 @@
 import { RouterProvider } from "react-router-dom";
-import { CookiesProvider } from "react-cookie";
 import { ThemeProvider } from "styled-components";
 import ToastProvider from "@/components/common/toast/provider/ToastProvider.tsx";
 import GlobalStyles from "./styles/global.ts";
@@ -13,17 +12,15 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <CookiesProvider>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <GlobalStyles />
-            <ToastProvider>
-              <RouterProvider router={router} />
-            </ToastProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </QueryClientProvider>
-        </ThemeProvider>
-      </CookiesProvider>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyles />
+          <ToastProvider>
+            <RouterProvider router={router} />
+          </ToastProvider>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </QueryClientProvider>
+      </ThemeProvider>
     </>
   );
 }
