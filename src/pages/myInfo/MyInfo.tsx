@@ -58,10 +58,10 @@ export default function MyInfo() {
             };
         }
     };
-    console.log(user);
+  
 
     const modifyNickname = () => {
-        nicknameClose();
+       
         setNewData((prevData) => ({
             ...prevData,
             userUpdateDto: {
@@ -84,6 +84,8 @@ export default function MyInfo() {
 
     useEffect(()=>{
         mypageApi.editUserInfo(newData).then((res)=>{
+            nicknameClose();
+            setNickname("")
             console.log(res)
         })
     },[newData])
