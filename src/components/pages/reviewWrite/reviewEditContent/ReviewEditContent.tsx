@@ -3,14 +3,11 @@
 import * as S from "./ReviewEditContent.style";
 
 import { useState, useEffect } from "react";
-import { useAtom } from "jotai";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/useToast";
+import { useAtom } from "jotai";
 
-import { ReviewImage } from "@/types/review";
-import { IchargerImage } from "@/types/myCharger";
 import { reviewAtom } from "@/atoms/reviewAtom";
-import { userAtom } from "@/atoms/userAtom";
+import { useToast } from "@/hooks/useToast";
 import MESSAGE from "@/constants/message";
 import SearchChargerInput from "../searchChargerInput/SearchChargerInput";
 import Label from "@/components/common/label/Label";
@@ -48,21 +45,32 @@ export default function ReviewEditContent({
 
   const { chargerId, content, rating, chargerName } = review;
 
+  const conversionToFileData = async (chargerImageList: any) => {
+    const filePromises = chargerImageList.map(
+      async (file: RequestInfo | URL, idx: number) => {
+        const res = await fetch(file);
+        const blob = await res.blob();
+        return new File([blob], `image_${idx}`, {
+          type: blob.type,
+        });
+      }
+    );
+    const photoList = await Promise.all(filePromises);
+    setPhotos(photoList);
+  };
+
+  useEffect(() => {
+    if (submitType === "chargerName" && review.imgUrl) {
+      conversionToFileData(review.imgUrl);
+    }
+  }, [review.imgUrl, submitType]);
+
   const updatePhoto = (photo: File) => {
     setPhotos((prev) => [...prev, photo]);
-
-    setReview((prev) => {
-      const updatedImgUrl = prev.imgUrl ? [...prev.imgUrl, photo] : [photo];
-      return { ...prev, imgUrl: updatedImgUrl };
-    });
   };
 
   const deletePhoto = (photos: File[]) => {
     setPhotos(photos);
-    setReview((prev) => {
-      const updatedImgUrl = photos;
-      return { ...prev, imgUrl: updatedImgUrl };
-    });
   };
 
   const createFormData = (data: object) => {
@@ -83,13 +91,15 @@ export default function ReviewEditContent({
     setReview((prev) => ({ ...prev, [name]: value }));
   };
 
-  const isFormValid = submitType && content && content.length <= 500;
+  const isFormValid =
+    submitType && content && content.trim().length && content.length <= 200;
+
   const handleSubmit = async () => {
     if (!isFormValid) {
       setError({
         chargerId: chargerId ? "" : MESSAGE.REVIEW.REQUIRE,
         chargerName: chargerName ? "" : MESSAGE.REVIEW.REQUIRE,
-        content: content ? "" : MESSAGE.REVIEW.REQUIRE,
+        content: content && content.trim().length ? "" : MESSAGE.REVIEW.REQUIRE,
       });
       return;
     }
@@ -148,7 +158,7 @@ export default function ReviewEditContent({
         </S.Box>
         <S.Box>
           <Textarea
-            maxLength={500}
+            maxLength={200}
             require
             name="content"
             label="내용"
