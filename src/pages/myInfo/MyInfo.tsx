@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
@@ -11,8 +12,11 @@ import { useToggle } from "@/hooks/useToggle";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import Textarea from "@/components/common/textarea/Textarea";
 import CameraIcon from "@/components/common/icons/CameraIcon";
+import mypageApi, { NewUserInfo } from "@/apis/mypage";
+import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 
 export default function MyInfo() {
+    const navigate = useNavigate();
     const {
         open: logoutOpen,
         close: logoutClose,
@@ -23,37 +27,23 @@ export default function MyInfo() {
         close: accountClose,
         isOpen: accountIsOpen,
     } = useToggle(false);
-    const user = {
-        user_id: 1,
-        userName: "JohnDoe",
-        address: "123 Main St, Anytown",
-        email: "john.doe@example.com",
-        password: "hashedpassword123",
-        phone_number: "123-456-7890",
-        role: "admin",
-        chargerType: "fast",
-        nickname: "johnd",
-        profileImage: "profile.jpg",
-        resign_reason: "Moving to another city",
-        resign: false,
-    };
+    const { user } = useCheckUserInfo();
 
     const [nickname, setNickname] = useState<string>("");
+    const [imgFile, setImgFile] = useState<string | null>("");
+    const imgRef = useRef<HTMLInputElement>(null);
     const {
         open: nicknameOpen,
         close: nicknameClose,
         isOpen: nicknameIsOpen,
     } = useToggle(false);
-
-    const modifyNickname = () => {
-        nicknameClose();
-        console.log(
-            `${nickname}으로 정보수정 api 요청 후 유저정보 다시 받아오기`
-        );
-    };
-
-    const [imgFile, setImgFile] = useState<string | undefined>("");
-    const imgRef = useRef<HTMLInputElement>(null);
+    const [newData, setNewData] = useState<NewUserInfo>({
+        file: user.profileImage || "",
+        userUpdateDto: {
+            nickname: user.nickName,
+            profileImage: user.profileImage || "",
+        },
+    });
 
     // 이미지 업로드 input의 onChange
     const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -68,10 +58,49 @@ export default function MyInfo() {
             };
         }
     };
+    console.log(user);
+
+    const modifyNickname = () => {
+        nicknameClose();
+        setNewData((prevData) => ({
+            ...prevData,
+            userUpdateDto: {
+                ...prevData.userUpdateDto,
+                nickname: nickname,
+            },
+        }));
+    };
 
     useEffect(() => {
-        console.log(`api 요청 후 유저정보 다시 받아오기`);
+        setNewData((prevData) => ({
+            ...prevData,
+            file: imgFile || "", 
+            userUpdateDto: {
+              ...prevData.userUpdateDto,
+              profileImage: imgFile || "", 
+            }
+          }));
     }, [imgFile]);
+
+    useEffect(()=>{
+        mypageApi.editUserInfo(newData).then((res)=>{
+            console.log(res)
+        })
+    },[newData])
+
+    const logoutHandler = async () => {
+        await mypageApi.logout().then((res) => {
+            logoutClose();
+            navigate("/");
+        });
+    };
+
+     const accountHandler = async () => {
+        await mypageApi.deleteUser().then((res)=>{
+            accountClose();
+            console.log(res)
+        })
+    };
 
     return (
         <S.UserInfoContainer>
@@ -94,7 +123,7 @@ export default function MyInfo() {
                     />
                 </S.ProfileContainer>
                 <S.ProfileInfoContainer>
-                    <S.NicknamePara>{user.nickname}</S.NicknamePara>
+                    <S.NicknamePara>{user.nickName}</S.NicknamePara>
                     <S.EmailPara>{user.email}</S.EmailPara>
                 </S.ProfileInfoContainer>
                 <S.InputContainer>
@@ -102,17 +131,20 @@ export default function MyInfo() {
                         label="이메일"
                         name="email"
                         value={user.email}
+                        inputDisabled={true}
                     />
                     <LabelInput
                         label="이름"
                         name="name"
-                        value={user.userName}
+                        value={user.username}
+                        inputDisabled={true}
                     />
                     <S.EditContainer>
                         <LabelInput
                             label="닉네임"
                             name="nickname"
-                            value={user.nickname}
+                            value={user.nickName}
+                            readOnly={true}
                         />
                         <Button
                             size="sm"
@@ -140,7 +172,7 @@ export default function MyInfo() {
                     <LabelInput
                         label="닉네임수정"
                         name="nickname"
-                        placeholder={user.nickname}
+                        placeholder={user.nickName}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                     />
@@ -151,9 +183,7 @@ export default function MyInfo() {
                     title="로그아웃할까요?"
                     type="confirm"
                     confirmButton="확인"
-                    confirmOnClick={() => {
-                        console.log("로그아웃");
-                    }}
+                    confirmOnClick={logoutHandler}
                     cancelButton="취소"
                     cancelOnClick={logoutClose}
                     open={logoutIsOpen}
@@ -164,9 +194,7 @@ export default function MyInfo() {
                     title="탈퇴하기"
                     type="dialog"
                     confirmButton="완료"
-                    confirmOnClick={() => {
-                        console.log("완료");
-                    }}
+                    confirmOnClick={accountHandler}
                     cancelButton="다시 생각해 볼게요"
                     cancelOnClick={accountClose}
                     open={accountIsOpen}>
