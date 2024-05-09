@@ -17,7 +17,6 @@ export default function ManagingCharger() {
     queryKey: ["myChargerList", id],
     queryFn: myChargerApi.getMyCharger,
   });
-
   return (
     <S.Container>
       <TopNavigationBar
@@ -40,7 +39,10 @@ export default function ManagingCharger() {
           })}
         </>
       ) : (
-        <S.NoInfo>등록한 충전기가 없습니다</S.NoInfo>
+        <S.EmptyText>
+          <p>등록된 충전기가 없습니다</p>
+          <span>충전소 등록으로 수익을 창출해 보세요!</span>
+        </S.EmptyText>
       )}
     </S.Container>
   );
