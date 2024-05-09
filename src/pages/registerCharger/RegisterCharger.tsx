@@ -109,8 +109,8 @@ export default function RegisterCharger() {
     const formData = new FormData();
 
     const jsonData = {
-      chargerLocation: `${chargerInfo.address.location}/${chargerInfo.address.name}`,
-      chargerName: chargerInfo.detailed,
+      chargerLocation: chargerInfo.address.location,
+      chargerName: `${chargerInfo.address.name}/${chargerInfo.detailed}`,
       chargingSpeed: chargerInfo.speed,
       latitude: 0,
       longitude: 0,
