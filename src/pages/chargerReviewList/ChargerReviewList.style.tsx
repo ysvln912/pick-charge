@@ -31,6 +31,6 @@ export const EmptyText = styled.div`
 
 export const Wrapper = styled.div`
   animation-name: ${fadeIn};
-  animation-duration: 1s;
+  animation-duration: 0.2s;
   animation-fill-mode: forwards;
 `;
