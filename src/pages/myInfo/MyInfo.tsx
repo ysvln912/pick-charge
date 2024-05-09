@@ -100,17 +100,20 @@ export default function MyInfo() {
                         label="이메일"
                         name="email"
                         value={user.email}
+                        inputDisabled={true}
                     />
                     <LabelInput
                         label="이름"
                         name="name"
                         value={user.username}
+                        inputDisabled={true}
                     />
                     <S.EditContainer>
                         <LabelInput
                             label="닉네임"
                             name="nickname"
                             value={user.nickName}
+                            readOnly={true}
                         />
                         <Button
                             size="sm"
