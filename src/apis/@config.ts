@@ -9,7 +9,7 @@ const apiBaseUrl = "/api";
 export const api = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
-  timeout: 3000,
+  timeout: 5000,
 });
 
 // 요청
