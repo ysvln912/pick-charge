@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export const Wrapper = styled(motion.div)`
   width: 390px;
   height: 100%;
-  z-index: 9999; // ToDo: z-index 값 수정하기
+  z-index: ${({ theme }) => theme.ZINDEX.overlay};
   position: fixed;
   top: 0;
   left: 50%;
