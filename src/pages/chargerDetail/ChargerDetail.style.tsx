@@ -20,12 +20,7 @@ export const ChargerContainer = styled.div`
 
 export const ChargerOverview = styled(StyledDiv)``;
 
-export const ChargerCompany = styled.div`
-    margin: 0.3rem;
-    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
-    color: ${({ theme }) => theme.PALETTE.gray[400]};
-`;
+
 
 export const ChargerAddress = styled.div`
     margin: 0.3rem;
