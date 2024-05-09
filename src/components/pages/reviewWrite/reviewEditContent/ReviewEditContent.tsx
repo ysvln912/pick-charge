@@ -48,7 +48,8 @@ export default function ReviewEditContent({
   const conversionToFileData = async (chargerImageList: any) => {
     const filePromises = chargerImageList.map(
       async (file: RequestInfo | URL, idx: number) => {
-        const res = await fetch(file);
+        // const res = await fetch(file);
+        const res = await fetch(file + "?" + new Date().getTime());
         const blob = await res.blob();
         return new File([blob], `image_${idx}`, {
           type: blob.type,
