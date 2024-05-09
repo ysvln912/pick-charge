@@ -17,9 +17,12 @@ import SignUpForm from "@/components/pages/signup/form/Form";
 
 import MESSAGE from "@/constants/message";
 
+import userApi from "@/apis/user";
 import { useToast } from "@/hooks/useToast";
+import { useSendMail, useCheckCode } from "@/hooks/queries/user";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { UserType } from "@/types";
+import Loading from "@/components/common/loading/Loading";
 interface AccountFormProps {
   setData: Dispatch<SetStateAction<UserType>>;
   onNext: () => void;
@@ -30,6 +33,8 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
+  const { sendMail, isPending } = useSendMail();
+  const { checkCode } = useCheckCode();
   const { triggerToast } = useToast();
 
   const initialState = {
@@ -39,7 +44,7 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
     passwordCheck: "",
   };
 
-  const { formState, handleInputChange, error, handleSubmit } =
+  const { formState, handleInputChange, error } =
     useFormValidation(initialState);
 
   const isEmailInvalid = !!error.email || !formState.email;
@@ -50,36 +55,27 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
     formState.passwordCheck &&
     isCodeVerified;
 
-  const handleSendEmail = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSendEmail = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isCodeVerified) return;
     if (!isEmailInvalid) {
-      try {
-        // await authApi.sendEmail({ email: formState.email });
-        setIsCodeSent(true);
-        setIsTimeOver(false);
-        console.log("이메일 코드 전송 성공");
-      } catch (error) {
-        // 에러 메세지
-        triggerToast(MESSAGE.SIGNUP.EMAIL, "error");
-      }
+      sendMail({ email: formState.email });
+      setIsCodeSent(true);
+      setIsTimeOver(false);
     }
   };
 
-  const handleCheckCode = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleCheckCode = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isCodeVerified) return;
-    if (!isCodeInvalid && !isTimeOver) {
-      try {
-        // await authApi.checkCode({ code: formState.code });
-        setIsCodeVerified(true);
-        setIsCodeSent(false);
-        setIsTimeOver(false);
-        console.log("이메일 인증 성공");
-      } catch (error) {
-        // 에러 메세지에 따라 ~ 코드가 올바르지 않습니다 등~
-        triggerToast(MESSAGE.SIGNUP.CODE, "error");
-      }
+    if (!isCodeInvalid && !isTimeOver && !isPending) {
+      checkCode({
+        email: formState.email,
+        authNum: formState.code,
+      });
+      setIsCodeVerified(true);
+      setIsCodeSent(false);
+      setIsTimeOver(false);
     }
   };
 
@@ -112,8 +108,10 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
         disabled={
           isEmailInvalid || (isCodeSent && !isTimeOver) || isCodeVerified
         }
+        isLoading={isPending}
         onClick={handleSendEmail}
       />
+
       <EmailVerificationInput
         name="code"
         setIsTimeOver={setIsTimeOver}
@@ -123,9 +121,9 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
         onChange={handleInputChange("code")}
         placeholder="인증코드를 입력해 주세요."
         error={error.code}
-        disabled={!isCodeSent || isTimeOver || isCodeVerified}
-        inputDisabled={!isCodeSent || isTimeOver || isCodeVerified}
-        timer={isCodeSent && !isTimeOver}
+        disabled={!isCodeSent || isTimeOver || isCodeVerified || isPending}
+        inputDisabled={!isCodeSent || isTimeOver || isCodeVerified || isPending}
+        timer={isCodeSent && !isTimeOver && !isPending}
         onClick={handleCheckCode}
       />
       <LabelInput
