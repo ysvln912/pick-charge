@@ -29,6 +29,7 @@ const MESSAGE = {
     DEFAULT: "문제가 발생했어요. 관리자에게 문의해 주세요!",
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
     WRONG: "잘못된 접근입니다.",
+    FILE_SIZE: "사진 사이즈가 너무 큽니다!",
   },
 } as const;
 
