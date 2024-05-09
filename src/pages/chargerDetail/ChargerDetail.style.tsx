@@ -119,7 +119,6 @@ export const StationContent = styled.div`
 export const ChargerReview = styled.div`
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  height: 240px;
   .reviewTitle {
     display: flex;
     justify-content: space-between;
