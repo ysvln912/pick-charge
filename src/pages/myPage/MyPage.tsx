@@ -17,7 +17,7 @@ export default function MyPage() {
             <TopNavigationBar text="마이페이지" />
             <S.UserInfo>
                 <div className="info-container">
-                    <img src={profile} alt="프로필이미지" />
+                    <img src={user.profileImage || profile} alt="프로필이미지" />
                     <div className="info-content">
                         <p className="user-name">{user.nickName}님</p>
                         <p className="user-email">{user.email}</p>
