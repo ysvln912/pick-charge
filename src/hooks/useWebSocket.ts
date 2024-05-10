@@ -18,9 +18,6 @@ function useWebSocket(onMessage?: MessageHandler) {
     messageHandler.current = onMessage;
   }, [onMessage]);
 
-  // WebSocket 연결
-  // 서버주소: wss://pikacharger.store/ws/
-  // room id에 chatlog-user.id
   useEffect(() => {
     if (!token) {
       console.log("토큰이 없어서 웹소켓 연결을 시작할 수 없습니다.");
@@ -60,9 +57,6 @@ function useWebSocket(onMessage?: MessageHandler) {
 
   const sendMessage = useCallback(
     (message: string) => {
-      // 웹소켓이 열려있다면 메시지 보내기
-      // 연결할때 구분하기 or 메시지 보낼때마다 구분하기
-      // url에 구분자를 보내거나, key값 메시지 인자로 보내기
       if (socket?.readyState === WebSocket.OPEN) {
         socket.send(message);
       }
