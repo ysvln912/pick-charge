@@ -43,7 +43,6 @@ export default function MyInfo() {
         file: user.profileImage || "",
         userUpdateDto: {
             nickname: user.nickName,
-            profileImage: user.profileImage || "",
         },
     });
 
@@ -65,7 +64,6 @@ export default function MyInfo() {
         setNewData((prevData) => ({
             ...prevData,
             userUpdateDto: {
-                ...prevData.userUpdateDto,
                 nickname: nickname,
             },
         }));
@@ -75,19 +73,15 @@ export default function MyInfo() {
         setNewData((prevData) => ({
             ...prevData,
             file: imgFile || "",
-            userUpdateDto: {
-                ...prevData.userUpdateDto,
-                profileImage: imgFile || "",
-            },
         }));
     }, [imgFile]);
 
     useEffect(() => {
-        // mypageApi.editUserInfo(newData).then((res) => {
-        //     nicknameClose();
-        //     setNickname("");
-        //     console.log(res);
-        // });
+        mypageApi.editUserInfo(newData).then((res) => {
+            nicknameClose();
+            setNickname("");
+            console.log(res);
+        });
     }, [newData]);
 
     const logoutHandler = () => {

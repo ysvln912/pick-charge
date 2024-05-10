@@ -14,11 +14,8 @@ import { useToggle } from "@/hooks/useToggle";
 import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
 import { useNavigate } from "react-router-dom";
 
-
 export default function MyFavorites() {
     const navigate = useNavigate();
-    const { open, close, isOpen } = useToggle(false);
-    const [stationId, setStationId] = useState(-1);
     const [mapCenter, setMapCenter] = useState<MapCenter>({
         lat: 0,
         lon: 0,
@@ -51,21 +48,25 @@ export default function MyFavorites() {
         }
     }, []);
 
-    const handleStationClick = (chargerStation : ChargerStation)=>{
-        setStationId(
-            chargerStation.chargerGroupId - 1
-        );
+    const handleStationClick = (chargerStation: ChargerStation) => {
         setMapCenter({
             lat: chargerStation.chargers[0].latitude,
             lon: chargerStation.chargers[0].longitude,
-        })
-    }
+        });
+    };
 
     return (
         <>
             <TopNavigationBar
                 text="즐겨찾는 충전소"
-                leftBtn={<IconButton icon={"arrowLeft"} onClick={()=>{navigate(-1)}}/>}
+                leftBtn={
+                    <IconButton
+                        icon={"arrowLeft"}
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    />
+                }
             />
             <S.Container>
                 <ChargerMap
@@ -85,44 +86,28 @@ export default function MyFavorites() {
                     </S.TitleWrapper>
 
                     <S.FavoriteList>
-                        <S.FavoriteItem>
-                            {chargerInfo.map((chargerStation)=>{
-                                return (<div
-                                    key={chargerStation.chargerGroupId}
-                                    onClick={()=>{handleStationClick(chargerStation)}}>
-                                    <ChargerStationSummary
-                                        viewstyle="list"
-                                        chargerStation={chargerStation}
-                                        open={open}
-                                    />
-                                </div>)
-                            })}
-                            {isOpen && chargerInfo[stationId] && (
-                            <ChargerListDetail
-                                chargers={chargerInfo[stationId].chargers}
-                                close={close}
-                                open={isOpen}
-                            />
-                        )}
-                            {/* {chargerInfo.map((chargerStation) => {
-                                return chargerStation.chargers.map((charger) => {
+                        {!chargerInfo || chargerInfo.length === 0 ? (
+                            <>자주가는 충전소를 등록해 보세요!</>
+                        ) : (
+                            <S.FavoriteItem>
+                                {chargerInfo.map((chargerStation) => {
                                     return (
-                                        <ChargingInfo
-                                            info={charger}
-                                            like={true}
-                                            tag={true}
-                                            border="bottom"
+                                        <div
+                                            key={chargerStation.chargerGroupId}
                                             onClick={() => {
-                                                setMapCenter({
-                                                    lat: data.latitude,
-                                                    lon: data.longitude,
-                                                });
-                                            }}
-                                        />
+                                                handleStationClick(
+                                                    chargerStation
+                                                );
+                                            }}>
+                                            <ChargerStationSummary
+                                                viewstyle="list"
+                                                chargerStation={chargerStation}
+                                            />
+                                        </div>
                                     );
-                                });
-                            })} */}
-                        </S.FavoriteItem>
+                                })}
+                            </S.FavoriteItem>
+                        )}
                     </S.FavoriteList>
                 </S.Content>
             </S.Container>
