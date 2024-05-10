@@ -9,9 +9,11 @@ const MESSAGE = {
   SIGNUP: {
     FAILURE: "회원 가입에 실패했습니다.",
     CODE: "코드가 올바르지 않습니다. 다시 시도해주세요.",
+    CODE_SUCCESS: "이메일이 인증되었어요.",
     EMAIL: "이미 사용 중인 이메일 입니다.",
     TIMER: "제한 시간이 지났습니다. 다시 인증 요청해주세요.",
-    NICKNAME: "이미 사용 중인 닉네임 입니다.",
+    NICKNAME_FAIL: "이미 사용 중인 닉네임 입니다.",
+    NICKNAME_SUCCESS: "사용 가능한 닉네임 입니다.",
   },
   REVIEW: {
     SUCCESS: "리뷰가 저장되었어요.",

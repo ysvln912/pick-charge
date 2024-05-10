@@ -46,7 +46,6 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
     setChargerType(value);
   };
 
-  const isNameInvalid = !!error.name || !formState.username;
   const isFormValid =
     !Object.keys(error).length &&
     formState.username &&
@@ -54,12 +53,16 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
     isNickNameVerified &&
     chargerType;
 
+  const isNickNameInvalid = !!error.nickname || !formState.nickname;
+
   const handleCheckNickName = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!isNameInvalid) {
+    if (!isNickNameInvalid) {
       try {
         const response = await userApi.checkUserNickName(formState.nickname);
-        if (response) return triggerToast(MESSAGE.SIGNUP.NICKNAME, "error");
+        triggerToast(MESSAGE.SIGNUP.NICKNAME_SUCCESS, "success");
+        if (response)
+          return triggerToast(MESSAGE.SIGNUP.NICKNAME_FAIL, "error");
         setIsNickNameVerified(true);
       } catch (error) {
         triggerToast(MESSAGE.ERROR.DEFAULT, "error");
@@ -100,7 +103,7 @@ export default function UserInfoForm({ onNext, data }: UserInfoFormProps) {
         onChange={handleInputChange("nickname")}
         onClick={handleCheckNickName}
         inputDisabled={isNickNameVerified}
-        disabled={isNickNameVerified}
+        disabled={isNickNameVerified || isNickNameInvalid}
         value={formState.nickname}
       />
       <SelectCharger value={chargerType} label onChange={handleChangeCharger} />
