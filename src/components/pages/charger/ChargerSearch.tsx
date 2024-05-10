@@ -10,6 +10,8 @@ import { searchAddress } from "@/apis/kakaoSearchAddress";
 import Input from "@/components/common/input/input";
 import LeftIcon from "@/components/common/icons/LeftIcon";
 import { ViewStyle } from "@/types";
+import { SearchDiv } from "@/pages/home/Home.style";
+import SearchIcon from "@/components/common/icons/SearchIcon";
 
 interface ChargerSearchProps {
     searchInfo: SearchInfo;
@@ -69,7 +71,7 @@ export default function ChargerSearch({
                 <Input>
                     <Input.Base>
                         <Input.Left>
-                            <LeftIcon />
+                            <SearchIcon />
                         </Input.Left>
                         <Input.Center
                             placeholder={SEARCH_PLACEHOLDER}
