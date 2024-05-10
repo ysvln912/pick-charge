@@ -25,7 +25,11 @@ import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 export default function ChargerDetail() {
     const navigate = useNavigate();
     const { open, close, isOpen } = useToggle(false);
-    const { open : loginOpen , close :loginClose, isOpen:loginIsOpen } = useToggle(false);
+    const {
+        open: loginOpen,
+        close: loginClose,
+        isOpen: loginIsOpen,
+    } = useToggle(false);
     const { id } = useParams();
     const chargerId = Number(id);
     const { user } = useCheckUserInfo();
@@ -204,7 +208,7 @@ export default function ChargerDetail() {
                         return (
                             <ReviewItem
                                 key={review.id}
-                                date={review.modified_at}
+                                date={review.lastModifiedDate}
                                 address={charger?.chargerName}
                                 rating={String(review.rating)}
                                 review={review.content}
@@ -225,7 +229,7 @@ export default function ChargerDetail() {
                 <StickButton
                     text="문의하기"
                     onClick={() => {
-                        navigate(`/chat-list/`)
+                        navigate(`/chat-list/`);
                     }}
                 />
             ) : (
