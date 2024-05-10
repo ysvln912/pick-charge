@@ -1,20 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-
 import mypageApi from "@/apis/mypage";
 import logout from "@/utils/logout";
-import TokenService from "@/utils/tokenService";
 import useCheckUserInfo from "../useCheckUserInfo";
 
 const useLogout = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { setUser } = useCheckUserInfo();
     const { mutate } = useMutation({
         mutationFn: () => mypageApi.logout(),
         onSuccess: () => {
             logout();
-            TokenService.removeToken();
             setUser({
                 id: null,
                 username: "",
@@ -24,8 +21,9 @@ const useLogout = () => {
                 address: "",
                 phoneNumber: "",
                 profileImage: "",
-              })
-            navigate("/");
+            });
+            // navigate("/");
+            window.location.href = "/";
         },
         onError: (error: AxiosError<string>) => {
             console.log(error);
