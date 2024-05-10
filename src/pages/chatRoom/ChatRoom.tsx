@@ -10,8 +10,9 @@ import * as S from "./ChatRoom.style";
 import MessageForm from "@/components/pages/chatRoom/messageForm/MessageForm";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import getDateFormat from "@/utils/getDateFormat";
 
 export interface IUser {
   name: string;
@@ -25,8 +26,11 @@ export interface IMessage {
 
 export default function ChatRoom() {
   const {
-    state: { card },
+    state: {
+      card: { id, image, name, createdAt },
+    },
   } = useLocation();
+  const navigate = useNavigate();
   const { open, close, isOpen } = useToggle(false);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -47,9 +51,6 @@ export default function ChatRoom() {
 
   // 전체 페이지네이션 개수 상수
   const TOTAL_PAGE_COUNT = 6;
-
-  // 채팅방 생성 날짜 상수
-  const CREATEDAT_CHAT_ROOM = card.createdAt;
 
   const onSubmit = (text: string, createdAt: string) => {
     const message = { text, createdAt, user };
@@ -79,7 +80,7 @@ export default function ChatRoom() {
 
   // infinity query문
   const { data, status, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["chatList", card.id],
+    queryKey: ["chatList", id],
     queryFn: getChatList,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allpages) => {
@@ -103,13 +104,13 @@ export default function ChatRoom() {
               key={index}
               createdAt={chat.createdAt}
               text={chat.text}
-              profileImg={card.image}
+              profileImg={image}
             />
           );
         })
       )
     );
-  }, [data, card.image]);
+  }, [data, image]);
 
   // 채팅방 스크롤 최상단으로 올리면 이전 채팅 내용 GET 요청
   useEffect(() => {
@@ -139,18 +140,20 @@ export default function ChatRoom() {
   return (
     <S.Container>
       <TopNavigationBar
-        leftBtn={<IconButton icon="arrowLeft" />}
-        text="배츠마루"
+        leftBtn={
+          <IconButton icon="arrowLeft" onClick={() => navigate("/chat-list")} />
+        }
+        text={name}
         rightBtn={<IconButton icon="more" onClick={open} />}
       />
       <ChargerInfoBar
-        id="1"
+        id={id}
         image="https://plus.unsplash.com/premium_photo-1661598310312-185fd0630045?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8JUVDJUI2JUE5JUVDJUEwJTg0JUVBJUI4JUIwfGVufDB8fDB8fHww"
-        name="송정동 개인 충전소"
-        address="서울 성동구 동일로 199"
+        name="개인 충전소 이름"
+        address="개인 충전소 주소"
       />
       <S.List ref={chatRoomRef}>
-        <S.CreatedAt ref={ref}>{CREATEDAT_CHAT_ROOM}</S.CreatedAt>
+        <S.CreatedAt ref={ref}>{getDateFormat(createdAt)}</S.CreatedAt>
         {content}
       </S.List>
       <MessageForm text={text} onChange={onChange} onSubmit={onSubmit} />

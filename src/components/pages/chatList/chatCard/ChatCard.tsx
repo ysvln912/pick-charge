@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import * as S from "./ChatCard.style";
 import DefaultProfile from "../defaultProfile/DefaultProfile";
+import getDateFormat from "@/utils/getDateFormat";
 
 export interface ChatCardProps {
   id: string;
-  image: string;
+  image: string | null;
   name: string;
   createdAt: string;
-  text: string;
+  text?: string;
 }
 
 export default function ChatCard({
@@ -15,8 +16,9 @@ export default function ChatCard({
   image,
   name,
   createdAt,
-  text,
+  text = "대화를 기다리고 있어요. 무엇이든 물어보세요!",
 }: ChatCardProps) {
+  const formatCreatedAt = getDateFormat(createdAt);
   const navigate = useNavigate();
   const onClick = () => {
     navigate(`/chat-list/${id}`, {
@@ -31,7 +33,7 @@ export default function ChatCard({
       </S.ProfilePhotoBox>
       <S.Info>
         <div>
-          <S.Name>{name}</S.Name> <S.CreatedAt>{createdAt}</S.CreatedAt>
+          <S.Name>{name}</S.Name> <S.CreatedAt>{formatCreatedAt}</S.CreatedAt>
         </div>
         <S.Text>{text}</S.Text>
       </S.Info>
