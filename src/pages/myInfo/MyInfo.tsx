@@ -12,7 +12,7 @@ import { useToggle } from "@/hooks/useToggle";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import Textarea from "@/components/common/textarea/Textarea";
 import CameraIcon from "@/components/common/icons/CameraIcon";
-import mypageApi, { NewUserInfo } from "@/apis/mypage";
+import mypageApi from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 import { useLogout } from "@/hooks/queries/mypage";
 
@@ -39,12 +39,14 @@ export default function MyInfo() {
         close: nicknameClose,
         isOpen: nicknameIsOpen,
     } = useToggle(false);
-    const [newData, setNewData] = useState<NewUserInfo>({
-        file: user.profileImage || "",
-        userUpdateDto: {
-            nickname: user.nickName,
-        },
-    });
+    const newData = new FormData();
+    const [filter, setFilter] = useState(false);
+    // const [newData, setNewData] = useState<NewUserInfo>({
+    //     file: user.profileImage || "",
+    //     userUpdateDto: {
+    //         nickname: user.nickName,
+    //     },
+    // });
 
     // 이미지 업로드 input의 onChange
     const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,31 +59,39 @@ export default function MyInfo() {
                     setImgFile(reader.result.toString());
                 }
             };
+            newData.append("file", file?.name);
         }
+        // console.log("file", newData.get("file"));
     };
 
     const modifyNickname = () => {
-        setNewData((prevData) => ({
-            ...prevData,
-            userUpdateDto: {
-                nickname: nickname,
-            },
-        }));
+        const userUpdateDto = { nickname: nickname };
+        newData.append(
+            "userUpdateDto",
+            new Blob([JSON.stringify(userUpdateDto)], {
+                type: "application/json",
+            })
+        );
+        nicknameClose();
+        // console.log("userUpdateDto", newData.get("userUpdateDto")?.toString);
     };
 
     useEffect(() => {
-        setNewData((prevData) => ({
-            ...prevData,
-            file: imgFile || "",
-        }));
+        // setNewData((prevData) => ({
+        //     ...prevData,
+        //     file: imgFile || "",
+        // }));
     }, [imgFile]);
 
     useEffect(() => {
-        mypageApi.editUserInfo(newData).then((res) => {
-            nicknameClose();
-            setNickname("");
-            console.log(res);
-        });
+        for (const pair of newData.entries()) {
+            console.log("pair", pair[0], pair[1]);
+            console.log("pair123");
+        }
+        // mypageApi.editUserInfo(newData).then((res) => {
+        //     setNickname("");
+        //     console.log(res);
+        // });
     }, [newData]);
 
     const logoutHandler = () => {
