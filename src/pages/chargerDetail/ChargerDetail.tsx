@@ -72,7 +72,6 @@ export default function ChargerDetail() {
         }
     }, [data, isLoading, isError]);
 
-    console.log(imageList);
 
     function handleLike() {
         if (charger) {
@@ -86,6 +85,9 @@ export default function ChargerDetail() {
     }
 
     function handleEmptyLike() {
+        if(!user.id){
+            loginOpen();
+        }
         if (charger) {
             chargerApi.createFavorite(chargerId).then((res) => {
                 if (res.status === 201) {
@@ -107,6 +109,7 @@ export default function ChargerDetail() {
     }
 
     function EmptyLikeButton() {
+        
         return <IconButton icon="emptyLike" onClick={handleEmptyLike} />;
     }
     function LikeButton() {
@@ -269,6 +272,7 @@ export default function ChargerDetail() {
                     </S.ButtomList>
                 </BottomSheet>
             )}
+            {loginIsOpen && <ConfirmDialog title="로그인이 필요한 서비스입니다." type="confirm" confirmButton="로그인으로 이동" confirmOnClick={()=>{navigate("/login")}} cancelButton="취소" cancelOnClick={loginClose} open={loginIsOpen} />}
         </S.ChargerContainer>
     );
 }
