@@ -49,3 +49,19 @@ export const ButtonContainer = styled.div<{ viewtype: ViewStyle }>`
         margin-right: 0.5rem;
     }
 `;
+export const SearchButtonContainer = styled.div`
+    position: absolute;
+    z-index: 3;
+    top: 90px;
+    left: 110px;
+    & button {
+        border-radius: 100px;
+        border: none;
+        width: 170px;
+    }
+    & svg {
+        width : 15px;
+        height : 15px;
+        margin-right : 0.5rem;
+    }
+`;

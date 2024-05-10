@@ -12,6 +12,7 @@ import SolidMapIcon from "@/components/common/icons/SolidMapIcon";
 import ChargerStationSummary from "@/components/pages/charger/chargerStationSummary/ChargerStationSummary";
 import { useToggle } from "@/hooks/useToggle";
 import ChargerListDetail from "@/components/pages/charger/ChargerListDetail";
+import ArrowRotateIcon from "@/components/common/icons/ArrowRotateIcon";
 
 export interface SearchInfo {
     address: {
@@ -34,6 +35,11 @@ export default function Charger() {
     const [location, setLocation] = useState("");
     const [stationId, setStationId] = useState(-1);
     const { open, close, isOpen } = useToggle(false);
+    const {
+        open: searchButtonOpen,
+        close: searchButtonClose,
+        isOpen: searchButtonIsOpen,
+    } = useToggle(false);
     const [searchInfo, setSearchInfo] = useState<SearchInfo>({
         address: {
             name: "",
@@ -76,21 +82,23 @@ export default function Charger() {
 
     // mapCenter 변경시 좌표 이용해서 주소 구하기
     useEffect(() => {
-        const geocoder = new window.kakao.maps.services.Geocoder();
+        if (!searchButtonIsOpen) {
+            const geocoder = new window.kakao.maps.services.Geocoder();
 
-        geocoder.coord2Address(
-            mapCenter.lon,
-            mapCenter.lat,
-            async function (result: any, status: string) {
-                if (status === window.kakao.maps.services.Status.OK) {
-                    const detailAddr = !!result[0].road_address
-                        ? result[0].road_address.address_name
-                        : result[0].address.address_name;
-                    setLocation(detailAddr);
+            geocoder.coord2Address(
+                mapCenter.lon,
+                mapCenter.lat,
+                async function (result: any, status: string) {
+                    if (status === window.kakao.maps.services.Status.OK) {
+                        const detailAddr = !!result[0].road_address
+                            ? result[0].road_address.address_name
+                            : result[0].address.address_name;
+                        setLocation(detailAddr);
+                    }
                 }
-            }
-        );
-    }, [mapCenter]);
+            );
+        }
+    }, [mapCenter, searchButtonIsOpen]);
 
     useEffect(() => {
         setLocation(searchInfo.address.location);
@@ -123,9 +131,9 @@ export default function Charger() {
         }
     }, [searchInfo]);
 
-    const updateSearchInfo: React.Dispatch<
-        React.SetStateAction<SearchInfo>
-    > = (updatedInfo) => {
+    const updateSearchInfo: React.Dispatch<React.SetStateAction<SearchInfo>> = (
+        updatedInfo
+    ) => {
         setSearchInfo(updatedInfo);
     };
 
@@ -138,10 +146,22 @@ export default function Charger() {
             />
             {viewType === "map" ? (
                 <>
+                    {searchButtonIsOpen && (
+                        <S.SearchButtonContainer>
+                            <Button
+                                size="md"
+                                category="outline"
+                                onClick={searchButtonClose}>
+                                <ArrowRotateIcon />
+                                현 지도에서 검색
+                            </Button>
+                        </S.SearchButtonContainer>
+                    )}
                     <ChargerMap
                         info={chargerInfo}
                         mapCenter={mapCenter}
                         setMapCenter={setMapCenter}
+                        searchButtonOpen={searchButtonOpen}
                     />
                     <S.ButtonContainer viewtype="map">
                         <Button
