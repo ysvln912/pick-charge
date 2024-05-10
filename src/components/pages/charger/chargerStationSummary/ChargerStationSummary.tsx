@@ -4,7 +4,7 @@ import * as S from "./ChargerStationSummary.style"
 
 interface SummaryProps {
     chargerStation : ChargerStation;
-    open : ()=> void;
+    open? : ()=> void;
     viewstyle:ViewStyle;
 }
 
