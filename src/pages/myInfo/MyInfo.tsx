@@ -15,8 +15,11 @@ import mypageApi from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 import { useLogout } from "@/hooks/queries/mypage";
 import { useGetUserInfo } from "@/hooks/queries/user";
+import { useNavigate } from "react-router-dom";
+import TokenService from "@/utils/tokenService";
 
 export default function MyInfo() {
+    const navigate = useNavigate();
     const {
         open: logoutOpen,
         close: logoutClose,
@@ -60,10 +63,10 @@ export default function MyInfo() {
                     setImgFile(reader.result.toString());
                 }
             };
-            newData.append("file", file?.name);
+            newData.append("file", file);
             newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
             console.log(file);
-            mypageApi.editUserInfo(newData).then(() => {
+            mypageApi.editUserInfo(newData).then((res) => {
                 setNickname("");
                 refetch();
             });
@@ -87,8 +90,9 @@ export default function MyInfo() {
 
     const accountHandler = async () => {
         await mypageApi.deleteUser().then((res) => {
+            TokenService.removeToken()
             accountClose();
-            console.log(res);
+            navigate("/", { replace: true });
         });
     };
 
