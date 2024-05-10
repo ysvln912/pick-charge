@@ -114,6 +114,8 @@ export const StationContent = styled.div`
   }
   p {
     margin: 1rem;
+    font-size: ${({ theme }) => theme.FONT_SIZE.sm};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   }
 `;
 
