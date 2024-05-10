@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
-import ArrowLeftIcon from "@/components/common/icons/ArrowLeftIcon";
 import profile from "@/assets/imgs/profile_big.png";
 import LabelInput from "@/components/common/labelInput/LabelInput";
 import Button from "@/components/common/button/Button";
@@ -17,6 +16,7 @@ import { useLogout } from "@/hooks/queries/mypage";
 import { useGetUserInfo } from "@/hooks/queries/user";
 import { useNavigate } from "react-router-dom";
 import TokenService from "@/utils/tokenService";
+import IconButton from "@/components/common/iconButton/IconButton";
 
 export default function MyInfo() {
     const navigate = useNavigate();
@@ -74,13 +74,15 @@ export default function MyInfo() {
     };
 
     const modifyNickname = () => {
-        const userUpdateDto = { nickname: nickname };
-        newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
-        nicknameClose();
-        mypageApi.editUserInfo(newData).then(() => {
-            setNickname("");
-            refetch();
-        });
+        if (nickname.length >= 2 && nickname.length <= 10) {
+            const userUpdateDto = { nickname: nickname };
+            newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
+            nicknameClose();
+            mypageApi.editUserInfo(newData).then(() => {
+                setNickname("");
+                refetch();
+            });
+        }
     };
 
     const logoutHandler = () => {
@@ -90,15 +92,26 @@ export default function MyInfo() {
 
     const accountHandler = async () => {
         await mypageApi.deleteUser().then((res) => {
-            TokenService.removeToken()
+            TokenService.removeToken();
             accountClose();
-            navigate("/", { replace: true });
+            // navigate("/", { replace: true });
+            window.location.href = "/";
         });
     };
 
     return (
         <S.UserInfoContainer>
-            <TopNavigationBar text="내 정보 관리" leftBtn={<ArrowLeftIcon />} />
+            <TopNavigationBar
+                text="내 정보 관리"
+                leftBtn={
+                    <IconButton
+                        icon="arrowLeft"
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    />
+                }
+            />
             <S.InfoContainer>
                 <S.ProfileContainer>
                     <img
@@ -169,6 +182,7 @@ export default function MyInfo() {
                         placeholder={user.nickName}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
+                        error="2~10자의 한글 또는 영문 입력해주세요."
                     />
                 </ConfirmDialog>
             )}
