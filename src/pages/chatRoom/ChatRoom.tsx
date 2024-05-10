@@ -154,7 +154,7 @@ export default function ChatRoom() {
       />
       <S.List ref={chatRoomRef}>
         <S.CreatedAt ref={ref}>{getDateFormat(createdAt)}</S.CreatedAt>
-        {content}
+        {!content ? content : <S.CreatedAt>아직 대화가 없습니다.</S.CreatedAt>}
       </S.List>
       <MessageForm text={text} onChange={onChange} onSubmit={onSubmit} />
       {isOpen && <ChatBottomSheet close={close} open={isOpen} />}
