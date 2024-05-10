@@ -17,7 +17,10 @@ export default function ChatList() {
     <S.Container>
       <TopNavigationBar text="나의 채팅" />
       <S.List>
-        <p>채팅 내역이 없습니다.</p>
+        <S.EmptyText>
+          <p>충전소에 궁금한 점이 있나요?</p>
+          <span>문의하기 버튼을 눌러 충전소에 직접 질문해보세요.</span>
+        </S.EmptyText>
       </S.List>
     </S.Container>
   );
