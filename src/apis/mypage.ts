@@ -1,12 +1,4 @@
 import { api } from "./@config";
-import logout from "@/utils/logout";
-
-export interface NewUserInfo {
-    file?: string;
-    userUpdateDto: {
-        nickname: string;
-    };
-}
 
 const mypageApi = {
     async logout() {
@@ -18,8 +10,8 @@ const mypageApi = {
             throw error;
         }
     },
-    async editUserInfo(newUserInfo: NewUserInfo) {
-        console.log(newUserInfo)
+    async editUserInfo(newUserInfo: FormData) {
+        console.log(newUserInfo);
         try {
             const response = await api.patch(`/user/updateUser`, newUserInfo, {
                 headers: {

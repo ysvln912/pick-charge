@@ -21,6 +21,7 @@ export interface ChargerProps {
     type?: "full" | "half";
     mapCenter: MapCenter;
     setMapCenter: React.Dispatch<React.SetStateAction<MapCenter>>;
+    searchButtonOpen?: () => void;
 }
 
 export default function ChargerMap({
@@ -28,6 +29,7 @@ export default function ChargerMap({
     type = "full",
     mapCenter,
     setMapCenter,
+    searchButtonOpen,
 }: ChargerProps) {
     const [isStationOpen, setStationOpen] = useState(false);
     const [stationId, setStationId] = useState(0);
@@ -35,12 +37,11 @@ export default function ChargerMap({
     const navigate = useNavigate();
 
     function markerClickHandler(i: number) {
-        
         if (type === "full") {
             setStationOpen(true);
             setStationId(i);
         } else {
-            navigate(`/charger/detail/${info[i].chargers[0].chargerId}`)
+            navigate(`/charger/detail/${info[i].chargers[0].chargerId}`);
         }
     }
 
@@ -63,6 +64,9 @@ export default function ChargerMap({
         window.kakao.maps.event.addListener(map, "dragend", function () {
             // 지도 중심좌표를 얻어옵니다
             let latlng = map.getCenter();
+            if (searchButtonOpen) {
+                searchButtonOpen();
+            }
             setMapCenter({ lat: latlng.getLat(), lon: latlng.getLng() });
         });
 

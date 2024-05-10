@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import * as S from "./MyInfo.style";
 import TopNavigationBar from "@/components/common/topNavigationBar/TopNavigationBar";
@@ -12,9 +11,12 @@ import { useToggle } from "@/hooks/useToggle";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import Textarea from "@/components/common/textarea/Textarea";
 import CameraIcon from "@/components/common/icons/CameraIcon";
-import mypageApi, { NewUserInfo } from "@/apis/mypage";
+import mypageApi from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 import { useLogout } from "@/hooks/queries/mypage";
+import { useGetUserInfo } from "@/hooks/queries/user";
+import { useNavigate } from "react-router-dom";
+import TokenService from "@/utils/tokenService";
 
 export default function MyInfo() {
     const navigate = useNavigate();
@@ -29,25 +31,29 @@ export default function MyInfo() {
         isOpen: accountIsOpen,
     } = useToggle(false);
     const { user } = useCheckUserInfo();
+    const { refetch } = useGetUserInfo();
     const { logout } = useLogout();
-
     const [nickname, setNickname] = useState<string>("");
-    const [imgFile, setImgFile] = useState<string | null>("");
+    const [imgFile, setImgFile] = useState<string>(user.profileImage || "");
+
+    useEffect(() => {
+        if (user.profileImage) {
+            setImgFile(user.profileImage);
+        }
+    }, [user]);
+
     const imgRef = useRef<HTMLInputElement>(null);
     const {
         open: nicknameOpen,
         close: nicknameClose,
         isOpen: nicknameIsOpen,
     } = useToggle(false);
-    const [newData, setNewData] = useState<NewUserInfo>({
-        file: user.profileImage || "",
-        userUpdateDto: {
-            nickname: user.nickName,
-        },
-    });
+
+    const newData = new FormData();
 
     // 이미지 업로드 input의 onChange
     const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+        const userUpdateDto = { nickname: user.nickName };
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
@@ -57,32 +63,25 @@ export default function MyInfo() {
                     setImgFile(reader.result.toString());
                 }
             };
+            newData.append("file", file);
+            newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
+            console.log(file);
+            mypageApi.editUserInfo(newData).then((res) => {
+                setNickname("");
+                refetch();
+            });
         }
     };
 
     const modifyNickname = () => {
-        setNewData((prevData) => ({
-            ...prevData,
-            userUpdateDto: {
-                nickname: nickname,
-            },
-        }));
-    };
-
-    useEffect(() => {
-        setNewData((prevData) => ({
-            ...prevData,
-            file: imgFile || "",
-        }));
-    }, [imgFile]);
-
-    useEffect(() => {
-        mypageApi.editUserInfo(newData).then((res) => {
-            nicknameClose();
+        const userUpdateDto = { nickname: nickname };
+        newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
+        nicknameClose();
+        mypageApi.editUserInfo(newData).then(() => {
             setNickname("");
-            console.log(res);
+            refetch();
         });
-    }, [newData]);
+    };
 
     const logoutHandler = () => {
         logout();
@@ -91,8 +90,9 @@ export default function MyInfo() {
 
     const accountHandler = async () => {
         await mypageApi.deleteUser().then((res) => {
+            TokenService.removeToken()
             accountClose();
-            console.log(res);
+            navigate("/", { replace: true });
         });
     };
 
