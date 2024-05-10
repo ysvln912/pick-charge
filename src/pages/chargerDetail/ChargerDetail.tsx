@@ -31,6 +31,11 @@ export default function ChargerDetail() {
         close: loginClose,
         isOpen: loginIsOpen,
     } = useToggle(false);
+    const {
+        open: deleteOpen,
+        close: deleteClose,
+        isOpen: deletenIsOpen,
+    } = useToggle(false);
     const { id } = useParams();
     const chargerId = Number(id);
     const { user } = useCheckUserInfo();
@@ -72,7 +77,6 @@ export default function ChargerDetail() {
         }
     }, [data, isLoading, isError]);
 
-
     function handleLike() {
         if (charger) {
             chargerApi.deleteFavorite(chargerId).then((res) => {
@@ -85,7 +89,7 @@ export default function ChargerDetail() {
     }
 
     function handleEmptyLike() {
-        if(!user.id){
+        if (!user.id) {
             loginOpen();
         }
         if (charger) {
@@ -100,7 +104,7 @@ export default function ChargerDetail() {
 
     function handleDelete() {
         chargerApi.deleteCharger(chargerId).then(() => {
-            navigate("/managing-charger");
+            navigate("/managing-charger", { replace: true });
         });
     }
 
@@ -109,7 +113,6 @@ export default function ChargerDetail() {
     }
 
     function EmptyLikeButton() {
-        
         return <IconButton icon="emptyLike" onClick={handleEmptyLike} />;
     }
     function LikeButton() {
@@ -265,14 +268,37 @@ export default function ChargerDetail() {
                             <EditIcon />
                             수정하기
                         </S.ButtomItem>
-                        <S.ButtomItem onClick={handleDelete}>
+                        <S.ButtomItem onClick={deleteOpen}>
                             <DeleteIcon />
                             삭제하기
                         </S.ButtomItem>
                     </S.ButtomList>
                 </BottomSheet>
             )}
-            {loginIsOpen && <ConfirmDialog title="로그인이 필요한 서비스입니다." type="confirm" confirmButton="로그인으로 이동" confirmOnClick={()=>{navigate("/login")}} cancelButton="취소" cancelOnClick={loginClose} open={loginIsOpen} />}
+            {loginIsOpen && (
+                <ConfirmDialog
+                    title="로그인이 필요한 서비스입니다."
+                    type="confirm"
+                    confirmButton="로그인으로 이동"
+                    confirmOnClick={() => {
+                        navigate("/login");
+                    }}
+                    cancelButton="취소"
+                    cancelOnClick={loginClose}
+                    open={loginIsOpen}
+                />
+            )}
+            {deletenIsOpen && (
+                <ConfirmDialog
+                    title="정말 삭제하시겠습니까?"
+                    type="confirm"
+                    confirmButton="삭제"
+                    confirmOnClick={handleDelete}
+                    cancelButton="취소"
+                    cancelOnClick={deleteClose}
+                    open={deletenIsOpen}
+                />
+            )}
         </S.ChargerContainer>
     );
 }
