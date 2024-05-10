@@ -60,8 +60,10 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
     if (isCodeVerified) return;
     if (!isEmailInvalid) {
       sendMail({ email: formState.email });
-      setIsCodeSent(true);
-      setIsTimeOver(false);
+      if (!isError) {
+        setIsCodeSent(true);
+        setIsTimeOver(false);
+      }
     }
   };
 
