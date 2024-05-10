@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import useCheckUserInfo from "./useCheckUserInfo";
+// import useCheckUserInfo from "./useCheckUserInfo";
+import TokenService from "@/utils/tokenService";
 
 type MessageHandler = (message: string) => void;
 
 function useWebSocket(onMessage?: MessageHandler) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const { user } = useCheckUserInfo();
+  // const { user } = useCheckUserInfo();
+  const token = TokenService.getToken();
 
   // 메시지 핸들러 저장
   const messageHandler = useRef<MessageHandler | undefined>(onMessage);
@@ -20,7 +22,14 @@ function useWebSocket(onMessage?: MessageHandler) {
   // 서버주소: wss://pikacharger.store/ws/
   // room id에 chatlog-user.id
   useEffect(() => {
-    const ws = new WebSocket(`${import.meta.env.VITE_APP_WEB_SOCKET_URL}`);
+    if (!token) {
+      console.log("토큰이 없어서 웹소켓 연결을 시작할 수 없습니다.");
+      return;
+    }
+
+    const wsURL = new URL(import.meta.env.VITE_APP_WEB_SOCKET_URL);
+    wsURL.searchParams.append("token", token);
+    const ws = new WebSocket(wsURL.toString());
 
     ws.onopen = () => {
       console.log("웹소켓 서버에 연결됨");
@@ -44,9 +53,10 @@ function useWebSocket(onMessage?: MessageHandler) {
     setSocket(ws);
 
     return () => {
+      console.log("웹소켓 연결을 종료합니다.");
       ws.close();
     };
-  }, [user.id]);
+  }, [token]);
 
   const sendMessage = useCallback(
     (message: string) => {
