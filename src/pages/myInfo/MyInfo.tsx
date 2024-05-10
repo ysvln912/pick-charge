@@ -74,13 +74,15 @@ export default function MyInfo() {
     };
 
     const modifyNickname = () => {
-        const userUpdateDto = { nickname: nickname };
-        newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
-        nicknameClose();
-        mypageApi.editUserInfo(newData).then(() => {
-            setNickname("");
-            refetch();
-        });
+        if (nickname.length >= 2 && nickname.length <= 10) {
+            const userUpdateDto = { nickname: nickname };
+            newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
+            nicknameClose();
+            mypageApi.editUserInfo(newData).then(() => {
+                setNickname("");
+                refetch();
+            });
+        }
     };
 
     const logoutHandler = () => {
@@ -90,18 +92,26 @@ export default function MyInfo() {
 
     const accountHandler = async () => {
         await mypageApi.deleteUser().then((res) => {
-            TokenService.removeToken()
+            TokenService.removeToken();
             accountClose();
             // navigate("/", { replace: true });
-            window.location.href="/"
+            window.location.href = "/";
         });
     };
 
     return (
         <S.UserInfoContainer>
-            <TopNavigationBar text="내 정보 관리" leftBtn={<IconButton icon="arrowLeft" onClick={() => {
+            <TopNavigationBar
+                text="내 정보 관리"
+                leftBtn={
+                    <IconButton
+                        icon="arrowLeft"
+                        onClick={() => {
                             navigate(-1);
-                        }}/>} />
+                        }}
+                    />
+                }
+            />
             <S.InfoContainer>
                 <S.ProfileContainer>
                     <img
@@ -172,6 +182,7 @@ export default function MyInfo() {
                         placeholder={user.nickName}
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
+                        error="2~10자의 한글 또는 영문 입력해주세요."
                     />
                 </ConfirmDialog>
             )}
