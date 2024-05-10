@@ -70,9 +70,11 @@ const useSendMail = () => {
   const { mutate, ...rest } = useMutation({
     mutationFn: (data: { email: string }) => userApi.sendMail(data),
     onSuccess: () => {},
-    onError: (error: AxiosError<string>) => {
-      if (error) {
-        triggerToast(MESSAGE.SIGNUP.EMAIL, "error");
+    onError: (error: AxiosError) => {
+      if (error.response?.status == 400) {
+        return triggerToast(MESSAGE.SIGNUP.EMAIL, "error");
+      } else {
+        return triggerToast(MESSAGE.ERROR.DEFAULT, "error");
       }
     },
   });
@@ -91,7 +93,7 @@ const useCheckCode = () => {
     onSuccess: () => {},
     onError: (error: AxiosError) => {
       if (error) {
-        triggerToast(MESSAGE.SIGNUP.CODE, "error");
+        return triggerToast(MESSAGE.SIGNUP.CODE, "error");
       }
     },
   });

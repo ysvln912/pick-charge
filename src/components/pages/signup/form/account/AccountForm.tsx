@@ -34,7 +34,7 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
   const [isTimeOver, setIsTimeOver] = useState(false);
 
   const { sendMail, isPending, isError } = useSendMail();
-  const { checkCode } = useCheckCode();
+  const { checkCode, isError: isCheckCodeError } = useCheckCode();
   const { triggerToast } = useToast();
 
   const initialState = {
@@ -70,15 +70,18 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
   const handleCheckCode = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isCodeVerified) return;
-    if (!isCodeInvalid && !isTimeOver && !isPending) {
-      checkCode({
-        email: formState.email,
-        authNum: formState.code,
-      });
-      if (!isError) {
+    if (!isCodeInvalid && !isTimeOver && !isPending && !isError) {
+      try {
+        const response = await userApi.checkAuthMail({
+          email: formState.email,
+          authNum: formState.code,
+        });
+        triggerToast(MESSAGE.SIGNUP.CODE_SUCCESS, "success");
         setIsCodeVerified(true);
         setIsCodeSent(false);
         setIsTimeOver(false);
+      } catch (error) {
+        return triggerToast(MESSAGE.SIGNUP.CODE, "error");
       }
     }
   };
@@ -106,16 +109,17 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
         btnText="인증 요청"
         value={formState.email}
         onChange={handleInputChange("email")}
-        placeholder="example@picka.site"
+        placeholder="example@pikacharger.store"
         error={error.email}
-        inputDisabled={isCodeSent || isCodeVerified}
+        inputDisabled={((isCodeSent && !isError) || isCodeVerified) && !isError}
         disabled={
-          isEmailInvalid || (isCodeSent && !isTimeOver) || isCodeVerified
+          isEmailInvalid ||
+          (isCodeSent && !isTimeOver && !isError) ||
+          (isCodeVerified && !isError)
         }
         isLoading={isPending}
         onClick={handleSendEmail}
       />
-
       <EmailVerificationInput
         name="code"
         setIsTimeOver={setIsTimeOver}
@@ -125,9 +129,23 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
         onChange={handleInputChange("code")}
         placeholder="인증코드를 입력해 주세요."
         error={error.code}
-        disabled={!isCodeSent || isTimeOver || isCodeVerified || isPending}
-        inputDisabled={!isCodeSent || isTimeOver || isCodeVerified || isPending}
-        timer={isCodeSent && !isTimeOver && !isPending}
+        disabled={
+          (!isCodeSent ||
+            isTimeOver ||
+            isCodeVerified ||
+            isPending ||
+            isError) &&
+          !isCheckCodeError
+        }
+        inputDisabled={
+          (!isCodeSent ||
+            isTimeOver ||
+            isCodeVerified ||
+            isPending ||
+            isError) &&
+          !isCheckCodeError
+        }
+        timer={isCodeSent && !isTimeOver && !isPending && !isError}
         onClick={handleCheckCode}
       />
       <LabelInput
