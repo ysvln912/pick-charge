@@ -50,6 +50,7 @@ export const FavoritesCharger = styled.div`
   & p {
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
+    margin-bottom: 1rem;
   }
   & a {
     color: ${({ theme }) => theme.PALETTE.gray[300]};
@@ -64,6 +65,13 @@ export const FavoritesCharger = styled.div`
       fill: ${({ theme }) => theme.PALETTE.gray[300]};
     }
   }
+`;
+
+export const FavoriteChargerWrapper = styled.div`
+  padding: 0 24px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 export const EmptyFavorite = styled.div`

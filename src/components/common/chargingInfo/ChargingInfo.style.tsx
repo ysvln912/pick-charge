@@ -4,6 +4,7 @@ const borderType = {
   full: css`
     border: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;
     border-radius: 1rem;
+    padding: 1rem;
   `,
   bottom: css`
     border-bottom: ${({ theme }) => theme.PALETTE.gray[200]} 0.1rem solid;

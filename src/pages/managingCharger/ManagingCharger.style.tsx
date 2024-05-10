@@ -21,8 +21,9 @@ export const Container = styled.section`
 
 export const Title = styled.h3`
   padding-top: 24px;
+  margin-bottom: 8px;
   font-size: ${({ theme }) => theme.FONT_SIZE.md};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
 `;
 
 export const EmptyText = styled.div`

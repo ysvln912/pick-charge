@@ -18,8 +18,19 @@ export const ChargerStaitionDetail = styled.div`
     border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
   }
 `;
+export const CloseButtonWrapper = styled.div`
+  text-align: right;
+  width: 92%;
+  background-color: white;
+  position: fixed;
+  right: 16px;
+`;
+export const ChargerStaitionDetailList = styled.div`
+  overflow-y: auto;
+  padding: 16px 0;
+`;
 export const CloseButton = styled.button`
-  width: 320px;
+  width: 100%;
   text-align: right;
   display: block;
   background: transparent;
