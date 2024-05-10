@@ -15,6 +15,7 @@ import CameraIcon from "@/components/common/icons/CameraIcon";
 import mypageApi from "@/apis/mypage";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 import { useLogout } from "@/hooks/queries/mypage";
+import { useGetUserInfo } from "@/hooks/queries/user";
 
 export default function MyInfo() {
     const navigate = useNavigate();
@@ -29,11 +30,14 @@ export default function MyInfo() {
         isOpen: accountIsOpen,
     } = useToggle(false);
     const { user } = useCheckUserInfo();
+    const { refetch} = useGetUserInfo();
     const { logout } = useLogout();
     const [nickname, setNickname] = useState<string>("");
-    const [imgFile, setImgFile] = useState<string | null>(
+    const [imgFile, setImgFile] = useState<string>(
         user.profileImage || ""
     );
+
+    console.log(imgFile)
     const imgRef = useRef<HTMLInputElement>(null);
     const {
         open: nicknameOpen,
@@ -42,7 +46,7 @@ export default function MyInfo() {
     } = useToggle(false);
 
     const newData = new FormData();
-
+    console.log(user)
     // 이미지 업로드 input의 onChange
     const saveImgFile = (e: ChangeEvent<HTMLInputElement>) => {
         const userUpdateDto = { nickname: user.nickName };
@@ -55,12 +59,12 @@ export default function MyInfo() {
                     setImgFile(reader.result.toString());
                 }
             };
-            newData.append("file", file?.name);
+            newData.append("file",file?.name);
             newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
-
-            mypageApi.editUserInfo(newData).then((res) => {
+            console.log(file)
+            mypageApi.editUserInfo(newData).then(() => {
                 setNickname("");
-                console.log(res);
+                refetch();
             });
         }
     };
@@ -69,9 +73,9 @@ export default function MyInfo() {
         const userUpdateDto = { nickname: nickname };
         newData.append("userUpdateDto", JSON.stringify(userUpdateDto));
         nicknameClose();
-        mypageApi.editUserInfo(newData).then((res) => {
+        mypageApi.editUserInfo(newData).then(() => {
             setNickname("");
-            console.log(res);
+            refetch();
         });
     };
 
