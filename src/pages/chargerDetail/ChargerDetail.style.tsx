@@ -108,6 +108,7 @@ export const PriceInfo = styled.div`
 export const StationInfo = styled(StyledDiv)``;
 
 export const StationContent = styled.div`
+  margin-top: 1rem;
   div {
     margin: 0 auto;
   }
@@ -119,7 +120,6 @@ export const StationContent = styled.div`
 export const ChargerReview = styled.div`
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.PALETTE.white};
-  height: 240px;
   .reviewTitle {
     display: flex;
     justify-content: space-between;

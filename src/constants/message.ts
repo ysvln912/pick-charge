@@ -18,6 +18,7 @@ const MESSAGE = {
     FAILURE: "리뷰 저장에 실패했어요.",
     REQUIRE: "필수 입력 항목입니다.",
     DELETE: "삭제 되었어요.",
+    CANCEL: "리뷰 작성을 취소할까요?",
   },
   LOGIN: {
     SUCCESS: "로그인 되었어요",
@@ -29,6 +30,7 @@ const MESSAGE = {
     DEFAULT: "문제가 발생했어요. 관리자에게 문의해 주세요!",
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
     WRONG: "잘못된 접근입니다.",
+    FILE_SIZE: "사진 사이즈가 너무 큽니다!",
   },
 } as const;
 

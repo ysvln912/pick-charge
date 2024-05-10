@@ -33,7 +33,7 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  const { sendMail, isPending } = useSendMail();
+  const { sendMail, isPending, isError } = useSendMail();
   const { checkCode } = useCheckCode();
   const { triggerToast } = useToast();
 
@@ -73,9 +73,11 @@ export default function AccountForm({ onNext, setData }: AccountFormProps) {
         email: formState.email,
         authNum: formState.code,
       });
-      setIsCodeVerified(true);
-      setIsCodeSent(false);
-      setIsTimeOver(false);
+      if (!isError) {
+        setIsCodeVerified(true);
+        setIsCodeSent(false);
+        setIsTimeOver(false);
+      }
     }
   };
 

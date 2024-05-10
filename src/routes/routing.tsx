@@ -84,26 +84,10 @@ const router = createBrowserRouter([
             <Routes>
               <Route path="/:id" element={<ReviewDetail />} />
               <Route
-                path="/:id/edit"
-                element={
-                  <Private>
-                    <ReviewEdit />
-                  </Private>
-                }
-              />
-              <Route
                 path="/manage"
                 element={
                   <Private>
                     <ReviewManage />
-                  </Private>
-                }
-              />
-              <Route
-                path="/write"
-                element={
-                  <Private>
-                    <ReviewWrite />
                   </Private>
                 }
               />
@@ -134,6 +118,22 @@ const router = createBrowserRouter([
     element: (
       <Private>
         <RegisterCharger />
+      </Private>
+    ),
+  },
+  {
+    path: "/review/write",
+    element: (
+      <Private>
+        <ReviewWrite />
+      </Private>
+    ),
+  },
+  {
+    path: "/review/:id/edit",
+    element: (
+      <Private>
+        <ReviewEdit />
       </Private>
     ),
   },

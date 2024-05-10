@@ -18,6 +18,8 @@ import { IChargerInfo, IErrors, ISearchResult } from "@/types/myCharger";
 import ConfirmDialog from "@/components/common/confirmDialog/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
 import myChargerApi from "@/apis/myCharger";
+import MESSAGE from "@/constants/message";
+import { useToast } from "@/hooks/useToast";
 
 export default function RegisterCharger() {
   const [chargerInfo, setChargerInfo] = useState<IChargerInfo>({
@@ -43,7 +45,7 @@ export default function RegisterCharger() {
   });
   const [isConfirm, setIsConfirm] = useState(false);
   const navigate = useNavigate();
-
+  const { triggerToast } = useToast();
   const updateSearchItem = (name: string, location: string) => {
     setChargerInfo((prev) => ({
       ...prev,
@@ -158,7 +160,13 @@ export default function RegisterCharger() {
       myChargerApi
         .postMyCharger(data)
         .then((res) => navigate(`/charger/detail/${res.chargerId}`))
-        .catch(() => alert("충전소 등록이 실패하였습니다."));
+        .catch((error) => {
+          if (error.response.status === 413) {
+            triggerToast(MESSAGE.ERROR.FILE_SIZE, "error");
+            return;
+          }
+          alert("충전소 등록이 실패하였습니다.");
+        });
     }
   };
 
