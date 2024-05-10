@@ -143,7 +143,7 @@ export default function Charger() {
                         mapCenter={mapCenter}
                         setMapCenter={setMapCenter}
                     />
-                    <S.ButtonContainer viewType="map">
+                    <S.ButtonContainer viewtype="map">
                         <Button
                             size="md"
                             category="rounded"
@@ -183,7 +183,7 @@ export default function Charger() {
                             />
                         )}
                     </S.listViewContainer>
-                    <S.ButtonContainer viewType="list">
+                    <S.ButtonContainer viewtype="list">
                         <Button
                             size="md"
                             category="normal"
