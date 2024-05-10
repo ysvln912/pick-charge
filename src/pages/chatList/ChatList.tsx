@@ -4,36 +4,35 @@ import { useQuery } from "@tanstack/react-query";
 import useCheckUserInfo from "@/hooks/useCheckUserInfo";
 import myChatApi from "@/apis/chat";
 import ChatCard from "@/components/pages/chatList/chatCard/ChatCard";
-// import useWebSocket from "@/hooks/useWebSocket";
-
 export interface IMyChatRoom {
-  chargerId: number;
   createDate: string;
   nickname: string;
+  chatRoomId: number;
   userImgUrl: string | null;
+  lastMessage: string;
 }
 
 export default function ChatList() {
-  // const { isConnected } = useWebSocket();
-  // console.log(isConnected);
   const { user } = useCheckUserInfo();
   const { data } = useQuery({
     queryKey: ["myChatRoomList", user.id],
     queryFn: myChatApi.getChatRoomList,
   });
-  console.log(data);
+
   return (
     <S.Container>
       <TopNavigationBar text="나의 채팅" />
       <S.List>
         {data ? (
-          data.response.map((room: IMyChatRoom, index: string) => {
+          data.response.map((room: IMyChatRoom) => {
             return (
               <ChatCard
-                id={index}
-                image={room.userImgUrl}
-                name={room.nickname}
+                key={room.chatRoomId}
+                roomId={room.chatRoomId}
+                userImgUrl={room.userImgUrl}
+                userNickname={room.nickname}
                 createdAt={room.createDate}
+                text={room.lastMessage}
               />
             );
           })
