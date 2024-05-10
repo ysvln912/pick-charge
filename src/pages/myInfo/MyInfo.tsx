@@ -92,7 +92,8 @@ export default function MyInfo() {
         await mypageApi.deleteUser().then((res) => {
             TokenService.removeToken()
             accountClose();
-            navigate("/", { replace: true });
+            // navigate("/", { replace: true });
+            window.location.href="/"
         });
     };
 
