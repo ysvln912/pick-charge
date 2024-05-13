@@ -46,11 +46,12 @@ export const MenuRow = styled.div`
 export const FavoritesCharger = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
   padding: 0 1.5rem;
   & p {
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     font-size: ${({ theme }) => theme.FONT_SIZE.md};
-    margin-bottom: 1rem;
   }
   & a {
     color: ${({ theme }) => theme.PALETTE.gray[300]};
